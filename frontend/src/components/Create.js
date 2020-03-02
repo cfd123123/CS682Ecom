@@ -11,6 +11,8 @@ class Create extends Component {
       name: '',
       shortDescription: '',
       longDescription: '',
+      price: '',
+      quantity: ''
     };
   }
   onChange = (e) => {
@@ -22,16 +24,16 @@ class Create extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { name, shortDescription, longDescription } = this.state;
+    const { name, shortDescription, longDescription, price, quantity } = this.state;
 
-    axios.post('/products', { name, shortDescription, longDescription })
+    axios.post('/products', { name, shortDescription, longDescription, price, quantity })
         .then((result) => {
           this.props.history.push("/")
         });
   }
 
   render() {
-    const { name, shortDescription, longDescription } = this.state;
+    const { name, shortDescription, longDescription, price, quantity } = this.state;
     return (
         <div class="container">
           <div class="panel panel-default">
@@ -54,6 +56,14 @@ class Create extends Component {
                 <div class="form-group">
                   <label for="author">LongDescription:</label>
                   <input type="text" class="form-control" name="longDescription" value={longDescription} onChange={this.onChange} placeholder="LongDescription" />
+                </div>
+                <div class="form-group">
+                  <label for="author">Price:</label>
+                  <input type="text" class="form-control" name="price" value={price} onChange={this.onChange} placeholder="Price" />
+                </div>
+                <div class="form-group">
+                  <label for="author">Quantity:</label>
+                  <input type="text" class="form-control" name="quantity" value={quantity} onChange={this.onChange} placeholder="Quantity" />
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
               </form>

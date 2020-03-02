@@ -45,6 +45,10 @@ class Show extends Component {
                 <dd>{this.state.product.shortDescription}</dd>
                 <dt>LongDescription:</dt>
                 <dd>{this.state.product.longDescription}</dd>
+                <dt>Price:</dt>
+                <dd>{this.state.product.price}</dd>
+                <dt>Quantity:</dt>
+                <dd>{this.state.product.quantity}</dd>
               </dl>
               <Link to={`/edit/${this.state.product.id}`} class="btn btn-success">Edit</Link>&nbsp;
               <button onClick={this.delete.bind(this, this.state.product.id)} class="btn btn-danger">Delete</button>

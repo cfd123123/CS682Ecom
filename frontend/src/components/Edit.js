@@ -28,9 +28,9 @@ class Edit extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const { name, shortDescription, longDescription } = this.state.product;
+    const { name, shortDescription, longDescription, price, quantity } = this.state.product;
 
-    axios.put('/products/'+this.props.match.params.id, { name, shortDescription, longDescription })
+    axios.put('/products/'+this.props.match.params.id, { name, shortDescription, longDescription, price, quantity })
         .then((result) => {
           this.props.history.push("/show/"+this.props.match.params.id)
         });
@@ -59,6 +59,14 @@ class Edit extends Component {
                 <div class="form-group">
                   <label for="author">LongDescription:</label>
                   <input type="text" class="form-control" name="longDescription" value={this.state.product.longDescription} onChange={this.onChange} placeholder="LongDescription" />
+                </div>
+                <div class="form-group">
+                  <label for="author">Price:</label>
+                  <input type="text" class="form-control" name="price" value={this.state.product.price} onChange={this.onChange} placeholder="Price" />
+                </div>
+                <div class="form-group">
+                  <label for="author">Quantity:</label>
+                  <input type="text" class="form-control" name="quantity" value={this.state.product.quantity} onChange={this.onChange} placeholder="Quantity" />
                 </div>
                 <button type="submit" class="btn btn-default">Update</button>
               </form>

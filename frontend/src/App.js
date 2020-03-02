@@ -25,17 +25,19 @@ class App extends Component {
         <div class="container">
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h3 class="panel-title">
-                PRODUCTS LIST
-              </h3>
             </div>
             <div class="panel-body">
-              <h4><Link to="/create"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Product</Link></h4>
+              <h6 align="right"><Link to="/create"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Product</Link></h6>
+              <h5 class="panel-title" >
+                PRODUCTS LIST
+              </h5>
               <table class="table table-stripe">
                 <thead>
                 <tr>
                   <th>Name</th>
                   <th>Description</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -43,6 +45,8 @@ class App extends Component {
                     <tr>
                       <td><Link to={`/show/${c.id}`}>{c.name}</Link></td>
                       <td>{c.shortDescription}</td>
+                      <td>{c.price}</td>
+                      <td>{c.quantity}</td>
                     </tr>
                 )}
                 </tbody>
