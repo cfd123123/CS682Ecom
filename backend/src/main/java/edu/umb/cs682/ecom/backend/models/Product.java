@@ -10,14 +10,18 @@ public class Product {
     String name;
     String shortDescription;
     String longDescription;
+    float price;
+    int quantity;
 
     public Product() {
     }
 
-    public Product(String name, String shortDescripton, String longDescription) {
+    public Product(String name, String shortDescripton, String longDescription, float price, int quantity) {
         this.name = name;
         this.shortDescription = shortDescripton;
         this.longDescription = longDescription;
+        this.price = price;
+        this.quantity = quantity;
     }
 
     public String getId() {
@@ -51,4 +55,22 @@ public class Product {
     public void setLongDescription(String longDescription) {
         this.longDescription = longDescription;
     }
+
+    public float getPrice() {
+        return this.price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return this.quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+
 }

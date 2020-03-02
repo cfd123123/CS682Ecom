@@ -43,6 +43,8 @@ public class ProductController {
             c.setShortDescription(product.getShortDescription());
         if(product.getLongDescription() != null)
             c.setLongDescription(product.getLongDescription());
+        c.setPrice(product.getPrice());
+        c.setQuantity(product.getQuantity());
         productRepository.save(c);
         return c;
     }
