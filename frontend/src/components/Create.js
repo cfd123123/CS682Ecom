@@ -47,19 +47,19 @@ class Create extends Component {
               <form onSubmit={this.onSubmit}>
                 <div class="form-group">
                   <label for="isbn">Name:</label>
-                  <input type="text" class="form-control" name="name" value={name} onChange={this.onChange} placeholder="Name" />
+                  <input type="text" class="form-control" name="name" value={name} onChange={this.onChange} placeholder="Product Name" />
                 </div>
                 <div class="form-group">
                   <label for="title">ShortDescription:</label>
-                  <input type="text" class="form-control" name="shortDescription" value={shortDescription} onChange={this.onChange} placeholder="ShortDescription" />
+                  <input type="text" class="form-control" name="shortDescription" value={shortDescription} onChange={this.onChange} placeholder="This description appears on the product list" />
                 </div>
                 <div class="form-group">
                   <label for="author">LongDescription:</label>
-                  <input type="text" class="form-control" name="longDescription" value={longDescription} onChange={this.onChange} placeholder="LongDescription" />
+                  <input type="text" class="form-control" name="longDescription" value={longDescription} onChange={this.onChange} placeholder="This description appears on the product's page" />
                 </div>
                 <div class="form-group">
                   <label for="author">Price:</label>
-                  <input type="text" class="form-control" name="price" value={price} onChange={this.onChange} placeholder="Price" />
+                  <input type="text" class="form-control" name="price" value={price} onChange={this.onChange} placeholder="Price per item" />
                 </div>
                 <div class="form-group">
                   <label for="author">Quantity:</label>
