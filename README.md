@@ -13,6 +13,9 @@ To start the back end:
 
 ---
 
+You may need to install npm in the frontend directory  
+`npm install`  
+
 Build the front end:  
 `frontend$ npm run build`  
 

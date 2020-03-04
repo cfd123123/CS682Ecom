@@ -59,11 +59,11 @@ class Create extends Component {
                 </div>
                 <div class="form-group">
                   <label for="author">Price:</label>
-                  <input type="text" class="form-control" name="price" value={price} onChange={this.onChange} placeholder="Price per item" />
+                  <input type="number" class="form-control" name="price" value={price} onChange={this.onChange} placeholder="Price per item" />
                 </div>
                 <div class="form-group">
                   <label for="author">Quantity:</label>
-                  <input type="text" class="form-control" name="quantity" value={quantity} onChange={this.onChange} placeholder="Quantity" />
+                  <input type="number" class="form-control" name="quantity" value={quantity} onChange={this.onChange} placeholder="Quantity" />
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
               </form>
