@@ -5,6 +5,7 @@ FROM node:13.7.0
 WORKDIR /app
 COPY package.json ./
 COPY package-lock.json ./
+RUN ls -al
 
 # I was having some trouble with npm dependencies, and somewhere in my work
 # I added the below two lines. It may be ok to remove them?
@@ -17,7 +18,9 @@ RUN npm install jquery typescript eslint-plugin-flowtype@3 popper.js
 RUN npm audit fix
 
 # Copy the entire frontend directory
-COPY . ./
+COPY src ./src
+COPY public ./public
+RUN ls -al
 
 # expose port 3000, allowing a browser to access it
 EXPOSE 3000
