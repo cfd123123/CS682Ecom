@@ -1,2 +1,5 @@
+# First build the containers
 docker-compose build
+
+# Then spin them up. The -d specifies they should be run in the background
 docker-compose up -d
