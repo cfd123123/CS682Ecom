@@ -34,14 +34,15 @@ const HomePage = () => {
 
         }
         <div className ='homepage__container'>
-            <div className='homepage__header'> 
+            <div className='homepage__header'>
                 <div className ='homepage__left-part'>
                     <img src={SidebarIcon} className = 'homepage__icon' onClick={toggleLeftSidebar}/>
-                  <b className = 'homepage__left-part--font'>Black</b> 
+                  <b className = 'homepage__left-part--font'>Blank</b>
                 </div>
                 <div className ='homepage__search--container'>
-                    <input type='text' className  ='homepage__search' placeholder="search specific item" onChange ={toggleSearchContent}/>
-                    <Link to= {`/Result?${searchContentPara}`} className="search_btn">
+                    <input type='text' className  ='homepage__search' id="searchBox" placeholder="search specific item" onChange ={toggleSearchContent}
+                      />
+                    <Link to= {`/Result?${searchContentPara}`} className="search_btn" id="searchButton">
                         <img src={SearchIcon} className = 'homepage__search--icon'/>
                     </Link>
                 </div>

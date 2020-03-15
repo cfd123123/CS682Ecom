@@ -16,7 +16,7 @@ class App extends Component {
   componentDidMount() {
     axios.get('/products')
         .then(res => {
-          this.setState({ products: res.data });      
+          this.setState({ products: res.data });
         });
   }
 
@@ -32,7 +32,7 @@ class App extends Component {
             <div class="panel-body">
               <h6 align="right"><Link to="/create"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Product</Link></h6>
               <h5 class="panel-title" >
-                PRODUCTS LIST
+                Search results for "{content}"
               </h5>
               <table class="table table-stripe">
                 <thead>
@@ -46,8 +46,12 @@ class App extends Component {
                 </thead>
                 <tbody>
                   {
-                    this.state.products.filter((searchedItem)=>   searchedItem.name.indexOf(content) >=0 ).map (
-                      (c)=> 
+                    this.state.products.filter((searchedItem)=>
+                        (searchedItem.name.indexOf(content)>=0) ||
+                        searchedItem.shortDescription.split(" ").includes(content) ||
+                        searchedItem.longDescription.split(" ").includes(content)
+                        ).map (
+                      (c)=>
                       <tr>
                       <td><Link to={`/show/${c.id}`}>{c.name}</Link></td>
                       <td>{c.shortDescription}</td>
