@@ -22,6 +22,10 @@ You should see some containers listed. You're interested in the ones with `front
 
 `docker logs -f 5ea1be7f9bf9`, where `5ea1be7f9bf9` is replaced by whatever your containers ID is.
 
+To stop ALL containers in one line:
+
+`docker stop $(docker ps -a -q)`
+
 ---
 
 ### Old instructions:
