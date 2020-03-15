@@ -2,19 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import App from './App';
-import './App.css';
+import App from './components/App';
+import './components/App.css';
 import Edit from './components/Edit';
 import Create from './components/Create';
 import Show from './components/Show';
+import Result from './components/Result';
+import HomePage from './HomePage';
 
 ReactDOM.render(
   <Router>
     <div>
-      <Route exact path='/' component={App} />
+      <Route exact path='/' component={HomePage} />
       <Route path='/edit/:id' component={Edit} />
       <Route path='/create' component={Create} />
       <Route path='/show/:id' component={Show} />
+      <Route path='/Result' component={Result} />
+      <Route path='/App' component={App} />
     </div>
   </Router>,
   document.getElementById('root')
