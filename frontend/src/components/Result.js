@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { generateBasicTable } from './searchFunctionality.js';
 
 class App extends Component {
 
@@ -12,7 +13,6 @@ class App extends Component {
     };
   }
 
-
   componentDidMount() {
     axios.get('/products')
         .then(res => {
@@ -22,7 +22,8 @@ class App extends Component {
 
   render() {
     const searchParams = new URLSearchParams(this.props.location.search);
-    const content = searchParams.get('content')
+    const content = searchParams.get('content');
+    var content_insensitive_case = content.toLowerCase();
 
     return (
         <div class="container">
@@ -47,9 +48,9 @@ class App extends Component {
                 <tbody>
                   {
                     this.state.products.filter((searchedItem)=>
-                        (searchedItem.name.indexOf(content)>=0) ||
-                        searchedItem.shortDescription.split(" ").includes(content) ||
-                        searchedItem.longDescription.split(" ").includes(content)
+                        searchedItem.name.toLowerCase()==content_insensitive_case ||
+                        searchedItem.shortDescription.split(" ").map(w => w.toLowerCase()).includes(content_insensitive_case) ||
+                        searchedItem.longDescription.split(" ").map(w => w.toLowerCase()).includes(content_insensitive_case)
                         ).map (
                       (c)=>
                       <tr>
