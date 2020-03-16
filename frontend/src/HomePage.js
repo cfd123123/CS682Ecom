@@ -1,5 +1,5 @@
 import React ,{useState}from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import queryString from 'query-string';
 
 import './HomePage.css';
@@ -9,6 +9,7 @@ import SearchIcon from './img/search-icon.png';
 const HomePage = () => {
     const [leftSideBar, setLeftSideBar]=useState(false);
     const [searchContent, setSearchContent] =useState('');
+    const history = useHistory();
 
     const toggleLeftSidebar =()=>{
         setLeftSideBar(!leftSideBar);
@@ -25,6 +26,13 @@ const HomePage = () => {
         }
     )
 
+    const handleKeyPress = (event) =>{
+        if(event.key === 'Enter'){
+            history.push(`/Result?${searchContentPara}`)
+        }
+        console.log('1')
+    }
+        
     return (
         <div className ='container'>
         {
@@ -40,7 +48,8 @@ const HomePage = () => {
                   <b className = 'homepage__left-part--font'>Black</b> 
                 </div>
                 <div className ='homepage__search--container'>
-                    <input type='text' className  ='homepage__search' placeholder="search specific item" onChange ={toggleSearchContent}/>
+                    <input type='text' className  ='homepage__search' placeholder="search specific item" onChange ={toggleSearchContent}
+                    onKeyPress={handleKeyPress} />
                     <Link to= {`/Result?${searchContentPara}`} className="search_btn">
                         <img src={SearchIcon} className = 'homepage__search--icon'/>
                     </Link>
