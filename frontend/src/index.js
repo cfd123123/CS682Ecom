@@ -9,8 +9,11 @@ import Create from './components/Create';
 import Show from './components/Show';
 import Result from './components/Result';
 import HomePage from './HomePage';
-
+import Login from './components/Login/Login'
+import Cart from './components/Cart'
 ReactDOM.render(
+  
+  //ReactDOM.render(<MRoute />, document.getElementById('root'));
   <Router>
     <div>
       <Route exact path='/' component={HomePage} />
@@ -19,9 +22,12 @@ ReactDOM.render(
       <Route path='/show/:id' component={Show} />
       <Route path='/Result' component={Result} />
       <Route path='/App' component={App} />
+      <Route path='/Login' component={Login} />
+      <Route path='/cart' component={Cart} />
     </div>
   </Router>,
   document.getElementById('root')
+  
 );
 
 // If you want your app to work offline and load faster, you can change
