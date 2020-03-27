@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { generateBasicTable } from './searchFunctionality.js';
 
 class App extends Component {
 
@@ -12,7 +13,6 @@ class App extends Component {
     };
   }
 
-
   componentDidMount() {
     axios.get('/products')
         .then(res => {
@@ -22,35 +22,38 @@ class App extends Component {
 
   render() {
     const searchParams = new URLSearchParams(this.props.location.search);
-    const content = searchParams.get('content')
+    const content = searchParams.get('content');
+    var content_insensitive_case = content.toLowerCase();
 
     return (
-        <div class="container">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-            </div>
-            <div class="panel-body">
-              <h6 align="right"><Link to="/create"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Product</Link></h6>
-              <h5 class="panel-title" >
-                Search results for "{content}"
-              </h5>
-              <table class="table table-stripe">
-                <thead>
+      <div class="container">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+          </div>
+          <div class="panel-body">
+            <h6 align="right"><Link to="/create"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Product</Link></h6>
+            <h5 class="panel-title" >
+              Search results for "{content}"
+            </h5>
+            <table class="table table-stripe">
+              <thead>
 
-                <tr>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
-                </tr>
-                </thead>
-                <tbody>
-                  {
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+              </tr>
+              </thead>
+              <tbody>
+              {
                     this.state.products.filter((searchedItem)=>
-                        (searchedItem.name.indexOf(content)>=0) ||
-                        searchedItem.shortDescription.split(" ").includes(content) ||
-                        searchedItem.longDescription.split(" ").includes(content)
-                        ).map (
+                      (searchedItem.name.indexOf(content_insensitive_case)>=0) ||
+                       searchedItem.shortDescription.split("").map(w => w.toLowerCase()).includes(content_insensitive_case) ||
+                       searchedItem.longDescription.split("").map(w => w.toLowerCase()).includes(content_insensitive_case) ||
+                       searchedItem.shortDescription.split(" ").map(w => w.toLowerCase()).includes(content_insensitive_case) ||
+                       searchedItem.longDescription.split(" ").map(w => w.toLowerCase()).includes(content_insensitive_case)
+                      ).map (
                       (c)=>
                       <tr>
                       <td><Link to={`/show/${c.id}`}>{c.name}</Link></td>
@@ -58,14 +61,15 @@ class App extends Component {
                       <td>{c.price}</td>
                       <td>{c.quantity}</td>
                     </tr>)
-                  }
+              }
+              
 
-                </tbody>
-              </table>
-            </div>
+              </tbody>
+            </table>
           </div>
         </div>
-    );
+      </div>
+  );
   }
 }
 
