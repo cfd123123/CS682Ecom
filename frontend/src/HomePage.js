@@ -11,6 +11,12 @@ const HomePage = () => {
     const [searchContent, setSearchContent] =useState('');
     const history = useHistory();
 
+    const accountLogin = () =>{
+        history.push('/login')
+    }
+    const cartCheck = () =>{
+        history.push('/cart')
+    }
     const toggleLeftSidebar =()=>{
         setLeftSideBar(!leftSideBar);
     };
@@ -42,21 +48,20 @@ const HomePage = () => {
 
         }
         <div className ='homepage__container'>
-            <div className='homepage__header'>
+            <div className='homepage__header'> 
                 <div className ='homepage__left-part'>
                     <img src={SidebarIcon} className = 'homepage__icon' onClick={toggleLeftSidebar}/>
-                  <b className = 'homepage__left-part--font'>Blank</b>
+                  <b className = 'homepage__left-part--font'>Ecom</b> 
                 </div>
                 <div className ='homepage__search--container'>
                     <input type='text' className  ='homepage__search' placeholder="search specific item" onChange ={toggleSearchContent}
                     onKeyPress={handleKeyPress} />
                     <Link to= {`/Result?${searchContentPara}`} className="search_btn">
-
                         <img src={SearchIcon} className = 'homepage__search--icon'/>
                     </Link>
                 </div>
                 <ul className ='homepage__right-part'>
-                    <li>
+                    <li className='account_Management' onClick={accountLogin} >
                         My&nbsp;Account
                     </li>
 
@@ -64,12 +69,14 @@ const HomePage = () => {
                         Orders
                     </li>
 
-                    <li>
+                    <li className='cart_Management' onClick={cartCheck}>
                         Cart
                     </li>
                 </ul>
             </div>
-
+            <div className = 'homepage__footer'>
+                <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
+            </div>    
         </div>
         </div>
     )
