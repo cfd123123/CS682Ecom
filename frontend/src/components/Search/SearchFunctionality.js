@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
-import ReactTable from "react-table";
 
 class SearchFunctionality extends Component {
   constructor(props) {

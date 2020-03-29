@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SearchFunctionality from './Search/SearchFunctionality';
-import SearchResultHandler from './Search/SearchResultHandler';
 
 class App extends Component {
 
