@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { generateBasicTable } from './searchFunctionality.js';
+import SearchFunctionality from './Search/SearchFunctionality';
+import SearchResultHandler from './Search/SearchResultHandler';
 
 class App extends Component {
 
@@ -35,6 +36,7 @@ class App extends Component {
             <h5 class="panel-title" >
               Search results for "{content}"
             </h5>
+
             <table class="table table-stripe">
               <thead>
 
@@ -46,26 +48,10 @@ class App extends Component {
               </tr>
               </thead>
               <tbody>
-              {
-                    this.state.products.filter((searchedItem)=>
-                      (searchedItem.name.indexOf(content_insensitive_case)>=0) ||
-                       searchedItem.shortDescription.split("").map(w => w.toLowerCase()).includes(content_insensitive_case) ||
-                       searchedItem.longDescription.split("").map(w => w.toLowerCase()).includes(content_insensitive_case) ||
-                       searchedItem.shortDescription.split(" ").map(w => w.toLowerCase()).includes(content_insensitive_case) ||
-                       searchedItem.longDescription.split(" ").map(w => w.toLowerCase()).includes(content_insensitive_case)
-                      ).map (
-                      (c)=>
-                      <tr>
-                      <td><Link to={`/show/${c.id}`}>{c.name}</Link></td>
-                      <td>{c.shortDescription}</td>
-                      <td>{c.price}</td>
-                      <td>{c.quantity}</td>
-                    </tr>)
-              }
-
-
+                <SearchFunctionality products={this.state.products} content={content_insensitive_case} ></SearchFunctionality>
               </tbody>
             </table>
+
           </div>
         </div>
       </div>
