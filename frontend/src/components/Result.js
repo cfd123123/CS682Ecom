@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SearchFunctionality from './Search/SearchFunctionality';
 
+
 class App extends Component {
 
   constructor(props) {
@@ -31,26 +32,12 @@ class App extends Component {
           <div class="panel-heading">
           </div>
           <div class="panel-body">
+            <h6 align="left"><Link to="/"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Home</Link></h6>
             <h6 align="right"><Link to="/create"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Product</Link></h6>
             <h5 class="panel-title" >
               Search results for "{content}"
             </h5>
-
-            <table class="table table-stripe">
-              <thead>
-
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Price</th>
-                <th>Quantity</th>
-              </tr>
-              </thead>
-              <tbody>
-                <SearchFunctionality products={this.state.products} content={content_insensitive_case} ></SearchFunctionality>
-              </tbody>
-            </table>
-
+              <SearchFunctionality products={this.state.products} content={content_insensitive_case}/>
           </div>
         </div>
       </div>

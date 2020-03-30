@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
+import SearchResultHandler from './SearchResultHandler';
 
 class SearchFunctionality extends Component {
   constructor(props) {
@@ -12,15 +13,12 @@ class SearchFunctionality extends Component {
   render() {
     const isEmptySearch = this.state.isEmptySearch;
     const searched = this.props.content;
-    let results;
+    let results = this.props.products;
 
-    if (searched == "") {
-      results = this.props.products;
-    }
-    else {
+    if (searched !== "") {
       results =
         this.props.products.filter((searchedItem)=>
-          (searchedItem.name.indexOf(searched)>=0) ||
+          (searchedItem.name.toLowerCase().indexOf(searched) !== -1) ||
            searchedItem.shortDescription.split("").map(w => w.toLowerCase()).includes(searched) ||
            searchedItem.longDescription.split("").map(w => w.toLowerCase()).includes(searched) ||
            searchedItem.shortDescription.split(" ").map(w => w.toLowerCase()).includes(searched) ||
@@ -29,15 +27,7 @@ class SearchFunctionality extends Component {
     }
 
     return (
-        results.map (
-          (c)=>
-          <tr>
-          <td>{c.name}</td>
-          <td>{c.shortDescription}</td>
-          <td>{c.price}</td>
-          <td>{c.quantity}</td>
-          <td><Link to={`/show/${c.id}`} ><Button variant="outline-info" size="sm">View</Button></Link></td>
-        </tr>)
+      <SearchResultHandler products={results}/>
     );
 
   }
