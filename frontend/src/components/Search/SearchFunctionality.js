@@ -22,6 +22,12 @@ class SearchFunctionality extends Component {
           (searchedItem.name.toLowerCase().indexOf(searched) !== -1) ||
            searchedItem.shortDescription.replace(regex, "").split(/ /).map(w => w.toLowerCase()).includes(searched) ||
            searchedItem.longDescription.replace(regex, "").split(/ /).map(w => w.toLowerCase()).includes(searched)
+           /*
+           searchedItem.shortDescription.split("").map(w => w.toLowerCase()).includes(searched) ||
+           searchedItem.longDescription.split("").map(w => w.toLowerCase()).includes(searched) ||
+           searchedItem.shortDescription.split(" ").map(w => w.toLowerCase()).includes(searched) ||
+           searchedItem.longDescription.split(" ").map(w => w.toLowerCase()).includes(searched)
+           */
           );
     }
 

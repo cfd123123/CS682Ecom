@@ -25,15 +25,6 @@
   margin: 0 30px 0 30px;
 }
 
-.homepage__search {
-  width:400px;
-  height: 30px;
-  border: none;
-  margin-left: 10px;
-  font-size: 18px;
-  font-weight: 600;
-  margin-right: 20px;
-}
 
 input::-webkit-input-placeholder {
 font-size: 18px;
@@ -42,12 +33,7 @@ font-size: 18px;
 .homepage__left-part--font {
   position: relative;
   top: -10px;
-}
-
-.homepage__search:focus {
-  outline-style: none;
-  border-color: blue;
-  border-radius: 20px;
+  margin-right:20px;
 }
 
 .homepage__right-part {
@@ -67,16 +53,32 @@ font-size: 18px;
 
 .homepage__side-bar {
   width: 500px;
-  height: 600px;
-  background-color: aqua;
+  height: 620px;
+  margin-left: -3.8cm;
+  background-color: gray;
+}
+
+.homepage__search:focus {
+  outline-style: none;
+  border-color: blue;
 }
 
 .homepage__search--container {
   width: 700px;
   height: 35px;
   border: solid;
-  border-radius: 20px;
+  border-left:-20px;
+  border-radius: 25px;
   position: relative;
+}
+.homepage__search {
+  width:400px;
+  height: 31px;
+  border: none;
+  margin-left: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  margin-right: 20px;
 }
 
 .search_btn {
@@ -91,11 +93,11 @@ font-size: 18px;
 }
 
 .account_Management:hover{
-  background:olive;
+  text-decoration: underline;
   cursor:pointer;
 }
 .cart_Management:hover{
-  background:olive;
+  text-decoration: underline;
   cursor:pointer;
 }
 
@@ -107,6 +109,44 @@ font-size: 18px;
   left:0px;
   background: #333;
 }
+
 .contact_us{
   margin-left : 28px;
+}
+
+.login__container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.login__border {
+  width: 100%;
+  margin: 10px 0;
+  border-bottom: 1px solid black;
+}
+
+.login__container--sign-in {
+  width: 80%;
+  height: 25px;
+  border-radius: 20px;
+  border: 1px solid black;
+  font-size: 15px;
+  font-weight: 400;
+  text-align: center;
+  background-color: red;
+  margin-top: 10px;
+}
+
+.login__container--create {
+  font-size: 15px;
+}
+.homepage__content{
+  height:500px;
+
+  /*background-image:url("./img/back-img.jpg")*/
+  
 }
