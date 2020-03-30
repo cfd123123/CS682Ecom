@@ -19,30 +19,37 @@ img:hover {
   background-color: Aqua;
   }
 
+.product-info {
+  display: flex;
+  justify-content: space-between;
+  width:100%;
+}
 
 .product-name {
-  text-align: center;
-  font-weight: 700;
+  display: inline-block;
+  margin-left: 5%;
+  font-weight: 800;
   font-size: 20px;
-  clear:both;
-  margin-bottom: 10px;
-  }
-
-
-.product-info {
-  text-align: center;
-  }
-
-.product-short-description {
-  font-weight: 400;
-  font-size: 10px;
-  color: lighten($darkgray, 15%);
-  clear:both;
-  margin-bottom: 0px;
   }
 
 .product-price {
-  font-size: 20px;
-  margin-top: 5px;
-  margin-bottom: 0px;
+  display: inline-block;
+  margin-right: 5%;
+  font-size: 30px;
   }
+
+.product-price::first-letter {
+  font-size: 75%;
+  color: #00cc99;
+}
+
+.product-short-description {
+  font-weight: 400;
+  font-size: 15px;
+  color: lighten(#808080, 10%);
+  margin: 1.5% 5%
+  }
+
+.product-action-button {
+  width:100%;
+}

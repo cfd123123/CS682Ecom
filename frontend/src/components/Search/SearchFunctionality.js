@@ -13,16 +13,15 @@ class SearchFunctionality extends Component {
   render() {
     const isEmptySearch = this.state.isEmptySearch;
     const searched = this.props.content;
+    const regex = /[.,]/;
     let results = this.props.products;
 
     if (searched !== "") {
       results =
         this.props.products.filter((searchedItem)=>
           (searchedItem.name.toLowerCase().indexOf(searched) !== -1) ||
-           searchedItem.shortDescription.split("").map(w => w.toLowerCase()).includes(searched) ||
-           searchedItem.longDescription.split("").map(w => w.toLowerCase()).includes(searched) ||
-           searchedItem.shortDescription.split(" ").map(w => w.toLowerCase()).includes(searched) ||
-           searchedItem.longDescription.split(" ").map(w => w.toLowerCase()).includes(searched)
+           searchedItem.shortDescription.replace(regex, "").split(/ /).map(w => w.toLowerCase()).includes(searched) ||
+           searchedItem.longDescription.replace(regex, "").split(/ /).map(w => w.toLowerCase()).includes(searched)
           );
     }
 
