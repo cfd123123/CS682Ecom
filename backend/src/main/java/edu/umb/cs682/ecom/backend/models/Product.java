@@ -13,6 +13,7 @@ public class Product {
     float price;
     int quantity;
     ProductSpecifications specs;
+    String image;
 
 
     public Product() {

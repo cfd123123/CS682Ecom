@@ -2,16 +2,22 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+  "proxy": "http://backserver:8080",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
+    "classnames": "^2.2.5",
+    "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.0"
+    "react-scripts": "3.4.0",
+    "reactstrap": "^8.4.1",
+    "react-dropdown": "^1.0.4",
+    "react-flip-move": "^2.1.0",
+    "lodash": "^4.17.4"
   },
   "scripts": {
     "start": "react-scripts start",

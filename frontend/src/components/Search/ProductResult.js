@@ -28,13 +28,13 @@ class ProductResult extends React.Component {
         <span>
             <div className="product-image">
               <Link to={`/show/${id}`} ><img src={ProductImage} class="center"/></Link>
-              <h1 className="product-name">{name}</h1>
-            </div>
-            <div className="product-info">
+              </div>
+              <div className="product-info">
+                <h1 className="product-name">{name}</h1>
+                <h1 className="product-price">${price.toFixed(2)}</h1>
+              </div>
               <h2 className="product-short-description">{shortDescription}</h2>
-              <h2 className="product-price">${price.toFixed(2)}</h2>
-            </div>
-            <Link to={`/show/${id}`} ><Button variant="outline-info" size="sm" width='100%'>Edit</Button></Link>
+            <Link to={`/show/${id}`} ><Button className='product-action-button' variant="outline-info" size="sm" >Edit</Button></Link>
         </span>
       </li>
     );
