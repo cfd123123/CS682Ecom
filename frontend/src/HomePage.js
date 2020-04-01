@@ -5,15 +5,20 @@ import queryString from 'query-string';
 import './HomePage.css';
 import SidebarIcon from './img/side-bar-icon.png'
 import SearchIcon from './img/search-icon.png';
-
 const HomePage = () => {
     const [leftSideBar, setLeftSideBar]=useState(false);
     const [searchContent, setSearchContent] =useState('');
+    const [toggleLogin,setToggleLogin] = useState(false);
     const history = useHistory();
 
     const accountLogin = () =>{
-        history.push('/login')
+        
+        setToggleLogin(!toggleLogin);
     }
+
+    const signIn = ()=>{
+    sessionStorage.getItem('username') && sessionStorage.getItem('password') ? alert('already login') : history.push('/login')
+    };
     const cartCheck = () =>{
         history.push('/cart')
     }
@@ -63,6 +68,13 @@ const HomePage = () => {
                 <ul className ='homepage__right-part'>
                     <li className='account_Management' onClick={accountLogin} >
                         My&nbsp;Account
+                        {toggleLogin && (
+                    <div className = 'login__container'>
+                        <div class = 'login__container--sign-in' onClick = {signIn}> Sign In</div>
+                        <div className='login__border'></div>
+                        <div class = 'login__container--create'>Create Account</div>         
+                    </div>
+                )}
                     </li>
 
                     <li>
@@ -74,6 +86,10 @@ const HomePage = () => {
                     </li>
                 </ul>
             </div>
+            
+            <div className='homepage__content'>
+            </div>                
+
             <div className = 'homepage__footer'>
                 <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
             </div>    

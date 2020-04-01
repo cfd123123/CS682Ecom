@@ -9,10 +9,10 @@ import Create from './components/Create';
 import Show from './components/Show';
 import Result from './components/Result';
 import HomePage from './HomePage';
-import Login from './components/Login/Login'
-import Cart from './components/Cart'
+import Login from './components/Login/Login';
+import Cart from './components/Cart';
 ReactDOM.render(
-  
+
   //ReactDOM.render(<MRoute />, document.getElementById('root'));
   <Router>
     <div>
@@ -27,7 +27,7 @@ ReactDOM.render(
     </div>
   </Router>,
   document.getElementById('root')
-  
+
 );
 
 // If you want your app to work offline and load faster, you can change

@@ -30,6 +30,8 @@ class Login extends Component {
         window.alert(this.state.password)
     }
     render() {
+        sessionStorage.setItem('username', this.state.user);
+        sessionStorage.setItem('password',this.state.password);
         return (
             <div class = "login__div">
             <form method="post" action="login.js" class = "login__form">
