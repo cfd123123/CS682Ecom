@@ -1,0 +1,96 @@
+# Update source code in the running docker containers
+
+usage=$'Usage: bash docker_update [OPTIONS]
+
+Update running docker containers
+Default update omits settings/library folders (.gradle, node_modules)
+
+Options:
+  -a   Update all files in all containers (overrides other options -- MAY BE UNSTABLE)
+  -b   Update only backend container   (mutually exclusive with -f)
+  -f   Update only frontend container  (mutually exclusive with -b)
+  -h   Print this usage menu
+  -s   Update only src folder(s) in containers\n'
+
+############################################################################
+# Process arguments
+############################################################################
+# First, set up parts of the find command that will be default
+findfolder="."
+pruneback="-type d ( -name .gradle -o -name build ) -prune -o"
+prunefront="-type d ( -name node_modules ) -prune -o"
+
+# now process args
+while getopts ":abfsh" opt; do
+  case ${opt} in
+    a ) # process option a
+      findfolder="."     # force search in base directory
+      pruneback=""       # remove all pruning
+      prunefront=""      # remove all pruning
+      break              # stop processing args
+      ;;
+    b ) # process option b
+      front="false"      # prevent front from updating
+      ;;
+    f ) # process option f
+      back="false"       # prevent back from updating (both will update nothing)
+      ;;
+    s ) # process option s
+      findfolder="src"   # force search in src directory
+      ;;
+    h ) # print usage
+      echo "$usage"
+      ;;
+    ? ) # invalid argument given. Print usage and exit
+      echo "Invalid arguments"$'\n'"$usage"
+      exit 1
+      ;;
+  esac
+done
+
+# don't update these files TODO: fix backend Dockerfile to omit unneeded files
+prunefrontfiles="-type f ( -name Dockerfile -o -name .gitignore -o -name README.md -o -name package-lock.json -o -name package.json ) -prune -o"
+
+# set up the find commands
+frontcommand="find $findfolder $prunefront $prunefrontfiles -type f -print"
+backcommand="find $findfolder $pruneback -type f -print"
+
+# Remove any MacOS files we don't want to update
+find . -name '*.DS_Store*' | xargs rm
+
+# Get the container IDs for front and back ends
+frontid="$(docker ps -f name=frontserver -q)"
+backid="$(docker ps -f name=backserver -q)"
+
+############################################################################
+# Update backend files
+############################################################################
+if [[ ! $back =~ "false" ]]; then
+  echo "Checking backend"
+  cd backend
+  $backcommand | while read line; do  # run the command, then for each line do:
+    # save the output of the diff comparison. If there's output, it means files differ
+    currOutput="$(docker exec "$backid" cat "/backend/$line" 2>/dev/null | diff -q "$line" -)"
+    if [[ ! -z "$currOutput" ]] ; then # if output is not blank
+      echo $'\t'"Updating: /backend/$line"
+      docker cp "$line" "$backid":"/backend/$line"
+    fi
+  done
+  cd ..
+fi
+
+############################################################################
+# Update frontend files
+############################################################################
+if [[ ! front =~ "false" ]]; then
+  echo "Checking frontend"
+  cd frontend
+  $frontcommand | while read line; do
+    currOutput="$(docker exec "$frontid" cat "/app/$line" 2>/dev/null | diff -q "$line" -)"
+    if [[ ! -z "$currOutput" ]] ; then
+      echo $'\t'"Updating: /app/$line"
+      docker cp "$line" "$frontid":"/app/$line"
+    fi
+  done
+  cd ..
+fi
