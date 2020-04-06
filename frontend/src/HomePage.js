@@ -12,7 +12,7 @@ const HomePage = () => {
     const history = useHistory();
 
     const accountLogin = () =>{
-        
+
         setToggleLogin(!toggleLogin);
     }
 
@@ -25,7 +25,6 @@ const HomePage = () => {
     const toggleLeftSidebar =()=>{
         setLeftSideBar(!leftSideBar);
     };
-    console.log(searchContent)
 
     const toggleSearchContent =(event)=>{
         setSearchContent(event.target.value)
@@ -41,9 +40,8 @@ const HomePage = () => {
         if(event.key === 'Enter'){
             history.push(`/Result?${searchContentPara}`)
         }
-        console.log('1')
     }
-        
+
     return (
         <div className ='container'>
         {
@@ -53,10 +51,10 @@ const HomePage = () => {
 
         }
         <div className ='homepage__container'>
-            <div className='homepage__header'> 
+            <div className='homepage__header'>
                 <div className ='homepage__left-part'>
                     <img src={SidebarIcon} className = 'homepage__icon' onClick={toggleLeftSidebar}/>
-                  <b className = 'homepage__left-part--font'>Ecom</b> 
+                  <b className = 'homepage__left-part--font'>Ecom</b>
                 </div>
                 <div className ='homepage__search--container'>
                     <input type='text' className  ='homepage__search' placeholder="search specific item" onChange ={toggleSearchContent}
@@ -72,7 +70,7 @@ const HomePage = () => {
                     <div className = 'login__container'>
                         <div class = 'login__container--sign-in' onClick = {signIn}> Sign In</div>
                         <div className='login__border'></div>
-                        <div class = 'login__container--create'>Create Account</div>         
+                        <div class = 'login__container--create'>Create Account</div>
                     </div>
                 )}
                     </li>
@@ -86,13 +84,13 @@ const HomePage = () => {
                     </li>
                 </ul>
             </div>
-            
+
             <div className='homepage__content'>
-            </div>                
+            </div>
 
             <div className = 'homepage__footer'>
                 <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
-            </div>    
+            </div>
         </div>
         </div>
     )

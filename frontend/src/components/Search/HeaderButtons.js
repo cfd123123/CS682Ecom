@@ -14,8 +14,7 @@ const propTypes = {
 class HeaderButtons extends React.Component {
   render() {
     const { view, listClickHandler, gridClickHandler } = this.props;
-    const { nameOrder, priceOrder, sortingMethod, nameSortClickHandler, priceSortClickHandler, shuffleClickHandler } = this.props;
-    const { refreshClickHandlder } = this.props;
+    const { nameOrder, priceOrder, sortingMethod, nameSortClickHandler, priceSortClickHandler } = this.props;
 
     return (
       <header>
