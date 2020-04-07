@@ -10,7 +10,9 @@ Options:
   -b   Update only backend container   (mutually exclusive with -f)
   -f   Update only frontend container  (mutually exclusive with -b)
   -h   Print this usage menu
-  -s   Update only src folder(s) in containers\n'
+  -s   Update only src folder(s) in containers\n
+Log Option:
+  logs [back|front|mongo] runs the appropriate "docker logs -f <container>" command'
 
 ############################################################################
 # Process arguments
@@ -40,6 +42,7 @@ while getopts ":abfsh" opt; do
       ;;
     h ) # print usage
       echo "$usage"
+      exit 1
       ;;
     ? ) # invalid argument given. Print usage and exit
       echo "Invalid arguments"$'\n'"$usage"
@@ -47,6 +50,29 @@ while getopts ":abfsh" opt; do
       ;;
   esac
 done
+
+# new arguments available for starting logs (decided to put it here instead of making new script)
+# Usage:
+# bash docker_update logs (back|front|mongo)
+shift $((OPTIND -1))
+subcommand=$1; shift
+case "$subcommand" in
+  logs)
+    container=$1;
+    if [[ $container =~ "back" ]]; then
+      containerid="$(docker ps -f name=backserver -q)"
+    elif [[ $container =~ "front" ]]; then
+      containerid="$(docker ps -f name=frontserver -q)"
+    elif [[ $container =~ "mongo" ]]; then
+      containerid="$(docker ps -f name=database -q)"
+    else
+      echo "Invalid container. Choose 'back', 'front', or 'mongo'"$'\n'"$usage"
+      exit 1
+    fi
+    docker logs -f $containerid
+    exit 0
+    ;;
+esac
 
 # don't update these files TODO: fix backend Dockerfile to omit unneeded files
 prunefrontfiles="-type f ( -name Dockerfile -o -name .gitignore -o -name README.md -o -name package-lock.json -o -name package.json ) -prune -o"
