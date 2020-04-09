@@ -12,6 +12,10 @@ docker-compose up
 
 
 # Initialize the database:
+# mongo <mongo container ID>/springreact --eval 'db.roles.insertMany([{ name: "ROLE_CUSTOMER" },{ name: "ROLE_EMPLOYEE" },{ name: "ROLE_ADMIN" },]);'
+#
+# OR
+#
 # $ mongo <mongo container ID>
 #   > use springreact
 #   > db.roles.insertMany([{ name: "ROLE_CUSTOMER" },{ name: "ROLE_EMPLOYEE" },{ name: "ROLE_ADMIN" },])
