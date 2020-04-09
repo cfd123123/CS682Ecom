@@ -88,35 +88,43 @@ find . -name '*.DS_Store*' | xargs rm
 frontid="$(docker ps -f name=frontserver -q)"
 backid="$(docker ps -f name=backserver -q)"
 
-############################################################################
-# Update backend files
-############################################################################
-if [[ ! $back =~ "false" ]]; then
-  echo "Checking backend"
-  cd backend
-  $backcommand | while read line; do  # run the command, then for each line do:
-    # save the output of the diff comparison. If there's output, it means files differ
-    currOutput="$(docker exec "$backid" cat "/backend/$line" 2>/dev/null | diff -q "$line" -)"
-    if [[ ! -z "$currOutput" ]] ; then # if output is not blank
-      echo $'\t'"Updating: /backend/$line"
-      docker cp "$line" "$backid":"/backend/$line"
-    fi
-  done
-  cd ..
-fi
+rm -rf updateMirror
+mkdir updateMirror
 
-############################################################################
-# Update frontend files
-############################################################################
-if [[ ! front =~ "false" ]]; then
-  echo "Checking frontend"
-  cd frontend
-  $frontcommand | while read line; do
-    currOutput="$(docker exec "$frontid" cat "/app/$line" 2>/dev/null | diff -q "$line" -)"
-    if [[ ! -z "$currOutput" ]] ; then
-      echo $'\t'"Updating: /app/$line"
-      docker cp "$line" "$frontid":"/app/$line"
-    fi
-  done
-  cd ..
-fi
+while true
+do
+  ############################################################################
+  # Update backend files
+  ############################################################################
+  if [[ ! $back =~ "false" ]]; then
+    echo "Checking backend"
+    cd backend
+    $backcommand | while read line; do  # run the command, then for each line do:
+      # save the output of the diff comparison. If there's output, it means files differ
+      currOutput="$(docker exec "$backid" cat "/backend/$line" 2>/dev/null | diff -q "$line" -)"
+      if [[ ! -z "$currOutput" ]] ; then # if output is not blank
+        echo $'\t'"Updating: /backend/$line"
+        docker cp "$line" "$backid":"/backend/$line"
+      fi
+    done
+    cd ..
+  fi
+
+  ############################################################################
+  # Update frontend files
+  ############################################################################
+  if [[ ! front =~ "false" ]]; then
+    echo "Checking frontend"
+    cd frontend
+    $frontcommand | while read line; do
+      currOutput="$(docker exec "$frontid" cat "/app/$line" 2>/dev/null | diff -q "$line" -)"
+      if [[ ! -z "$currOutput" ]] ; then
+        echo $'\t'"Updating: /app/$line"
+        docker cp "$line" "$frontid":"/app/$line"
+      fi
+    done
+    cd ..
+  fi
+  echo "Waiting 10 seconds"
+  sleep 10s
+done

@@ -1,5 +1,17 @@
 # First build the containers
 docker-compose build
 
-# Then spin them up. The -d specifies they should be run in the background
-docker-compose up -d
+#db.roles.insertMany([
+#   { name: "ROLE_CUSTOMER" },
+#   { name: "ROLE_EMPLOYEE" },
+#   { name: "ROLE_ADMIN" },
+#])
+
+# Then spin them up. I removed the -d option so that all output is in the same terminal window
+docker-compose up
+
+
+# Initialize the database:
+# $ mongo <mongo container ID>
+#   > use springreact
+#   > db.roles.insertMany([{ name: "ROLE_CUSTOMER" },{ name: "ROLE_EMPLOYEE" },{ name: "ROLE_ADMIN" },])
