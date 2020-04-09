@@ -1,21 +1,15 @@
 # First build the containers
 docker-compose build
 
-#db.roles.insertMany([
-#   { name: "ROLE_CUSTOMER" },
-#   { name: "ROLE_EMPLOYEE" },
-#   { name: "ROLE_ADMIN" },
-#])
+echo "
+You'll need to initialize the user roles before you can begin adding users.
+Use this command after the containers finish starting up:
+
+mongo localhost/springreact --eval 'db.roles.insertMany([{ name: "ROLE_CUSTOMER" },{ name: "ROLE_EMPLOYEE" },{ name: "ROLE_ADMIN" },]);'
+
+*** Only do this once. If you do it more than once you'll get duplicate entries
+"
+read -p "Press enter when you've copied the command and ready to let the containers spin up."
 
 # Then spin them up. I removed the -d option so that all output is in the same terminal window
 docker-compose up
-
-
-# Initialize the database:
-# mongo <mongo container ID>/springreact --eval 'db.roles.insertMany([{ name: "ROLE_CUSTOMER" },{ name: "ROLE_EMPLOYEE" },{ name: "ROLE_ADMIN" },]);'
-#
-# OR
-#
-# $ mongo <mongo container ID>
-#   > use springreact
-#   > db.roles.insertMany([{ name: "ROLE_CUSTOMER" },{ name: "ROLE_EMPLOYEE" },{ name: "ROLE_ADMIN" },])
