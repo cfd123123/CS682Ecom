@@ -26,12 +26,12 @@ public class TestController {
     @GetMapping("/employee")
     @PreAuthorize("hasRole('EMPLOYEE')")
     public String employeeAccess() {
-        return "Employee Board.";
+        return "Employee Content.";
     }
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
-        return "Admin Board.";
+        return "Admin Content.";
     }
 }
