@@ -2,6 +2,8 @@ package edu.umb.cs682.ecom.backend.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import edu.umb.cs682.ecom.backend.models.Category;
+import java.util.LinkedList;
 
 @Document(collection = "products")
 public class Product {
@@ -14,6 +16,7 @@ public class Product {
     int quantity;
     ProductSpecifications specs;
     String image;
+    LinkedList<Category> categories;
 
 
     public Product() {
