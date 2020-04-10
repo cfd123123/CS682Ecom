@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/test")
 public class TestController {
-    // TODO: Adjust this to match ecom site
 
     @GetMapping("/all")
     public String allAccess() {

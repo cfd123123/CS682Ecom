@@ -8,11 +8,14 @@ import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
+import HomePage from './components/HomePage';
 import Profile from "./components/profile.component";
 import Customer from "./components/customer.component";
 import Employee from "./components/employee.component";
 import Admin from "./components/admin.component";
 import Cart from './components/Cart';
+import Create from './components/Create';
+import { Button } from 'reactstrap';
 
 class App extends Component {
   constructor(props) {
@@ -84,25 +87,30 @@ class App extends Component {
                 )}
               </div>
               <div className="navbar-nav ml-auto">
+                <input type="text" className="input" onChange={this.handleChange} placeholder="Search..." />
+                <Link to="/Result">
+                  <Button className="search_btn" onClick='search'/>
+                </Link>
+
 
                 {currentUser ? [
-                  <li className="nav-item">
+                  <li className="nav-item" key={"profile"}>
                     <Link to={"/profile"} className="nav-link">
                       {currentUser.username}
                     </Link>
                   </li>,
-                  <li className="nav-item">
+                  <li className="nav-item" key={"logout"}>
                     <a href="/login" className="nav-link" onClick={this.logOut}>
                       LogOut
                     </a>
                   </li>
                 ] : [
-                  <li className="nav-item">
+                  <li className="nav-item" key={"login"}>
                     <Link to={"/login"} className="nav-link">
                       Login
                     </Link>
                   </li>,
-                  <li className="nav-item">
+                  <li className="nav-item" key={"register"}>
                     <Link to={"/register"} className="nav-link">
                       Sign Up
                     </Link>
@@ -118,7 +126,8 @@ class App extends Component {
 
             <div className="container mt-3">
               <Switch>
-                <Route exact path={["/", "/home"]} component={Home} />
+                <Route exact path={["/"]} component={Home} />
+                <Route exact path='/home' component={HomePage} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/profile" component={Profile} />
@@ -126,6 +135,7 @@ class App extends Component {
                 <Route path="/employee" component={Employee} />
                 <Route path="/admin" component={Admin} />
                 <Route path='/cart' component={Cart} />
+                <Route path='/create' component={Create} />
               </Switch>
             </div>
           </div>

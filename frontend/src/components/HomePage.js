@@ -12,7 +12,6 @@ const HomePage = () => {
     const history = useHistory();
 
     const accountLogin = () =>{
-        
         setToggleLogin(!toggleLogin);
     }
 
