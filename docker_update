@@ -21,6 +21,7 @@ Log Option:
 findfolder="."
 pruneback="-type d ( -name .gradle -o -name build ) -prune -o"
 prunefront="-type d ( -name node_modules ) -prune -o"
+allprune="-type d -name updateMirror -prune -o"
 
 # now process args
 while getopts ":abfsh" opt; do
@@ -78,8 +79,8 @@ esac
 prunefrontfiles="-type f ( -name Dockerfile -o -name .gitignore -o -name README.md -o -name package-lock.json -o -name package.json ) -prune -o"
 
 # set up the find commands
-frontcommand="find $findfolder $prunefront $prunefrontfiles -type f -print"
-backcommand="find $findfolder $pruneback -type f -print"
+frontcommand="find $findfolder $prunefront $allprune $prunefrontfiles -type f -print"
+backcommand="find $findfolder $pruneback $allprune -type f -print"
 
 # Remove any MacOS files we don't want to update
 find . -name '*.DS_Store*' | xargs rm
@@ -91,6 +92,14 @@ backid="$(docker ps -f name=backserver -q)"
 rm -rf updateMirror
 mkdir updateMirror
 
+echo "Copying backend sources"
+cp -R backend updateMirror/backend
+echo "Copying frontend sources"
+mkdir updateMirror/frontend
+cp -R frontend/src updateMirror/frontend/src
+cp -R frontend/public updateMirror/frontend/public
+cp frontend/package.json updateMirror/frontend/package.json
+
 while true
 do
   ############################################################################
@@ -100,12 +109,18 @@ do
     echo "Checking backend"
     cd backend
     $backcommand | while read line; do  # run the command, then for each line do:
-      # save the output of the diff comparison. If there's output, it means files differ
-      currOutput="$(docker exec "$backid" cat "/backend/$line" 2>/dev/null | diff -q "$line" -)"
-      if [[ ! -z "$currOutput" ]] ; then # if output is not blank
+      if [ "$line" -nt "../updateMirror/backend/$line" ]; then
         echo $'\t'"Updating: /backend/$line"
+        cp "$line" "../updateMirror/backend/$line"
         docker cp "$line" "$backid":"/backend/$line"
       fi
+
+#      # save the output of the diff comparison. If there's output, it means files differ
+#      currOutput="$(docker exec "$backid" cat "/backend/$line" 2>/dev/null | diff -q "$line" -)"
+#      if [[ ! -z "$currOutput" ]] ; then # if output is not blank
+#        echo $'\t'"Updating: /backend/$line"
+#        docker cp "$line" "$backid":"/backend/$line"
+#      fi
     done
     cd ..
   fi
@@ -117,14 +132,20 @@ do
     echo "Checking frontend"
     cd frontend
     $frontcommand | while read line; do
-      currOutput="$(docker exec "$frontid" cat "/app/$line" 2>/dev/null | diff -q "$line" -)"
-      if [[ ! -z "$currOutput" ]] ; then
+      if [ "$line" -nt "../updateMirror/frontend/$line" ]; then
         echo $'\t'"Updating: /app/$line"
+        cp "$line" "../updateMirror/frontend/$line"
         docker cp "$line" "$frontid":"/app/$line"
       fi
+
+#      currOutput="$(docker exec "$frontid" cat "/app/$line" 2>/dev/null | diff -q "$line" -)"
+#      if [[ ! -z "$currOutput" ]] ; then
+#        echo $'\t'"Updating: /app/$line"
+#        docker cp "$line" "$frontid":"/app/$line"
+#      fi
     done
     cd ..
   fi
   echo "Waiting 10 seconds"
-  sleep 20s
+  sleep 10s
 done

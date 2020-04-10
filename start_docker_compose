@@ -1,4 +1,11 @@
-# First build the containers
+# opt1 is clean, clean up containers and images
+if [[ $1 =~ "clean" ]]; then
+  docker container prune -f
+  docker image prune -af
+fi
+
+
+# Build the containers
 docker-compose build
 
 echo "
@@ -9,7 +16,7 @@ mongo localhost/springreact --eval 'db.roles.insertMany([{ name: "ROLE_CUSTOMER"
 
 *** Only do this once. If you do it more than once you'll get duplicate entries
 "
-read -p "Press enter when you've copied the command and ready to let the containers spin up."
+#read -p "Press enter when you've copied the command and ready to let the containers spin up."
 
 # Then spin them up. I removed the -d option so that all output is in the same terminal window
 docker-compose up

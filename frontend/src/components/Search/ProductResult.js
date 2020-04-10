@@ -4,7 +4,7 @@ import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 import './ProductResult.css';
-import ProductImage from './../../img/empty-product-icon.png';
+import ProductImage from './../img/empty-product-icon.png';
 
 const propTypes = {
   view: PropTypes.string.isRequired,
