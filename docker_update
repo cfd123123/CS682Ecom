@@ -126,5 +126,5 @@ do
     cd ..
   fi
   echo "Waiting 10 seconds"
-  sleep 10s
+  sleep 20s
 done
