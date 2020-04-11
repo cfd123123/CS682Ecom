@@ -4,7 +4,7 @@ import axios from 'axios';
 import SearchFunctionality from './Search/SearchFunctionality';
 
 
-class App extends Component {
+class Result extends Component {
 
   constructor(props) {
     super(props);
@@ -20,32 +20,32 @@ class App extends Component {
         });
   }
 
-  setCase() {
-    return this.content ? this.content.toLowerCase() : "";
+  setCase(content) {
+    return content ? content.toLowerCase() : "";
   }
 
   render() {
     const searchParams = new URLSearchParams(this.props.location.search);
     const content = searchParams.get('content');
-    const content_insensitive_case = this.setCase();
+    const content_insensitive_case = this.setCase(content);
 
     return (
-      <div className="container">
-        <div className="panel panel-default">
-          <div className="panel-heading">
-          </div>
-          <div className="panel-body">
-            <h6 align="left"><Link to="/"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Home</Link></h6>
-            <h6 align="right"><Link to="/create"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Add Product</Link></h6>
-            <h5 className="panel-title" >
-              Search results {content && `for "${content}"`}
-            </h5>
+        <div className="container">
+          <div className="panel panel-default">
+            <div className="panel-heading">
+            </div>
+            <div className="panel-body">
+              <h6 align="left"><Link to="/"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Home</Link></h6>
+              <h6 align="right"><Link to="/create"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Add Product</Link></h6>
+              <h5 className="panel-title" >
+                Search results {content && `for "${content}"`}
+              </h5>
               <SearchFunctionality products={this.state.products} content={content_insensitive_case}/>
+            </div>
           </div>
         </div>
-      </div>
-  );
+    );
   }
 }
 
-export default App;
+export default Result;
