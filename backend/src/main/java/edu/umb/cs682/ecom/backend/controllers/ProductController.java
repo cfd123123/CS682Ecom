@@ -1,6 +1,7 @@
 package edu.umb.cs682.ecom.backend.controllers;
 
 import edu.umb.cs682.ecom.backend.models.Product;
+import edu.umb.cs682.ecom.backend.models.Category;
 import edu.umb.cs682.ecom.backend.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

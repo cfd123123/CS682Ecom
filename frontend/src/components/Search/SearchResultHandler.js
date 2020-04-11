@@ -1,15 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios';
-import ReactDOM from 'react-dom';
-import Dropdown from 'react-dropdown';
 import FlipMove from 'react-flip-move';
 import {shuffle} from 'lodash';
 
 import HeaderButtons from './HeaderButtons.js';
 import ProductResult from './ProductResult.js';
-
-import Toggle from './Buttons/Toggle.js';
 
 class SearchResultHandler extends React.Component {
     constructor(props) {
@@ -18,8 +13,8 @@ class SearchResultHandler extends React.Component {
       this.state = {
         products: [],
         view: 'list',
-        nameOrder: 'nasc',
-        priceOrder: 'pasc',
+        nameOrder: 'ndesc',
+        priceOrder: 'pdesc',
         enterLeaveAnimation: 'accordianHorizontal',
         inProgress: false,
       };
@@ -28,26 +23,6 @@ class SearchResultHandler extends React.Component {
       this.togglePriceSort  = this.togglePriceSort.bind(this);
       this.toggleGrid  = this.toggleGrid.bind(this);
       this.toggleList  = this.toggleList.bind(this);
-    }
-
-    toggleNameSort() {
-      const sortNameAsc  = (a, b) => a.toString().localeCompare(b);
-      const sortNameDesc = (a, b) => b.toString().localeCompare(a);
-
-      this.setState({
-        nameOrder: (this.state.nameOrder === 'nasc' ? 'ndesc' : 'nasc'),
-        products: this.state.products.sort(this.state.nameOrder === 'nasc' ? sortNameDesc : sortNameAsc),
-      });
-    }
-
-    togglePriceSort() {
-      const sortPriceAsc  = (a, b) => a-b;
-      const sortPriceDesc = (a, b) => b-a;
-
-      this.setState({
-        priceOrder: (this.state.priceOrder === 'pasc' ? 'pdesc' : 'pasc'),
-        products: this.state.products.sort(this.state.priceOrder === 'pasc' ? sortPriceDesc : sortPriceAsc),
-      });
     }
 
     toggleList() {
@@ -67,22 +42,42 @@ class SearchResultHandler extends React.Component {
     componentDidMount() {
       axios.get('/products/all')
           .then(res => {
-            this.setState({ products: res.data });
+            this.setState({products: res.data});
           });
+    }
+    
+    toggleNameSort() {
+      const sortNameAsc  = (a, b) => a.name.localeCompare(b.name);
+      const sortNameDesc = (a, b) => b.name.localeCompare(a.name);
+      this.setState({
+        nameOrder: (this.state.nameOrder === 'nasc' ? 'ndesc' : 'nasc'),
+        products: this.props.products.sort(this.state.nameOrder === 'nasc' ? sortNameDesc : sortNameAsc),
+      });
+    }
+
+    togglePriceSort() {
+      const sortPriceAsc  = (a, b) => a.price-b.price;
+      const sortPriceDesc = (a, b) => b.price-a.price;
+      this.setState({
+        priceOrder: (this.state.priceOrder === 'pasc' ? 'pdesc' : 'pasc'),
+        products: this.props.products.sort(this.state.priceOrder === 'pasc' ? sortPriceDesc : sortPriceAsc),
+      });
     }
 
     renderProducts() {
       const { view } = this.state;
 
-      return this.props.products.map((product) => {
-        return (
-          <ProductResult
-            key = {product.id}
-            view = {view}
-            {...product}
-          />
-        );
-      });
+      if(this.state.products !== []) {
+          return this.props.products.map((product) => {
+            return (
+              <ProductResult
+                key = {product.id}
+                view = {view}
+                {...product}
+              />
+            );
+          });
+      }
     }
 
     sortShuffle() {
@@ -111,11 +106,7 @@ class SearchResultHandler extends React.Component {
           <ul>
             <FlipMove
               staggerDurationBy="30"
-              duration={500}
-              onFinishAll={() => {
-                // TODO: Remove the setTimeout, when the bug is fixed.
-                setTimeout(() => this.setState({ inProgress: false }), 1);
-              }}>
+              duration={500}>
               { this.renderProducts() }
             </FlipMove>
           </ul>

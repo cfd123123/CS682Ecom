@@ -1,21 +1,20 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
 import './ProductResult.css';
 import ProductImage from './../img/empty-product-icon.png';
 
-const propTypes = {
-  view: PropTypes.string.isRequired,
-  id: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  shortDescription: PropTypes.string,
-  longDescription: PropTypes.string,
-  price: PropTypes.number,
-  quantity: PropTypes.number,
-  image: PropTypes.string,
-};
+// const propTypes = {
+//   view: PropTypes.string.isRequired,
+//   id: PropTypes.string,
+//   name: PropTypes.string.isRequired,
+//   shortDescription: PropTypes.string,
+//   longDescription: PropTypes.string,
+//   price: PropTypes.number,
+//   quantity: PropTypes.number,
+//   image: PropTypes.string,
+// };
 
 class ProductResult extends React.Component {
   render() {
@@ -40,7 +39,5 @@ class ProductResult extends React.Component {
     );
   }
 }
-
-ProductResult.propTypes = propTypes;
 
 export default ProductResult;

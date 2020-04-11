@@ -24,7 +24,6 @@ const HomePage = () => {
     const toggleLeftSidebar =()=>{
         setLeftSideBar(!leftSideBar);
     };
-    console.log(searchContent)
 
     const toggleSearchContent =(event)=>{
         setSearchContent(event.target.value)
@@ -40,9 +39,8 @@ const HomePage = () => {
         if(event.key === 'Enter'){
             history.push(`/Result?${searchContentPara}`)
         }
-        console.log('1')
     }
-        
+
     return (
         <div className ='container'>
         {
@@ -52,7 +50,7 @@ const HomePage = () => {
 
         }
         <div className ='homepage__container'>
-            <div className='homepage__header'> 
+            <div className='homepage__header'>
                 <div className ='homepage__left-part'>
                     <img src={SidebarIcon} className = 'homepage__icon' onClick={toggleLeftSidebar} alt=""/>
                   <b className = 'homepage__left-part--font'>Ecom</b> 
@@ -85,13 +83,13 @@ const HomePage = () => {
                     </li>
                 </ul>
             </div>
-            
+
             <div className='homepage__content'>
-            </div>                
+            </div>
 
             <div className = 'homepage__footer'>
                 <h1 className = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
-            </div>    
+            </div>
         </div>
         </div>
     )

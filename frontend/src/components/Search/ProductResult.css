@@ -53,32 +53,3 @@ img:hover {
 .product-action-button {
   width:100%;
 }
-
-/*
-.product-name {
-  text-align: center;
-  font-weight: 700;
-  font-size: 20px;
-  clear:both;
-  margin-bottom: 10px;
-  }
-
-
-.product-info {
-  text-align: center;
-  }
-
-.product-short-description {
-  font-weight: 400;
-  font-size: 10px;
-  color: lighten(#808080, 15%);
-  clear:both;
-  margin-bottom: 0px;
-  }
-
-.product-price {
-  font-size: 20px;
-  margin-top: 5px;
-  margin-bottom: 0px;
-  }
-*/
