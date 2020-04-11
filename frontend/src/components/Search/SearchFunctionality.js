@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom';
-import { Button } from 'reactstrap';
 import SearchResultHandler from './SearchResultHandler';
 
 class SearchFunctionality extends Component {
@@ -11,7 +8,7 @@ class SearchFunctionality extends Component {
   }
 
   render() {
-    const isEmptySearch = this.state.isEmptySearch;
+    // const isEmptySearch = this.state.isEmptySearch;
     const searched = this.props.content;
     const regex = /[.,]/;
     let results = this.props.products;

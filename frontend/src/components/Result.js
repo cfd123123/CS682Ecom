@@ -15,7 +15,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('/products')
+    axios.get('/products/all')
         .then(res => {
           this.setState({ products: res.data });
         });
@@ -24,17 +24,17 @@ class App extends Component {
   render() {
     const searchParams = new URLSearchParams(this.props.location.search);
     const content = searchParams.get('content');
-    var content_insensitive_case = content.toLowerCase();
+    const content_insensitive_case = content.toLowerCase();
 
     return (
-      <div class="container">
-        <div class="panel panel-default">
-          <div class="panel-heading">
+      <div className="container">
+        <div className="panel panel-default">
+          <div className="panel-heading">
           </div>
-          <div class="panel-body">
-            <h6 align="left"><Link to="/"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Home</Link></h6>
-            <h6 align="right"><Link to="/create"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Product</Link></h6>
-            <h5 class="panel-title" >
+          <div className="panel-body">
+            <h6 align="left"><Link to="/"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Home</Link></h6>
+            <h6 align="right"><Link to="/create"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Add Product</Link></h6>
+            <h5 className="panel-title" >
               Search results for "{content}"
             </h5>
               <SearchFunctionality products={this.state.products} content={content_insensitive_case}/>

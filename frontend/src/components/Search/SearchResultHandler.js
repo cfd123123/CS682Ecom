@@ -65,7 +65,7 @@ class SearchResultHandler extends React.Component {
     }
 
     componentDidMount() {
-      axios.get('/products')
+      axios.get('/products/all')
           .then(res => {
             this.setState({ products: res.data });
           });

@@ -54,14 +54,14 @@ const HomePage = () => {
         <div className ='homepage__container'>
             <div className='homepage__header'> 
                 <div className ='homepage__left-part'>
-                    <img src={SidebarIcon} className = 'homepage__icon' onClick={toggleLeftSidebar}/>
+                    <img src={SidebarIcon} className = 'homepage__icon' onClick={toggleLeftSidebar} alt=""/>
                   <b className = 'homepage__left-part--font'>Ecom</b> 
                 </div>
                 <div className ='homepage__search--container'>
                     <input type='text' className  ='homepage__search' placeholder="search specific item" onChange ={toggleSearchContent}
                     onKeyPress={handleKeyPress} />
                     <Link to= {`/Result?${searchContentPara}`} className="search_btn">
-                        <img src={SearchIcon} className = 'homepage__search--icon'/>
+                        <img src={SearchIcon} className = 'homepage__search--icon' alt=""/>
                     </Link>
                 </div>
                 <ul className ='homepage__right-part'>
@@ -69,9 +69,9 @@ const HomePage = () => {
                         My&nbsp;Account
                         {toggleLogin && (
                     <div className = 'login__container'>
-                        <div class = 'login__container--sign-in' onClick = {signIn}> Sign In</div>
+                        <div className = 'login__container--sign-in' onClick = {signIn}> Sign In</div>
                         <div className='login__border'></div>
-                        <div class = 'login__container--create'>Create Account</div>         
+                        <div className = 'login__container--create'>Create Account</div>
                     </div>
                 )}
                     </li>
@@ -90,7 +90,7 @@ const HomePage = () => {
             </div>                
 
             <div className = 'homepage__footer'>
-                <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
+                <h1 className = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
             </div>    
         </div>
         </div>

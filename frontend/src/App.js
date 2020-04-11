@@ -8,26 +8,45 @@ import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
-import HomePage from './components/HomePage';
 import Profile from "./components/profile.component";
 import Customer from "./components/customer.component";
 import Employee from "./components/employee.component";
 import Admin from "./components/admin.component";
 import Cart from './components/Cart';
 import Create from './components/Create';
-import { Button } from 'reactstrap';
+import SearchIcon from "./components/img/search-icon.png";
+import HomePage from './components/HomePage';
+import Result from './components/Result';
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.logOut = this.logOut.bind(this);
 
+    this.search = function () {
+
+    };
+
     this.state = {
+      searchValue: '',
       showEmployeeContent: false,
       showAdminContent: false,
       currentUser: undefined
     };
   }
+
+  handleChange = (event) => {
+    this.setState({
+      searchValue: event.target.value
+    })
+  };
+
+  handleSearch = (event) => {
+    alert('A name was submitted: ' + this.state.searchValue);
+    // <Link to={`/Result?${this.searchContentPara}`}>
+    event.preventDefault();
+  };
 
   componentDidMount() {
     const user = AuthService.getCurrentUser();
@@ -86,12 +105,12 @@ class App extends Component {
                     </li>
                 )}
               </div>
-              <div className="navbar-nav ml-auto">
-                <input type="text" className="input" onChange={this.handleChange} placeholder="Search..." />
-                <Link to="/Result">
-                  <Button className="search_btn" onClick='search'/>
-                </Link>
 
+              <div className="navbar-nav ml-auto">
+                <form onSubmit={this.handleSearch}>
+                  <input type="text" placeholder="Search..." value={this.state.value} onChange={this.handleChange} />
+                  <img src={SearchIcon} style={{cursor: 'pointer'}} onClick={this.handleSearch} width={30} className='search--icon' alt={"Go"}/>
+                </form>
 
                 {currentUser ? [
                   <li className="nav-item" key={"profile"}>
@@ -127,7 +146,7 @@ class App extends Component {
             <div className="container mt-3">
               <Switch>
                 <Route exact path={["/"]} component={Home} />
-                <Route exact path='/home' component={HomePage} />
+                <Route exact path="/home" component={HomePage} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/profile" component={Profile} />
@@ -136,6 +155,7 @@ class App extends Component {
                 <Route path="/admin" component={Admin} />
                 <Route path='/cart' component={Cart} />
                 <Route path='/create' component={Create} />
+                <Route path='/Result' component={Result} />
               </Switch>
             </div>
           </div>
@@ -164,7 +184,7 @@ export default App;
 //   }
 //
 //   componentDidMount() {
-//     axios.get('/products')
+//     axios.get('/products/all')
 //         .then(res => {
 //           this.setState({ products: res.data });
 //           console.log(this.state.products);
@@ -178,7 +198,7 @@ export default App;
 //             <div class="panel-heading">
 //               <input type="text" className="input" onChange={this.handleChange} placeholder="Search..." />
 //               <Link to="/Result">
-//               <input type="button" className="search_btn" Onclick='search'/>
+//               <input type="button" className="search_btn" onClick='search'/>
 //               </Link>
 //             </div>
 //             <div class="panel-body">

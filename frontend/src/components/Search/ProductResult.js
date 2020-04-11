@@ -9,11 +9,11 @@ import ProductImage from './../img/empty-product-icon.png';
 const propTypes = {
   view: PropTypes.string.isRequired,
   id: PropTypes.string,
-  name: PropTypes.stringisRequired,
+  name: PropTypes.string.isRequired,
   shortDescription: PropTypes.string,
   longDescription: PropTypes.string,
-  price: PropTypes.float,
-  quantity: PropTypes.int,
+  price: PropTypes.number,
+  quantity: PropTypes.number,
   image: PropTypes.string,
 };
 
@@ -27,7 +27,7 @@ class ProductResult extends React.Component {
       <li>
         <span>
             <div className="product-image">
-              <Link to={`/show/${id}`} ><img src={ProductImage} class="center"/></Link>
+              <Link to={`/show/${id}`} ><img src={ProductImage} className="center" alt={"missingID"}/></Link>
               </div>
               <div className="product-info">
                 <h1 className="product-name">{name}</h1>
