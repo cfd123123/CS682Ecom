@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React, {Component} from "react";
+import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import SearchBox from "./components/Search/SearchBox";
 
 import AuthService from "./services/auth.service";
-
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
@@ -14,7 +14,6 @@ import Employee from "./components/employee.component";
 import Admin from "./components/admin.component";
 import Cart from './components/Cart';
 import Create from './components/Create';
-import SearchIcon from "./components/img/search-icon.png";
 import HomePage from './components/HomePage';
 import Result from './components/Result';
 
@@ -24,29 +23,12 @@ class App extends Component {
     super(props);
     this.logOut = this.logOut.bind(this);
 
-    this.search = function () {
-
-    };
-
     this.state = {
-      searchValue: '',
       showEmployeeContent: false,
       showAdminContent: false,
       currentUser: undefined
     };
   }
-
-  handleChange = (event) => {
-    this.setState({
-      searchValue: event.target.value
-    })
-  };
-
-  handleSearch = (event) => {
-    alert('A name was submitted: ' + this.state.searchValue);
-    // <Link to={`/Result?${this.searchContentPara}`}>
-    event.preventDefault();
-  };
 
   componentDidMount() {
     const user = AuthService.getCurrentUser();
@@ -107,10 +89,7 @@ class App extends Component {
               </div>
 
               <div className="navbar-nav ml-auto">
-                <form onSubmit={this.handleSearch}>
-                  <input type="text" placeholder="Search..." value={this.state.value} onChange={this.handleChange} />
-                  <img src={SearchIcon} style={{cursor: 'pointer'}} onClick={this.handleSearch} width={30} className='search--icon' alt={"Go"}/>
-                </form>
+                <SearchBox />
 
                 {currentUser ? [
                   <li className="nav-item" key={"profile"}>

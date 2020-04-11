@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SearchFunctionality from './Search/SearchFunctionality';
@@ -21,10 +20,14 @@ class App extends Component {
         });
   }
 
+  setCase() {
+    return this.content ? this.content.toLowerCase() : "";
+  }
+
   render() {
     const searchParams = new URLSearchParams(this.props.location.search);
     const content = searchParams.get('content');
-    const content_insensitive_case = content.toLowerCase();
+    const content_insensitive_case = this.setCase();
 
     return (
       <div className="container">
@@ -35,7 +38,7 @@ class App extends Component {
             <h6 align="left"><Link to="/"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Home</Link></h6>
             <h6 align="right"><Link to="/create"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Add Product</Link></h6>
             <h5 className="panel-title" >
-              Search results for "{content}"
+              Search results {content && `for "${content}"`}
             </h5>
               <SearchFunctionality products={this.state.products} content={content_insensitive_case}/>
           </div>

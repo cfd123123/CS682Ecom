@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SortButton from './Buttons/SortButton.js';
 
-import './HeaderButtons.css';
+// import './HeaderButtons.css';
 
 const propTypes = {
   view: PropTypes.string,
@@ -13,7 +13,6 @@ const propTypes = {
 
 class HeaderButtons extends React.Component {
   render() {
-    const { view, listClickHandler, gridClickHandler } = this.props;
     const { nameOrder, priceOrder, sortingMethod, nameSortClickHandler, priceSortClickHandler } = this.props;
 
     return (

@@ -2,7 +2,6 @@ package edu.umb.cs682.ecom.backend.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.LinkedList
 
 @Document(collection = "categories")
 public class Category {
@@ -10,11 +9,11 @@ public class Category {
     String id;
     String name;
 
-    public Product(String name) {
+    public Category(String name) {
         this.name = this.normalizeName(name);
     }
 
-    private String normalizeName(name) {
+    private String normalizeName(String name) {
         return name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
     }
 
@@ -25,6 +24,6 @@ public class Category {
     public void   setName(String name) { this.name = name; }
 
     public Boolean equals(Category other) {
-        return other.getName() == this.name;
+        return other.getName().equals(this.name);
     }
 }

@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import FlipMove from 'react-flip-move';
 import {shuffle} from 'lodash';
 
-import HeaderButtons from './HeaderButtons.js';
-import ProductResult from './ProductResult.js';
+import FlipMove from 'react-flip-move';
+import HeaderButtons from './HeaderButtons';
+import ProductResult from './ProductResult';
 
 class SearchResultHandler extends React.Component {
     constructor(props) {
@@ -45,7 +45,7 @@ class SearchResultHandler extends React.Component {
             this.setState({products: res.data});
           });
     }
-    
+
     toggleNameSort() {
       const sortNameAsc  = (a, b) => a.name.localeCompare(b.name);
       const sortNameDesc = (a, b) => b.name.localeCompare(a.name);
