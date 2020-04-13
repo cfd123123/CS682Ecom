@@ -7,18 +7,20 @@ export default class Customer extends Component {
     super(props);
 
     this.state = {
-      content: ""
+      content: "",
     };
   }
 
   componentDidMount() {
-    UserService.getCustomerHomepage().then(
+    const { currentUser } = this.props.location.state;
+    UserService.getMyStuff(currentUser.username).then(
         response => {
           this.setState({
-            content: response.data
+            content: JSON.stringify(response.data)
           });
         },
         error => {
+          console.log(error.response);
           this.setState({
             content:
                 (error.response &&

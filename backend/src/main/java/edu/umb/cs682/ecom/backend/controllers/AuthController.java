@@ -9,12 +9,15 @@ import javax.validation.Valid;
 
 import edu.umb.cs682.ecom.backend.models.ERole;
 import edu.umb.cs682.ecom.backend.models.Role;
+import edu.umb.cs682.ecom.backend.models.Token;
 import edu.umb.cs682.ecom.backend.models.User;
 import edu.umb.cs682.ecom.backend.payload.request.LoginRequest;
+import edu.umb.cs682.ecom.backend.payload.request.LogoutRequest;
 import edu.umb.cs682.ecom.backend.payload.request.SignupRequest;
 import edu.umb.cs682.ecom.backend.payload.response.JwtResponse;
 import edu.umb.cs682.ecom.backend.payload.response.MessageResponse;
 import edu.umb.cs682.ecom.backend.repositories.RoleRepository;
+import edu.umb.cs682.ecom.backend.repositories.TokenWhitelist;
 import edu.umb.cs682.ecom.backend.repositories.UserRepository;
 import edu.umb.cs682.ecom.backend.security.jwt.JwtUtils;
 import edu.umb.cs682.ecom.backend.security.services.UserDetailsImpl;
@@ -45,6 +48,9 @@ public class AuthController {
     RoleRepository roleRepository;
 
     @Autowired
+    TokenWhitelist tokenWhitelist;
+
+    @Autowired
     PasswordEncoder encoder;
 
     @Autowired
@@ -64,11 +70,24 @@ public class AuthController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
+        tokenWhitelist.save(jwtUtils.makeTokenFromJwtString(jwt));
+
         return ResponseEntity.ok(new JwtResponse(jwt,
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
                 roles));
+    }
+
+    @PostMapping("/signout")
+    public ResponseEntity<?> deactivateToken(@Valid @RequestBody JwtResponse logoutRequest) {
+        String tokenID = jwtUtils.getIdFromJwtToken(logoutRequest.getAccessToken());
+        if (tokenWhitelist.existsByTokenId(tokenID)) {
+            tokenWhitelist.deleteByTokenId(tokenID);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/signup")

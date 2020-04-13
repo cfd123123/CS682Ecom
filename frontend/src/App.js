@@ -9,7 +9,7 @@ import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
-import Customer from "./components/customer.component";
+import MyStuff from "./components/mystuff.component";
 import Employee from "./components/employee.component";
 import Admin from "./components/admin.component";
 import Cart from './components/Cart';
@@ -65,7 +65,7 @@ class App extends Component {
 
                 {currentUser && (
                     <li className="nav-item">
-                      <Link to={"/user"} className="nav-link">
+                      <Link to={{pathname: '/mystuff', state: { currentUser: currentUser }}} className="nav-link">
                         My Stuff
                       </Link>
                     </li>
@@ -93,8 +93,9 @@ class App extends Component {
 
                 {currentUser ? [
                   <li className="nav-item" key={"profile"}>
-                    <Link to={"/profile"} className="nav-link">
-                      {currentUser.username}
+                    <Link to={{pathname: '/profile', state: { currentUser: currentUser }}} className="nav-link">
+                      My Account
+                      {/*{currentUser.username}*/}
                     </Link>
                   </li>,
                   <li className="nav-item" key={"logout"}>
@@ -129,7 +130,7 @@ class App extends Component {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/profile" component={Profile} />
-                <Route path="/user" component={Customer} />
+                <Route path="/mystuff" component={MyStuff} />
                 <Route path="/employee" component={Employee} />
                 <Route path="/admin" component={Admin} />
                 <Route path='/cart' component={Cart} />

@@ -8,16 +8,20 @@ class UserService {
     return axios.get('http://localhost:8080/products/all');
   }
 
-  getCustomerHomepage() {
-    return axios.get(API_URL + 'customer', { headers: authHeader() });
+  getMyStuff(username) {
+    return axios.get(API_URL + 'mystuff', { headers: authHeader(), params: { username: username }});
   }
 
-  getEmployeeHomepage() {
+  getEmployeeContent() {
     return axios.get(API_URL + 'employee', { headers: authHeader() });
   }
 
-  getAdminHomepage() {
+  getAdminContent() {
     return axios.get(API_URL + 'admin', { headers: authHeader() });
+  }
+
+  getProfile(username) {
+    return axios.get(API_URL + 'profile', { headers: authHeader(), params: { username: username }});
   }
 }
 
