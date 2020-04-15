@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -39,7 +37,7 @@ public class TestController {
     @GetMapping("/profile")
     @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and (hasRole('CUSTOMER') or hasRole('EMPLOYEE') or hasRole('ADMIN'))")
     public String profileAccess(@RequestParam(value = "username", required = false) String username) {
-        System.err.printf("\n\n%s\n\n", username);
+//        System.err.printf("\n\n%s\n\n", username);
         Optional<User> opt = userRepository.findByUsername(username);
         if (opt.isPresent()) return opt.get().getProfile();
         else return "Invalid username";

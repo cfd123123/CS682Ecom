@@ -1,44 +1,52 @@
 import React, { Component } from "react";
 import UserService from "../services/user.service";
+import AuthService from "../services/auth.service";
+import LoginRedirect from "./Login/LoginRedirect";
 
 export default class Profile extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      content: ""
+      content: "",
+      currentUser: undefined,
+      requireLogin: false
     };
   }
 
   componentDidMount() {
-    console.log("prop state: " + this.props.location.state);
-    const { currentUser } = this.props.location.state;
-    UserService.getProfile(currentUser.username).then(
-        response => {
-          this.setState({
-            content: JSON.stringify(response.data)
-          });
-        },
-        error => {
-          console.log(error.response);
-          this.setState({
-            content:
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString()
-          });
-        }
-    );
+    const currentUser = AuthService.getCurrentUser();
+    if (currentUser && currentUser.username) {
+      this.setState({
+        currentUser: currentUser
+      });
+      UserService.getProfile(currentUser.username).then(
+          response => {
+            this.setState({
+              content: JSON.stringify(response.data)
+            });
+          },
+          error => {
+            this.setState({
+              requireLogin: true,
+              content: (error.response && error.response.data &&
+                  error.response.data.message) || error.message || error.toString()
+            });
+          }
+      );
+    } else {
+      this.setState({
+        requireLogin: true,
+        content: "You are not logged in"
+      });
+    }
   }
 
   render() {
-    const { content } = this.state;
-
+    const { currentUser, content, requireLogin } = this.state;
     return (
         <div className="container">
-          {content && (
+          {requireLogin ? LoginRedirect(content) : (currentUser &&
               <div>
                 <header className="jumbotron">
                   <h3>
@@ -49,23 +57,23 @@ export default class Profile extends Component {
                   <strong>Content:</strong>{" "}
                   {content}
                 </p>
-                {/*<p>*/}
-                {/*  <strong>Token:</strong>{" "}*/}
-                {/*  {content.accessToken.substring(0, 20)} ...{" "}*/}
-                {/*  {content.accessToken.substr(content.accessToken.length - 20)}*/}
-                {/*</p>*/}
-                {/*<p>*/}
-                {/*  <strong>Id:</strong>{" "}*/}
-                {/*  {content.id}*/}
-                {/*</p>*/}
+                <p>
+                  <strong>Token:</strong>{" "}
+                  {currentUser.accessToken.substring(0, 20)} ...{" "}
+                  {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
+                </p>
+                <p>
+                  <strong>Id:</strong>{" "}
+                  {currentUser.id}
+                </p>
                 <p>
                   <strong>Email:</strong>{" "}
-                  {content.email}
+                  {currentUser.email}
                 </p>
                 <strong>Authorities:</strong>
                 <ul>
-                  {content.roles &&
-                  content.roles.map((role, index) => <li key={index}>{role}</li>)}
+                  {currentUser.roles &&
+                  currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
                 </ul>
               </div>
           )}
