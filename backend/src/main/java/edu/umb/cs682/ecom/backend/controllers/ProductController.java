@@ -1,39 +1,47 @@
 package edu.umb.cs682.ecom.backend.controllers;
 
 import edu.umb.cs682.ecom.backend.models.Product;
+import edu.umb.cs682.ecom.backend.models.Category;
 import edu.umb.cs682.ecom.backend.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Optional;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
     ProductRepository productRepository;
 
-    @RequestMapping(method=RequestMethod.GET, value="/products")
+    @GetMapping("/all")
     public Iterable<Product> product() {
         return productRepository.findAll();
     }
 
-    @RequestMapping(method=RequestMethod.POST, value="/products")
+    @PostMapping("/all")
     public Product save(@RequestBody Product product) {
         productRepository.save(product);
 
         return product;
     }
 
-    @RequestMapping(method=RequestMethod.GET, value="/products/{id}")
+    @GetMapping("/{id}")
     public Optional<Product> show(@PathVariable String id) {
         return productRepository.findById(id);
     }
 
-    @RequestMapping(method=RequestMethod.PUT, value="/products/{id}")
+    @PutMapping("/{id}")
     public Product update(@PathVariable String id, @RequestBody Product product) {
         Optional<Product> optproduct = productRepository.findById(id);
         Product c = optproduct.get();
@@ -49,7 +57,7 @@ public class ProductController {
         return c;
     }
 
-    @RequestMapping(method=RequestMethod.DELETE, value="/products/{id}")
+    @DeleteMapping("/{id}")
     public String delete(@PathVariable String id) {
         Optional<Product> optproduct = productRepository.findById(id);
         Product product = optproduct.get();

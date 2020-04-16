@@ -8,6 +8,30 @@ James Michaud
 ---
 Boilerplate app based on [this tutorial](https://www.djamware.com/post/5ab6397c80aca714d19d5b9c/building-spring-boot-mongodb-and-reactjs-crud-web-application).  
   
+---
+
+To start, run the following script:  
+
+`bash start_docker_compose`  
+
+This will build the three containers, then start them all using docker daemons (in the background).  If you'd like to watch any of the container output (I do, and recommend you do too), create 3 new terminal tabs, then find the container IDs using  
+
+`docker ps`  
+
+You should see some containers listed. You're interested in the ones with `frontserver`, `backserver`, and `mongo` or `database` in their names. To view the realtime output of a container, type:  
+
+`docker logs -f 5ea1be7f9bf9`, where `5ea1be7f9bf9` is replaced by whatever your containers ID is.
+
+To stop ALL containers in one line:
+
+`docker stop $(docker ps -a -q)`
+
+---
+
+### Old instructions:
+
+---
+
 To start the back end:  
 `backend$ ./gradlew bootRun`
 

@@ -1,0 +1,17 @@
+html, body, #render-target {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: #ccffff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
+}
+
+.abs-right {
+  position: relative;
+  right: 20;
+}

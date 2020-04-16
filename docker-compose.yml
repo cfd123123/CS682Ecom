@@ -1,0 +1,54 @@
+version: '3.7'
+
+# Define services
+services:
+  # Backend service
+  backserver:
+    # Configuration for building the docker image for the backend service
+    build:
+      context: backend # Use an image built from the specified Dockerfile in the `backend` directory.
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: always
+    depends_on:
+      - database # This service depends on database. Start that first.
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
+      - frontend
+
+  # Frontend Service
+  frontserver:
+    build:
+      context: frontend # Use an image built from the specified dockerfile in the `frontend` directory.
+      dockerfile: Dockerfile
+      # this next part was in the sample I found online. It may be necessary later?
+#      args:
+#        REACT_APP_API_BASE_URL: http://localhost:8080
+    ports:
+      - "3000:3000" # Map the exposed port 3000 on the container to port 3000 on the host machine
+    restart: always
+    depends_on:
+      - backserver
+    networks:
+      - frontend
+
+  # Mongo Database
+  database:
+    container_name: database
+    image: mongo
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - backend
+
+# Volumes
+volumes:
+  data:
+
+# Networks to be created to facilitate communication between containers
+networks:
+  backend:
+  frontend:

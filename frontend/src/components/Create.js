@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
@@ -26,46 +25,52 @@ class Create extends Component {
 
     const { name, shortDescription, longDescription, price, quantity } = this.state;
 
-    axios.post('/products', { name, shortDescription, longDescription, price, quantity })
+    axios.post('/products/all', { name, shortDescription, longDescription, price, quantity })
         .then((result) => {
-          this.props.history.push("/")
+          this.props.history.push("/");
+          console.log(result)
         });
   }
 
   render() {
     const { name, shortDescription, longDescription, price, quantity } = this.state;
     return (
-        <div class="container">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
+        <div className="container">
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              <h3 className="panel-title">
                 ADD PRODUCT
               </h3>
             </div>
-            <div class="panel-body">
-              <h4><Link to="/"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Products List</Link></h4>
+            <div className="panel-body">
+              <h4>
+                <Link to="/Home">
+                  {/*<span className="glyphicon glyphicon-th-list" aria-hidden="true"></span>*/}
+                  Products List
+                </Link>
+              </h4>
               <form onSubmit={this.onSubmit}>
-                <div class="form-group">
-                  <label for="isbn">Name:</label>
-                  <input type="text" class="form-control" name="name" value={name} onChange={this.onChange} placeholder="Product Name" />
+                <div className="form-group">
+                  <label htmlFor="isbn">Name:</label>
+                  <input type="text" className="form-control" name="name" value={name} onChange={this.onChange} placeholder="Product Name" />
                 </div>
-                <div class="form-group">
-                  <label for="title">ShortDescription:</label>
-                  <input type="text" class="form-control" name="shortDescription" value={shortDescription} onChange={this.onChange} placeholder="This description appears on the product list" />
+                <div className="form-group">
+                  <label htmlFor="title">ShortDescription:</label>
+                  <input type="text" className="form-control" name="shortDescription" value={shortDescription} onChange={this.onChange} placeholder="This description appears on the product list" />
                 </div>
-                <div class="form-group">
-                  <label for="author">LongDescription:</label>
-                  <input type="text" class="form-control" name="longDescription" value={longDescription} onChange={this.onChange} placeholder="This description appears on the product's page" />
+                <div className="form-group">
+                  <label htmlFor="author">LongDescription:</label>
+                  <input type="text" className="form-control" name="longDescription" value={longDescription} onChange={this.onChange} placeholder="This description appears on the product's page" />
                 </div>
-                <div class="form-group">
-                  <label for="author">Price:</label>
-                  <input type="number" class="form-control" name="price" value={price} onChange={this.onChange} placeholder="Price per item" />
+                <div className="form-group">
+                  <label htmlFor="author">Price:</label>
+                  <input type="number" className="form-control" name="price" value={price} onChange={this.onChange} placeholder="Price per item" />
                 </div>
-                <div class="form-group">
-                  <label for="author">Quantity:</label>
-                  <input type="number" class="form-control" name="quantity" value={quantity} onChange={this.onChange} placeholder="Quantity" />
+                <div className="form-group">
+                  <label htmlFor="author">Quantity:</label>
+                  <input type="number" className="form-control" name="quantity" value={quantity} onChange={this.onChange} placeholder="Quantity" />
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" className="btn btn-default">Submit</button>
               </form>
             </div>
           </div>
