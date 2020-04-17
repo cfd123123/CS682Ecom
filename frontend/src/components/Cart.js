@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import {Button} from "reactstrap";
 
 class Cart extends Component {
 
@@ -31,6 +32,7 @@ class Cart extends Component {
               <table className="table table-stripe">
                 <thead>
                 <tr>
+                  <th>ID</th>
                   <th>Name</th>
                   <th>Description</th>
                   <th>Price</th>
@@ -38,9 +40,20 @@ class Cart extends Component {
                 </tr>
                 </thead>
                 <tbody>
-                {this.state.products.map(c =>
-                    <tr>
-                      
+                {this.state.products.map(product =>
+                    <tr key={`product${product.id}`}>
+                      <td>{product.id}</td>
+                      <td>{product.name}</td>
+                      <td>{product.shortDescription}</td>
+                      <td>{product.price}</td>
+                      <td>{product.quantity}</td>
+                      <td>
+                        <Link to={`/show/${product.id}`}>
+                          <Button variant="outline-info" size="sm">
+                            Edit
+                          </Button>
+                        </Link>
+                      </td>
                     </tr>
                 )}
                 </tbody>

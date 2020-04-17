@@ -26,7 +26,7 @@ public class TestController {
     }
 
     @GetMapping("/mystuff")
-    @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and (hasRole('CUSTOMER') or hasRole('EMPLOYEE') or hasRole('ADMIN'))")
+    @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and hasRole('CUSTOMER')")
     public String customerAccess(@RequestParam(value = "username", required = false) String username) {
 //        System.err.printf("\n\n%s\n\n", username);
         Optional<User> opt = userRepository.findByUsername(username);

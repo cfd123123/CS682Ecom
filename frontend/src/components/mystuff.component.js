@@ -4,6 +4,7 @@ import AuthService from "../services/auth.service";
 import LoginRedirect from "./Login/LoginRedirect";
 
 export default class MyStuff extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -15,27 +16,29 @@ export default class MyStuff extends Component {
   }
 
   componentDidMount() {
+    this._isMounted = true;
     const currentUser = AuthService.getCurrentUser();
     if (currentUser && currentUser.username) {
-      this.setState({
-        currentUser: currentUser
-      });
       UserService.getMyStuff(currentUser.username).then(
           response => {
-            this.setState({
-              content: JSON.stringify(response.data)
-            });
+            if (this._isMounted) {
+              this.setState({
+                currentUser: currentUser,
+                content: JSON.stringify(response.data)
+              });
+            }
           },
           error => {
-            this.setState({
-              requireLogin: true,
-              content:
-                  (error.response &&
-                      error.response.data &&
-                      error.response.data.message) ||
-                  error.message ||
-                  error.toString()
-            });
+            if (this._isMounted) {
+              this.setState({
+                requireLogin: true,
+                content: (error.response &&
+                          error.response.data &&
+                          error.response.data.message) ||
+                    error.message ||
+                    error.toString()
+              });
+            }
           });
     } else {
       this.setState({
@@ -43,6 +46,10 @@ export default class MyStuff extends Component {
         content: "You are not logged in"
       });
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {

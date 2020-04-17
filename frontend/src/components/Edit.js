@@ -7,23 +7,23 @@ class Edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      product: {}
+      product: undefined
     };
   }
 
   componentDidMount() {
     axios.get('/products/'+this.props.match.params.id)
-        .then(res => {
-          this.setState({ product: res.data });
+        .then(response => {
+          this.setState({ product: response.data });
           console.log(this.state.product);
         });
   }
 
-  onChange = (e) => {
-    const state = this.state.product
-    state[e.target.name] = e.target.value;
+  onChange = (event) => {
+    const state = this.state.product;
+    state[event.target.name] = event.target.value;
     this.setState({product:state});
-  }
+  };
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -34,43 +34,52 @@ class Edit extends Component {
         .then((result) => {
           this.props.history.push("/show/"+this.props.match.params.id)
         });
-  }
+  };
 
   render() {
+    const {product} = this.state;
     return (
-        <div class="container">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">
+        <div className="container">
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              <h3 className="panel-title">
                 EDIT Product
               </h3>
             </div>
-            <div class="panel-body">
-              <h4><Link to={`/show/${this.state.product.id}`}><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Product List</Link></h4>
+            {product &&
+            <div className="panel-body">
+              <h4><Link to={`/show/${product.id}`}><span className="glyphicon glyphicon-eye-open"
+                                                         aria-hidden="true"/> Product List</Link></h4>
               <form onSubmit={this.onSubmit}>
-                <div class="form-group">
-                  <label for="name">Name:</label>
-                  <input type="text" class="form-control" name="name" value={this.state.product.name} onChange={this.onChange} placeholder="Name" />
+                <div className="form-group">
+                  <label htmlFor="name">Name:</label>
+                  <input type="text" className="form-control" name="name" value={product.name} onChange={this.onChange}
+                         placeholder="Name"/>
                 </div>
-                <div class="form-group">
-                  <label for="title">ShortDescription:</label>
-                  <input type="text" class="form-control" name="shortDescription" value={this.state.product.shortDescription} onChange={this.onChange} placeholder="ShortDescription" />
+                <div className="form-group">
+                  <label htmlFor="title">ShortDescription:</label>
+                  <input type="text" className="form-control" name="shortDescription" value={product.shortDescription}
+                         onChange={this.onChange} placeholder="ShortDescription"/>
                 </div>
-                <div class="form-group">
-                  <label for="author">LongDescription:</label>
-                  <input type="text" class="form-control" name="longDescription" value={this.state.product.longDescription} onChange={this.onChange} placeholder="LongDescription" />
+                <div className="form-group">
+                  <label htmlFor="author">LongDescription:</label>
+                  <input type="text" className="form-control" name="longDescription" value={product.longDescription}
+                         onChange={this.onChange} placeholder="LongDescription"/>
                 </div>
-                <div class="form-group">
-                  <label for="author">Price:</label>
-                  <input type="text" class="form-control" name="price" value={this.state.product.price} onChange={this.onChange} placeholder="Price" />
+                <div className="form-group">
+                  <label htmlFor="author">Price:</label>
+                  <input type="text" className="form-control" name="price" value={product.price}
+                         onChange={this.onChange} placeholder="Price"/>
                 </div>
-                <div class="form-group">
-                  <label for="author">Quantity:</label>
-                  <input type="text" class="form-control" name="quantity" value={this.state.product.quantity} onChange={this.onChange} placeholder="Quantity" />
+                <div className="form-group">
+                  <label htmlFor="author">Quantity:</label>
+                  <input type="text" className="form-control" name="quantity" value={product.quantity}
+                         onChange={this.onChange} placeholder="Quantity"/>
                 </div>
-                <button type="submit" class="btn btn-default">Update</button>
+                <button type="submit" className="btn btn-default">Update</button>
               </form>
             </div>
+            }
           </div>
         </div>
     );

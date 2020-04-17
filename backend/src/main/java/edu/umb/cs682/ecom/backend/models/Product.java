@@ -17,6 +17,8 @@ public class Product {
     ProductSpecifications specs;
     String image;
     LinkedList<Category> categories;
+    float rating;
+    String manufacturer;
 
 
     public Product() {

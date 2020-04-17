@@ -2,9 +2,9 @@ import React, {Component} from "react";
 import UserService from "../services/user.service";
 import {Link} from "react-router-dom";
 import {Button} from 'reactstrap';
-import queryString from 'query-string';
 
 export default class Home extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -14,36 +14,31 @@ export default class Home extends Component {
     };
   }
 
-  searchContentPara() {
-    queryString.stringify({
-      content: this.state.searchContent
-    });
-  }
-
-  handleKeyPress(event) {
-    if(event.key === 'Enter') {
-      // browserHistory.push(`/Result?${searchContentPara}`)
-    }
-    console.log('1')
-  };
-
-
   componentDidMount() {
+    this._isMounted = true;
     UserService.getPublicContent().then(
         response => {
-          this.setState({
-            products: response.data
-          });
+          if (this._isMounted) {
+            this.setState({
+              products: response.data
+            });
+          }
         },
         error => {
-          this.setState({
-            content:
-                (error.response && error.response.data) ||
-                error.message ||
-                error.toString()
-          });
+          if (this._isMounted) {
+            this.setState({
+              content:
+                  (error.response && error.response.data) ||
+                  error.message ||
+                  error.toString()
+            });
+          }
         }
     );
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
@@ -59,6 +54,7 @@ export default class Home extends Component {
           <table className="table table-stripe">
             <thead>
             <tr>
+              <th>ID</th>
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
@@ -68,6 +64,7 @@ export default class Home extends Component {
             <tbody>
             {this.state.products.map(product =>
                 <tr key={`product${product.id}`}>
+                  <td>{product.id}</td>
                   <td>{product.name}</td>
                   <td>{product.shortDescription}</td>
                   <td>{product.price}</td>

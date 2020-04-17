@@ -13,6 +13,8 @@ import MyStuff from "./components/mystuff.component";
 import Employee from "./components/employee.component";
 import Admin from "./components/admin.component";
 import Cart from './components/Cart';
+import Show from './components/Show';
+import Edit from './components/Edit';
 import Create from './components/Create';
 import HomePage from './components/HomePage';
 import Result from './components/Result';
@@ -134,6 +136,8 @@ class App extends Component {
                 <Route path="/employee" component={Employee} />
                 <Route path="/admin" component={Admin} />
                 <Route path='/cart' component={Cart} />
+                <Route path='/show/:id' component={Show} />
+                <Route path='/edit/:id' component={Edit} />
                 <Route path='/create' component={Create} />
                 <Route path='/Result' component={Result} />
               </Switch>
