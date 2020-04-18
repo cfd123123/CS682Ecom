@@ -1,7 +1,11 @@
 package edu.umb.cs682.ecom.backend.models;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -32,8 +36,7 @@ public class User {
     @DBRef
     private Set<Role> roles = new HashSet<>();
 
-    @DBRef
-    private Set<Product> cart = new HashSet<>();
+    private HashMap<String, Integer> cart = new HashMap<>();
 
     public User() {}
 
@@ -48,31 +51,36 @@ public class User {
     public String getEmail()      { return email; }
     public String getPassword()   { return password; }
     public Set<Role> getRoles()   { return roles; }
-    public Set<Product> getCart() { return cart; }
 
     public void setId(String id)             { this.id = id; }
     public void setUsername(String username) { this.username = username; }
     public void setEmail(String email)       { this.email = email; }
     public void setPassword(String password) { this.password = password; }
     public void setRoles(Set<Role> roles)    { this.roles = roles; }
-    public void setCart(Set<Product> cart)   { this.cart = cart; }
 
-    public String getProfile() {
-        StringBuilder sb = new StringBuilder().append("{\"username\":\"").append(username).append("\",\"email\":\"").append(email).append("\",\"roles\":[");
-        boolean first = true;
-        for (Role role : roles) {
-            if (first && !(first = false)) sb.append("\"");
-            else sb.append(",\"");
-            sb.append(role.getName()).append("\"");
+    public Map<String, Integer> getCart() {
+        if (!cart.isEmpty()) {
+            return cart.entrySet().stream().collect(
+                    Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (k, v) -> v)
+            );
+        } else {
+            return null;
         }
-        sb.append("],\"cart\":[");
-        first = true;
-        for (Product product : cart) {
-            if (first && !(first = false)) sb.append("\"");
-            else sb.append(",\"");
-            sb.append(product.getId()).append("\"");
-        }
-        sb.append("]}");
-        return sb.toString();
+    }
+
+    public void setCart(HashMap<String, Integer> cart) {
+        this.cart = cart;
+    }
+
+    public int removeFromCart(Product product) {
+        return cart.remove(product.getId());
+    }
+
+    public int adjustCart(String productID, int quantity) {
+        int currentQuantity = Objects.requireNonNullElse(cart.get(productID), 0);
+        int newQuantity = currentQuantity + quantity;
+        if (newQuantity > 0) cart.put(productID, newQuantity);
+        else cart.remove(productID);
+        return Math.max(newQuantity, 0);
     }
 }

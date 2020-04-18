@@ -1,80 +1,79 @@
 import React, { Component } from "react";
 import UserService from "../services/user.service";
-import AuthService from "../services/auth.service";
 import LoginRedirect from "./Login/LoginRedirect";
 
 export default class Profile extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
 
     this.state = {
       content: "",
-      currentUser: undefined,
+      username: "",
+      email: "",
+      id: "",
+      cart: undefined,
       requireLogin: false
     };
   }
 
   componentDidMount() {
-    const currentUser = AuthService.getCurrentUser();
-    if (currentUser && currentUser.username) {
-      this.setState({
-        currentUser: currentUser
-      });
-      UserService.getProfile(currentUser.username).then(
-          response => {
+    this._isMounted = true;
+    UserService.getProfile().then(
+        response => {
+          if (this._isMounted) {
             this.setState({
-              content: JSON.stringify(response.data)
+              content: JSON.stringify(response.data),
+              username: response.data.username,
+              email: response.data.email,
+              cart: response.data.cart,
+              id: response.data.id
             });
-          },
-          error => {
+          }
+        },
+        error => {
+          if (this._isMounted) {
             this.setState({
               requireLogin: true,
               content: (error.response && error.response.data &&
                   error.response.data.message) || error.message || error.toString()
             });
           }
-      );
-    } else {
-      this.setState({
-        requireLogin: true,
-        content: "You are not logged in"
-      });
-    }
+        }
+    );
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   render() {
-    const { currentUser, content, requireLogin } = this.state;
+    const { content, username, id, email, cart, requireLogin } = this.state;
+    const cartList = cart ? Object.entries(cart).map(([key,value]) =>
+      Object.entries(value).map(([k,v]) => {
+        return (
+            <div key={k}>{k} : {v.toString()}</div>
+        );
+      })) : [];
     return (
         <div className="container">
-          {requireLogin ? LoginRedirect(content) : (currentUser &&
+          {requireLogin ? LoginRedirect(content) : (cart &&
               <div>
                 <header className="jumbotron">
-                  <h3>
-                    <strong>{content.username}</strong> Profile
-                  </h3>
+                  <h3><strong>{username}</strong>Profile</h3>
                 </header>
-                <p>
-                  <strong>Content:</strong>{" "}
-                  {content}
-                </p>
-                <p>
-                  <strong>Token:</strong>{" "}
-                  {currentUser.accessToken.substring(0, 20)} ...{" "}
-                  {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
-                </p>
-                <p>
-                  <strong>Id:</strong>{" "}
-                  {currentUser.id}
-                </p>
-                <p>
-                  <strong>Email:</strong>{" "}
-                  {currentUser.email}
-                </p>
-                <strong>Authorities:</strong>
-                <ul>
-                  {currentUser.roles &&
-                  currentUser.roles.map((role, index) => <li key={index}>{role}</li>)}
-                </ul>
+                <p><strong>Content:</strong>{" "}{content}</p>
+                <p><strong>ID:</strong>{" "}     {id}</p>
+                <p><strong>Email:</strong>{" "}  {email}</p>
+                <p /><strong>Cart:</strong>{" "} {cartList}
+                {/*{cart.map(item =>*/}
+                {/*{Object.entries(cart).map((entry, counter) =>*/}
+                {/*    entry.map((id, qty) =>*/}
+                {/*        <span key={id}>*/}
+                {/*          {`[id: ${id}, qty: ${qty}] >>> `}*/}
+                {/*        </span>*/}
+                {/*    )*/}
+                {/*)}</p>*/}
               </div>
           )}
         </div>

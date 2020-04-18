@@ -1,26 +1,26 @@
-import React, {Component} from "react";
-import UserService from "../services/user.service";
-import {Link} from "react-router-dom";
-import ProductCard from "./product/ProductCard"
+import React, { Component } from 'react';
+import UserService from "../../services/user.service";
+import ProductCard from "../product/ProductCard";
 
-export default class Home extends Component {
+class Cart extends Component {
   _isMounted = false;
+
   constructor(props) {
     super(props);
-
     this.state = {
       content: "",
-      products: [],
+      products: []
     };
   }
 
   componentDidMount() {
     this._isMounted = true;
-    UserService.getPublicContent().then(
+    UserService.getProfile().then(
         response => {
           if (this._isMounted) {
+            // console.log(response.data);
             this.setState({
-              products: response.data
+              products: response.data.cart
             });
           }
         },
@@ -35,28 +35,24 @@ export default class Home extends Component {
           }
         }
     );
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
+}
 
   render() {
-    const limitedProducts = this.state.products.slice(0, 20).map(product =>
-        <ProductCard key={`${product.id}`} {...product} />
+    const { products } = this.state;
+    const cartList = Object.entries(products).map(([key,value]) =>
+        Object.entries(value).map(([k,v]) => {
+          return (<ProductCard key={k} id={k}/>);
+        })
     );
-
     return (
         <div className="container">
           <header className="jumbotron">
-            <h3>Products</h3>
-              <Link to="/create">
-                Add Product
-              </Link>
+            <h3><strong>CART PRODUCTS LIST</strong></h3>
           </header>
-          {this.state.content}
-          {limitedProducts}
+          {cartList}
         </div>
     );
   }
 }
+
+export default Cart;

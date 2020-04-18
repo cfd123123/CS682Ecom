@@ -32,7 +32,6 @@ public class ProductController {
     @PostMapping("/all")
     public Product save(@RequestBody Product product) {
         productRepository.save(product);
-
         return product;
     }
 
@@ -43,18 +42,18 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public Product update(@PathVariable String id, @RequestBody Product product) {
-        Optional<Product> optproduct = productRepository.findById(id);
-        Product c = optproduct.get();
+        Optional<Product> optProduct = productRepository.findById(id);
+        Product existingProduct = optProduct.orElseThrow();
         if(product.getName() != null)
-            c.setName(product.getName());
+            existingProduct.setName(product.getName());
         if(product.getShortDescription() != null)
-            c.setShortDescription(product.getShortDescription());
+            existingProduct.setShortDescription(product.getShortDescription());
         if(product.getLongDescription() != null)
-            c.setLongDescription(product.getLongDescription());
-        c.setPrice(product.getPrice());
-        c.setQuantity(product.getQuantity());
-        productRepository.save(c);
-        return c;
+            existingProduct.setLongDescription(product.getLongDescription());
+        existingProduct.setPrice(product.getPrice());
+        existingProduct.setQuantity(product.getQuantity());
+        productRepository.save(existingProduct);
+        return existingProduct;
     }
 
     @DeleteMapping("/{id}")
