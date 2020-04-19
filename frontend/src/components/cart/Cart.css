@@ -2,3 +2,46 @@
     margin-top: 200px;
     text-align:center
 }
+
+.cart-header {
+    margin-bottom: -10px;
+}
+
+.cart-white-space-nowrap {
+    white-space: nowrap;
+}
+
+.cart-item {
+    border-bottom: 1px solid #DDD;
+}
+
+.cart-product-image {
+    width: 190px;
+    margin-left: -190px;
+    float: left;
+}
+
+.cart-product-info {
+    padding-left: 0;
+    float: left;
+}
+
+.cart-list .cart-list-item-border {
+    border-bottom: 1px solid #DDD;
+}
+
+.cart-list-header {
+    border-bottom: 1px solid #DDD;
+}
+
+.cart-cart-header.cart-compact-bottom {
+    margin-bottom: -10px;
+}
+
+.cart-list h2 {
+    padding-bottom: 0;
+}
+
+.cart-subtotal, .cart-subtotal-points {
+    text-align: right;
+}
