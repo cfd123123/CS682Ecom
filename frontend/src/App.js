@@ -18,9 +18,11 @@ import Cart        from './components/cart/Cart';
 import Edit        from './components/Edit';
 import Home        from "./components/home.component";
 import Show        from './components/Show';
+import UserService from "./services/user.service";
 
 
 class App extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.logOut = this.logOut.bind(this);
@@ -28,20 +30,45 @@ class App extends Component {
     this.state = {
       showEmployeeContent: false,
       showAdminContent: false,
-      currentUser: undefined
+      productsInCart: [],
+      currentUser: undefined,
+      loggedIn: false
     };
   }
 
   componentDidMount() {
+    this._isMounted = true;
     const user = AuthService.getCurrentUser();
 
     if (user) {
-      this.setState({
-        currentUser: AuthService.getCurrentUser(),
-        showEmployeeContent: user.roles.includes("ROLE_EMPLOYEE"),
-        showAdminContent: user.roles.includes("ROLE_ADMIN")
-      });
+      UserService.getProfile().then(
+          response => {
+            if (this._isMounted) {
+              this.setState({
+                loggedIn: true,
+                currentUser: user,
+                showEmployeeContent: user.roles.includes("ROLE_EMPLOYEE"),
+                showAdminContent: user.roles.includes("ROLE_ADMIN"),
+                productsInCart: response.data.cart
+              });
+            }
+          },
+          error => {
+            if (this._isMounted) {
+              this.setState({
+                content:
+                    (error.response && error.response.data) ||
+                    error.message ||
+                    error.toString()
+              });
+            }
+          }
+      );
     }
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   logOut() {
@@ -49,43 +76,43 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, showEmployeeContent, showAdminContent } = this.state;
+    const { currentUser, showEmployeeContent, showAdminContent, productsInCart } = this.state;
 
     return (
         <Router>
           <div>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
-              <Link to={"/"} className="navbar-brand">
-                Business Name
-              </Link>
+              <Link to={{
+                pathname: '/', state: { currentUser: currentUser }
+              }} className="navbar-brand">Business Name</Link>
               <div className="navbar-nav mr-auto">
                 <li className="nav-item">
-                  <Link to={"/home"} className="nav-link">
-                    Home
-                  </Link>
+                  <Link to={{
+                    pathname: '/home', state: { currentUser: currentUser }
+                  }} className="nav-link">Home</Link>
                 </li>
 
                 {currentUser && (
                     <li className="nav-item">
-                      <Link to={{pathname: '/mystuff', state: { currentUser: currentUser }}} className="nav-link">
-                        My Stuff
-                      </Link>
+                      <Link to={{
+                        pathname: '/mystuff', state: { currentUser: currentUser }
+                      }} className="nav-link">My Stuff</Link>
                     </li>
                 )}
 
                 {showEmployeeContent && (
                     <li className="nav-item">
-                      <Link to={"/employee"} className="nav-link">
-                        Employee Content
-                      </Link>
+                      <Link to={{
+                        pathname: '/employee', state: { currentUser: currentUser }
+                      }} className="nav-link">Employee Content</Link>
                     </li>
                 )}
 
                 {showAdminContent && (
                     <li className="nav-item">
-                      <Link to={"/admin"} className="nav-link">
-                        Admin Content
-                      </Link>
+                      <Link to={{
+                        pathname: '/admin', state: { currentUser: currentUser }
+                      }} className="nav-link">Admin Content</Link>
                     </li>
                 )}
               </div>
@@ -95,11 +122,11 @@ class App extends Component {
 
                 {currentUser ? [
                   <li className="nav-item" key={"profile"}>
-                    <Link to={{pathname: '/profile', state: { currentUser: currentUser }}} className="nav-link">
-                      My Account
-                      {/*{currentUser.username}*/}
-                    </Link>
-                  </li>,
+                    <Link to={{
+                      pathname: '/profile', state: { currentUser: currentUser }
+                    }} className="nav-link">My Account</Link>
+                  </li>
+                  ,
                   <li className="nav-item" key={"logout"}>
                     <a href="/login" className="nav-link" onClick={this.logOut}>
                       LogOut
@@ -107,20 +134,17 @@ class App extends Component {
                   </li>
                 ] : [
                   <li className="nav-item" key={"login"}>
-                    <Link to={"/login"} className="nav-link">
-                      Login
-                    </Link>
-                  </li>,
+                    <Link to={{ pathname: '/login' }} className="nav-link">Login</Link>
+                  </li>
+                  ,
                   <li className="nav-item" key={"register"}>
-                    <Link to={"/register"} className="nav-link">
-                      Sign Up
-                    </Link>
+                    <Link to={{pathname: '/register' }} className="nav-link">Sign Up</Link>
                   </li>
                 ]}
                 <li className="nav-item">
-                  <Link to={"/cart"} className="nav-link">
-                    Cart
-                  </Link>
+                  <Link to={{
+                    pathname: '/cart', state: { currentUser: currentUser, productsInCart: productsInCart }
+                  }} className="nav-link">Cart</Link>
                 </li>
               </div>
             </nav>

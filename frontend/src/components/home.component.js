@@ -9,6 +9,7 @@ export default class Home extends Component {
     super(props);
 
     this.state = {
+      currentUser: undefined,
       content: "",
       products: [],
     };
@@ -16,10 +17,13 @@ export default class Home extends Component {
 
   componentDidMount() {
     this._isMounted = true;
+    const { currentUser } = this.props.location.state;
+
     UserService.getPublicContent().then(
         response => {
           if (this._isMounted) {
             this.setState({
+              currentUser: currentUser,
               products: response.data
             });
           }
@@ -42,8 +46,10 @@ export default class Home extends Component {
   }
 
   render() {
-    const limitedProducts = this.state.products.slice(0, 20).map(product =>
-        <ProductCard key={`${product.id}`} {...product} />
+    const limitedProducts = this.state.products.slice(0, 20).map(product => {
+      console.log(product);
+      return <ProductCard key={`${product.id}`} {...product} />
+    }
     );
 
     return (

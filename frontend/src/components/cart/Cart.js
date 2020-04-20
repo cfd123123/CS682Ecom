@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UserService from "../../services/user.service";
+import ProductService from "../../services/product.service";
 import CartProductRow from "./CartProductRow";
 import "./Cart.css"
 
@@ -9,19 +9,24 @@ class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentUser: undefined,
       content: "",
+      productsInCart: undefined,
       products: []
     };
   }
 
   componentDidMount() {
     this._isMounted = true;
-    UserService.getProfile().then(
+    const { currentUser, productsInCart } = this.props.location.state;
+    const justProducts = Object.entries(productsInCart).map(([id,q]) => id);
+    ProductService.getListOfProducts(justProducts).then(
         response => {
           if (this._isMounted) {
-            console.log(response.data);
             this.setState({
-              products: response.data.cart
+              currentUser: currentUser,
+              productsInCart: productsInCart,
+              products: response.data
             });
           }
         },
@@ -39,10 +44,16 @@ class Cart extends Component {
 }
 
   render() {
-    const { products } = this.state;
-    const cartList = Object.entries(products).map(([productID,quantity]) =>
-          <CartProductRow key={productID} productID={productID} quantity={quantity}/>
+    const { productsInCart, products } = this.state;
+    let total = 0.00;
+    let count = 0;
+    const cartList =products.map(product => {
+      total = total + (product.price * productsInCart[product.id]);
+      count = count + (productsInCart[product.id]);
+      return <CartProductRow key={`${product.id}`} {...product} quantity={productsInCart[product.id]}/>
+    }
     );
+    // console.log(total);
     return (
         <div id="active-cart" className="app-section app-spacing-top-base cart-list">
           <div className="app-row cart-cart-header cart-compact-bottom">
@@ -66,11 +77,11 @@ class Cart extends Component {
             </div>
             <div className="app-row app-spacing-mini cart-subtotal">
               <span id="cart-subtotal-label-activecart" className="app-size-medium cart-number-of-items">
-                Subtotal ({"X"} items):{" "}
+                Subtotal ({count}{" "}items):{" "}
               </span>
               <span id="cart-subtotal-amount-activecart" className="app-color-price cart-price-container app-text-bold">
                 <span className="app-size-medium app-color-price cart-price cart-white-space-nowrap cart-price-sign">
-                  {"$X.XX"}
+                  ${total.toFixed(2)}
                 </span>
               </span>
             </div>

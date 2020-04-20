@@ -2,6 +2,7 @@ package edu.umb.cs682.ecom.backend.controllers;
 
 import edu.umb.cs682.ecom.backend.models.Product;
 import edu.umb.cs682.ecom.backend.models.Category;
+import edu.umb.cs682.ecom.backend.payload.request.ProductListRequest;
 import edu.umb.cs682.ecom.backend.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -33,6 +38,11 @@ public class ProductController {
     public Product save(@RequestBody Product product) {
         productRepository.save(product);
         return product;
+    }
+
+    @PostMapping("/list")
+    public Iterable<Product> listOfProducts(@RequestBody ProductListRequest products) {
+        return productRepository.findByIdIn(products.getProducts());
     }
 
     @GetMapping("/{id}")

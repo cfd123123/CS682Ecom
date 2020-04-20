@@ -1,10 +1,6 @@
 import React from 'react';
-// import {Button} from 'reactstrap';
 import {Link} from 'react-router-dom';
-import UserService from "../../services/user.service";
-import ProductService from "../../services/product.service";
 
-import '../product/ProductRow.css';
 import './../cart/Cart.css'
 import ProductImage from './../img/empty-product-icon.png';
 
@@ -14,70 +10,29 @@ class CartProductRow extends React.Component {
     super(props);
 
     this.state = {
-      productID: this.props.productID,
-      name: '',
-      shortDescription: '',
-      price: undefined,
-      quantity: this.props.quantity,
-      content: "",
-      loaded: false
+      id: this.props.id,
+      name: this.props.name,
+      shortDescription: this.props.shortDescription,
+      price: this.props.price,
+      quantity: this.props.quantity
     };
   }
-  componentDidMount() {
-    this._isMounted = true;
-    ProductService.getSingleProduct(this.state.productID).then(
-        response => {
-          if (this._isMounted) {
-            this.setState({
-              content: JSON.stringify(response.data),
-              name: response.data.name,
-              shortDescription: response.data.shortDescription,
-              price: response.data.price,
-              loaded: true
-            });
-          }
-        },
-        error => {
-          if (this._isMounted) {
-            this.setState({
-              requireLogin: true,
-              content: (error.response && error.response.data &&
-                  error.response.data.message) || error.message || error.toString()
-            });
-          }
-        }
-    );
-  }
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
+
+  componentDidMount()    { this._isMounted = true;  }
+  componentWillUnmount() { this._isMounted = false; }
 
   render() {
-    const {productID, name, price, loaded} = this.state;
-
-    const addToCart = () => {
-      UserService.addToCart(productID, 1).then(
-          response => {
-            console.log(response);
-            alert("Item added to cart: " + response.data);
-          },
-          error => {
-            console.log(error && error.response);
-            alert("error adding to cart: " + error);
-          }
-      )
-    };
+    const {id, name, price, quantity} = this.state;
 
     return (
         <div className="app-row cart-item">
-          {loaded &&
           <div className="app-row cart-list-item cart-list-item-border">
             <div className="app-row app-spacing-base app-spacing-top-base">
               <div className="app-column app-span85">
                 <div className="app-fixed-left-grid">
                   <div className="app-fixed-left-grid-inner" style={{ 'paddingLeft': '190px' }}>
                     <div className="app-fixed-left-grid-col app-float-left cart-product-image app-col-left">
-                      <Link to={`/show/${productID}`}>
+                      <Link to={`/show/${id}`}>
                         <img src={ProductImage} className="center" alt={"missingID"}/>
                       </Link>
                     </div>
@@ -85,14 +40,18 @@ class CartProductRow extends React.Component {
                       <ul className="app-unordered-list app-nostyle app-vertical app-spacing-mini">
                         <li>
                           <span className="app-list-item">
-                            <a href={`/show/${productID}`} className="app-link-normal cart-product-link">
+                            <a href={`/show/${id}`} className="app-link-normal cart-product-link">
                               <span className="app-size-medium cart-product-title">
                                 {name}
                               </span>
                             </a>
                           </span>
                         </li>
-                        {/*<li><span><a><span></span></a></span></li>*/}
+                        <li><span className="app-list-item">
+                          <span>
+                            Quantity: {quantity}
+                          </span>
+                        </span></li>
                       </ul>
                     </div>
                   </div>
@@ -107,7 +66,6 @@ class CartProductRow extends React.Component {
               </div>
             </div>
           </div>
-          }
         </div>
     );
   }

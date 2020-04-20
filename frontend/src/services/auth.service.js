@@ -47,13 +47,7 @@ class AuthService {
   }
 
   getCurrentUser() {
-    // let userInfo = JSON.parse(localStorage.getItem('user'));
-    // return userInfo ? userInfo : JSON.parse("{\"username\":\"anonymous\",\"roles\":[\"ROLE_PUBLIC\"]}");
     return JSON.parse(localStorage.getItem('user'));
-  }
-
-  getCurrentUsername() {
-
   }
 }
 
