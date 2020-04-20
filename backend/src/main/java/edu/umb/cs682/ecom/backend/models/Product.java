@@ -3,7 +3,7 @@ package edu.umb.cs682.ecom.backend.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import edu.umb.cs682.ecom.backend.models.Category;
-import java.util.LinkedList;
+import java.util.List;
 
 @Document(collection = "products")
 public class Product {
@@ -16,18 +16,19 @@ public class Product {
     int quantity;
     ProductSpecifications specs;
     String image;
-    LinkedList<Category> categories;
 
+    List<Category> categories;
 
     public Product() {
     }
 
-    public Product(String name, String shortDescription, String longDescription, float price, int quantity) {
+    public Product(String name, String shortDescription, String longDescription, float price, int quantity, List<Category> categories) {
         this.name = name;
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
         this.price = price;
         this.quantity = quantity;
+        this.categories = categories;
     }
 
     public String getId() { return id; }
@@ -48,5 +49,7 @@ public class Product {
     public int  getQuantity() { return this.quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
 
+    public List<Category>  getCategory() { return this.categories; }
+    public void setCategory(List<Category> categories) { this.categories = categories; }
 
 }
