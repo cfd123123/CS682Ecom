@@ -58,14 +58,12 @@ public class User {
     public void setPassword(String password) { this.password = password; }
     public void setRoles(Set<Role> roles)    { this.roles = roles; }
 
+    public void addRole(Role role) { roles.add(role); }
+
     public Map<String, Integer> getCart() {
-        if (!cart.isEmpty()) {
-            return cart.entrySet().stream().collect(
-                    Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (k, v) -> v)
-            );
-        } else {
-            return null;
-        }
+        return cart.entrySet().stream().collect(
+                Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (k, v) -> v)
+        );
     }
 
     public void setCart(HashMap<String, Integer> cart) {
