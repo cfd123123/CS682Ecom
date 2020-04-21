@@ -2,16 +2,20 @@ package edu.umb.cs682.ecom.backend.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import edu.umb.cs682.ecom.backend.models.Product;
-import java.util.List;
+
+import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
+import java.util.Set;
 
 @Document(collection = "categories")
 public class Category {
     @Id
     String id;
+
+    @NotBlank
     String name;
 
-    List<Product> products;
+    Set<Product> products = new HashSet<>();
 
     public Category(String name) {
         this.name = this.normalizeName(name);
@@ -25,9 +29,14 @@ public class Category {
     public Category() {
     }
 
-    public Category(String name, List<Product> products) {
+    public Category(String name, Set<Product> products) {
       this.name = name;
       this.products = products;
+    }
+
+    public Category addProduct(Product toBeAdded) {
+        products.add(toBeAdded);
+        return this;
     }
 
     public String getId() { return id; }
@@ -36,10 +45,10 @@ public class Category {
     public String getName() { return name; }
     public void   setName(String name) { this.name = name; }
 
-    public void setProducts(List<Product> products){
+    public void setProducts(Set<Product> products){
       this.products = products;
     }
-    public List<Product> getProducts(){
+    public Set<Product> getProducts(){
       return this.products;
     }
 

@@ -146,8 +146,8 @@ do
     done
     cd ..
   fi
-  echo "Waiting 10 seconds"
-  sleep 10s
+  echo "Waiting 5 seconds"
+  sleep 5s
 done
 
 rm -rf updateMirror

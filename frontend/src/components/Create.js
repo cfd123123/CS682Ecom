@@ -15,23 +15,30 @@ class Create extends Component {
       category: ''
     };
   }
-  onChange = (e) => {
+  onChange = (event) => {
     const state = this.state
-    state[e.target.name] = e.target.value;
+    state[event.target.name] = event.target.value;
     this.setState(state);
-  }
+  };
 
-  onSubmit = (e) => {
-    e.preventDefault();
-
+  onSubmit = (event) => {
+    event.preventDefault();
     const { name, shortDescription, longDescription, price, quantity, category } = this.state;
+    const newCategories = category.split(",").map(item => item.trim());
 
-    axios.post('/products/all', { name, shortDescription, longDescription, price, quantity, category })
-        .then((result) => {
+    axios.post('/products/all', {
+      name: name,
+      shortDescription: shortDescription,
+      longDescription: longDescription,
+      price: price,
+      quantity: quantity,
+      categories: newCategories,
+    }).then(
+        result => {
           this.props.history.push("/");
           console.log(result)
         });
-  }
+  };
 
   render() {
     const { name, shortDescription, longDescription, price, quantity, category } = this.state;
@@ -73,7 +80,7 @@ class Create extends Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="author">Category:</label>
-                  <input type="text" className="form-control" name="category" value={category} onChange={this.onChange} placeholder="Category" />
+                  <input type="text[]" className="form-control" name="category" value={category} onChange={this.onChange} placeholder="Category" />
                 </div>
                 <button type="submit" className="btn btn-default">Submit</button>
               </form>
