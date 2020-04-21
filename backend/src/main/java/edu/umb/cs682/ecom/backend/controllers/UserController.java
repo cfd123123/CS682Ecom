@@ -3,6 +3,8 @@ package edu.umb.cs682.ecom.backend.controllers;
 import edu.umb.cs682.ecom.backend.models.Product;
 import edu.umb.cs682.ecom.backend.models.User;
 import edu.umb.cs682.ecom.backend.payload.request.CartRequest;
+import edu.umb.cs682.ecom.backend.payload.request.CheckoutRequest;
+import edu.umb.cs682.ecom.backend.payload.response.CheckoutResponse;
 import edu.umb.cs682.ecom.backend.payload.response.ProfileResponse;
 import edu.umb.cs682.ecom.backend.repositories.ProductRepository;
 import edu.umb.cs682.ecom.backend.repositories.UserRepository;
@@ -65,6 +67,12 @@ public class UserController {
         user.adjustCart(toAddToCart.getId(), request.getQuantity());
         userRepository.save(user);
         return getProfileResponse(request.getUsername());
+    }
+
+    @PostMapping("/profile/checkout")
+    @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and hasRole('CUSTOMER')")
+    public CheckoutResponse checkout(@Valid @RequestBody CheckoutRequest request) {
+        return null;
     }
 
     @GetMapping("/employee")
