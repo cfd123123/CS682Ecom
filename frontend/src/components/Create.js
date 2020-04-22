@@ -12,7 +12,8 @@ class Create extends Component {
       longDescription: '',
       price: '',
       quantity: '',
-      category: ''
+      category: '',
+      categoryList: []
     };
   }
   onChange = (event) => {
@@ -21,10 +22,22 @@ class Create extends Component {
     this.setState(state);
   };
 
+  addCategories = (event) => {
+    const state = this.state;
+    if(event.target.value.substr(-1)===",") {
+      state['categoryList'] = state['categoryList'].concat(event.target.value.replace(",",""));
+      state[event.target.name] = '';
+    }
+
+    else {
+      state[event.target.name] = event.target.value;
+    }
+    this.setState(state);
+  };
+
   onSubmit = (event) => {
     event.preventDefault();
-    const { name, shortDescription, longDescription, price, quantity, category } = this.state;
-    const newCategories = category.split(",").map(item => item.trim());
+    const { name, shortDescription, longDescription, price, quantity, category, categoryList } = this.state;
 
     axios.post('/products/all', {
       name: name,
@@ -32,7 +45,7 @@ class Create extends Component {
       longDescription: longDescription,
       price: price,
       quantity: quantity,
-      categories: newCategories,
+      categories: categoryList,
     }).then(
         result => {
           this.props.history.push("/");
@@ -80,7 +93,7 @@ class Create extends Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="author">Category:</label>
-                  <input type="text[]" className="form-control" name="category" value={category} onChange={this.onChange} placeholder="Category" />
+                  <input type="text[]" className="form-control" name="category" value={category} onChange={this.addCategories} placeholder="Category" />
                 </div>
                 <button type="submit" className="btn btn-default">Submit</button>
               </form>
