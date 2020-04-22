@@ -61,9 +61,10 @@ public class User {
     public void addRole(Role role) { roles.add(role); }
 
     public Map<String, Integer> getCart() {
-        return cart.entrySet().stream().collect(
-                Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (k, v) -> v)
-        );
+        return cart;
+//        return cart.entrySet().stream().collect(
+//                Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (k, v) -> v)
+//        );
     }
 
     public void setCart(HashMap<String, Integer> cart) {

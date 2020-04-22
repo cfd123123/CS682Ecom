@@ -2,6 +2,7 @@ package edu.umb.cs682.ecom.backend.security.services;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -27,13 +28,16 @@ public class UserDetailsImpl implements UserDetails {
 
     private Collection<? extends GrantedAuthority> authorities;
 
+    private Map<String, Integer> cart;
+
     public UserDetailsImpl(String id, String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities) {
+                           Collection<? extends GrantedAuthority> authorities, Map<String, Integer> cart) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.authorities = authorities;
+        this.cart = cart;
     }
 
     public static UserDetailsImpl build(User user) {
@@ -46,7 +50,8 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                authorities);
+                authorities,
+                user.getCart());
     }
 
     @Override
@@ -57,6 +62,8 @@ public class UserDetailsImpl implements UserDetails {
     public String getId() { return id; }
 
     public String getEmail() { return email; }
+
+    public Map<String, Integer> getCart() { return cart; }
 
     @Override
     public String getPassword() { return password; }

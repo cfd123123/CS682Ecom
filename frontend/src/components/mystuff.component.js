@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import UserService from "../services/user.service";
 import LoginRedirect from "./Login/LoginRedirect";
+import {CurrentUserContext} from "../CurrentUserContext";
 
 export default class MyStuff extends Component {
-  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -14,34 +14,25 @@ export default class MyStuff extends Component {
   }
 
   componentDidMount() {
-    this._isMounted = true;
     UserService.getMyStuff().then(
         response => {
-          if (this._isMounted) {
-            this.setState({
-              content: JSON.stringify(response.data)
-            });
-          }},
-        error => {
-          if (this._isMounted) {
-            this.setState({
-              requireLogin: true,
-              content: (error.response &&
-                  error.response.data &&
-                  error.response.data.message) ||
-                  error.message ||
-                  error.toString()
-            });
-          }
+          this.setState({
+            content: JSON.stringify(response.data)
+          });
+        }, error => {
+          this.setState({
+            requireLogin: true,
+            content: (error.response && error.response.data && error.response.data.message) ||
+                error.message || error.toString()
+          });
         }
     );
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
   render() {
+    const {currentUser} = this.context;
+    console.log(currentUser);
+
     const { requireLogin, content } = this.state;
     return (
         <div className="container">
@@ -54,3 +45,4 @@ export default class MyStuff extends Component {
     );
   }
 }
+MyStuff.contextType = CurrentUserContext;

@@ -7,12 +7,12 @@ import AddToCart from "../cart/AddToCart";
 
 import './ProductCard.css';
 import ProductImage from './../img/empty-product-icon.png';
+import {CurrentUserContext} from "../../CurrentUserContext";
 
-class ProductCard extends React.Component {
-  _isMounted = false;
+export default class ProductCard extends React.Component {
   constructor(props) {
     super(props);
-    this.addToCart = this.addToCart.bind(this);
+    this.addToCartStep = this.addToCartStep.bind(this);
 
     this.state = {
       id: this.props.id,
@@ -24,8 +24,9 @@ class ProductCard extends React.Component {
     };
   }
 
-  addToCart(quantity) {
+  addToCartStep(quantity) {
     console.log("Something was added! sending API request");
+    // this.context.addToCart(this.state.id, quantity)
     UserService.addToCart(this.state.id, quantity).then(
         response => {
           console.log(response);
@@ -39,32 +40,24 @@ class ProductCard extends React.Component {
   }
 
   componentDidMount() {
-    this._isMounted = true;
     ProductService.getSingleProduct(this.state.id).then(
         response => {
-          if (this._isMounted) {
-            this.setState({
-              content: JSON.stringify(response.data),
-              name: response.data.name,
-              shortDescription: response.data.shortDescription,
-              price: response.data.price,
-              loaded: true
-            });
-          }
+          this.setState({
+            content: JSON.stringify(response.data),
+            name: response.data.name,
+            shortDescription: response.data.shortDescription,
+            price: response.data.price,
+            loaded: true
+          });
         },
         error => {
-          if (this._isMounted) {
-            this.setState({
-              requireLogin: true,
-              content: (error.response && error.response.data &&
-                  error.response.data.message) || error.message || error.toString()
-            });
-          }
+          this.setState({
+            requireLogin: true,
+            content: (error.response && error.response.data &&
+                error.response.data.message) || error.message || error.toString()
+          });
         }
     );
-  }
-  componentWillUnmount() {
-    this._isMounted = false;
   }
 
   render() {
@@ -84,7 +77,7 @@ class ProductCard extends React.Component {
                 <h1 className="product-price">${price.toFixed(2)}</h1>
               </div>
               <h2 className="product-short-description">{shortDescription}</h2>
-              <AddToCart addToCart={this.addToCart} />
+              <AddToCart addToCart={this.addToCartStep} />
               {/*<Button onClick={addToCart}>Add to cart</Button>*/}
               <Link to={`/show/${id}`}>
                 <Button className='product-action-button' variant="outline-info" size="sm">Edit</Button>
@@ -95,5 +88,4 @@ class ProductCard extends React.Component {
     );
   }
 }
-
-export default ProductCard;
+ProductCard.contextType = CurrentUserContext;

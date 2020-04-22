@@ -2,55 +2,61 @@ import React, { Component } from 'react';
 import ProductService from "../../services/product.service";
 import CartProductRow from "./CartProductRow";
 import "./Cart.css"
+import {CurrentUserContext} from "../../CurrentUserContext";
 
-class Cart extends Component {
-  _isMounted = false;
+export default class Cart extends Component {
 
   constructor(props) {
     super(props);
+    this.getCart = this.getCart.bind(this);
+
     this.state = {
-      currentUser: undefined,
       content: "",
-      productsInCart: undefined,
-      products: []
+      products: undefined
     };
   }
 
   componentDidMount() {
-    this._isMounted = true;
-    const { currentUser, productsInCart } = this.props.location.state;
-    const justProducts = Object.entries(productsInCart).map(([id,q]) => id);
-    ProductService.getListOfProducts(justProducts).then(
-        response => {
-          if (this._isMounted) {
+    this.getCart();
+  }
+
+
+  getCart() {
+    const {currentUser} = this.context;
+    if (currentUser) {
+      const justProducts = Object.entries(currentUser.cart).map(([id, q]) => id);
+      ProductService.getListOfProducts(justProducts).then(
+          response => {
             this.setState({
-              currentUser: currentUser,
-              productsInCart: productsInCart,
               products: response.data
             });
-          }
-        },
-        error => {
-          if (this._isMounted) {
+          },
+          error => {
             this.setState({
-              content:
-                  (error.response && error.response.data) ||
+              content: (error.response && error.response.data) ||
                   error.message ||
                   error.toString()
             });
           }
-        }
-    );
-}
+      );
+    }
+  }
 
   render() {
-    const { productsInCart, products } = this.state;
+    const {currentUser} = this.context;
+    if (!currentUser) { return null; }
+    if (!this.state.products) {
+      this.getCart();
+      return null;
+    }
+
+    const { products } = this.state;
     let total = 0.00;
     let count = 0;
-    const cartList =products.map(product => {
-      total = total + (product.price * productsInCart[product.id]);
-      count = count + (productsInCart[product.id]);
-      return <CartProductRow key={`${product.id}`} {...product} quantity={productsInCart[product.id]}/>
+    const cartList = products.map(product => {
+      total = total + (product.price * currentUser.cart[product.id]);
+      count = count + (currentUser.cart[product.id]);
+      return <CartProductRow key={`${product.id}`} {...product} quantity={currentUser.cart[product.id]}/>
     }
     );
     // console.log(total);
@@ -90,5 +96,4 @@ class Cart extends Component {
     );
   }
 }
-
-export default Cart;
+Cart.contextType = CurrentUserContext;

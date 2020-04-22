@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button} from 'reactstrap';
 
-class AddToCart extends React.Component {
+export default class AddToCart extends React.Component {
   constructor(props) {
     super(props);
 
@@ -32,5 +32,3 @@ class AddToCart extends React.Component {
     );
   }
 }
-
-export default AddToCart;
