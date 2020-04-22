@@ -3,6 +3,7 @@ import {Button} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import UserService from "../../services/user.service";
 import ProductService from "../../services/product.service";
+import AddToCart from "../cart/AddToCart";
 
 import './ProductCard.css';
 import ProductImage from './../img/empty-product-icon.png';
@@ -11,6 +12,7 @@ class ProductCard extends React.Component {
   _isMounted = false;
   constructor(props) {
     super(props);
+    this.addToCart = this.addToCart.bind(this);
 
     this.state = {
       id: this.props.id,
@@ -21,6 +23,21 @@ class ProductCard extends React.Component {
       loaded: false
     };
   }
+
+  addToCart(quantity) {
+    console.log("Something was added! sending API request");
+    UserService.addToCart(this.state.id, quantity).then(
+        response => {
+          console.log(response);
+          alert("Item added to cart: " + response.data);
+        },
+        error => {
+          console.log(error && error.response);
+          alert("error adding to cart: " + error);
+        }
+    )
+  }
+
   componentDidMount() {
     this._isMounted = true;
     ProductService.getSingleProduct(this.state.id).then(
@@ -53,19 +70,6 @@ class ProductCard extends React.Component {
   render() {
     const {id, name, shortDescription, price, loaded} = this.state;
 
-    const addToCart = () => {
-      UserService.addToCart(id, 1).then(
-          response => {
-            console.log(response);
-            alert("Item added to cart: " + response.data);
-          },
-          error => {
-            console.log(error && error.response);
-            alert("error adding to cart: " + error);
-          }
-      )
-    };
-
     return (
         <li className="result">
           {loaded &&
@@ -80,7 +84,8 @@ class ProductCard extends React.Component {
                 <h1 className="product-price">${price.toFixed(2)}</h1>
               </div>
               <h2 className="product-short-description">{shortDescription}</h2>
-              <Button onClick={addToCart}>Add to cart</Button>
+              <AddToCart addToCart={this.addToCart} />
+              {/*<Button onClick={addToCart}>Add to cart</Button>*/}
               <Link to={`/show/${id}`}>
                 <Button className='product-action-button' variant="outline-info" size="sm">Edit</Button>
               </Link>

@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import axios from "axios";
 
 import AuthService from "./services/auth.service";
 import SearchBox   from "./components/Search/SearchBox";
@@ -20,12 +21,14 @@ import Home        from "./components/home.component";
 import Show        from './components/Show';
 import UserService from "./services/user.service";
 
+const CancelToken = axios.CancelToken;
+const source = CancelToken.source();
 
 class App extends Component {
-  _isMounted = false;
   constructor(props) {
     super(props);
     this.logOut = this.logOut.bind(this);
+    this.setup = this.setup.bind(this);
 
     this.state = {
       showEmployeeContent: false,
@@ -36,25 +39,22 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    this._isMounted = true;
+  setup() {
     const user = AuthService.getCurrentUser();
-
     if (user) {
-      UserService.getProfile().then(
+      UserService.getProfile(source).then(
           response => {
-            if (this._isMounted) {
-              this.setState({
-                loggedIn: true,
-                currentUser: user,
-                showEmployeeContent: user.roles.includes("ROLE_EMPLOYEE"),
-                showAdminContent: user.roles.includes("ROLE_ADMIN"),
-                productsInCart: response.data.cart
-              });
-            }
-          },
-          error => {
-            if (this._isMounted) {
+            this.setState({
+              loggedIn: true,
+              currentUser: user,
+              showEmployeeContent: user.roles.includes("ROLE_EMPLOYEE"),
+              showAdminContent: user.roles.includes("ROLE_ADMIN"),
+              productsInCart: response.data.cart
+            })
+          }, error => {
+            if (axios.isCancel(error)) {
+              console.log('Request canceled');
+            } else {
               this.setState({
                 content:
                     (error.response && error.response.data) ||
@@ -63,12 +63,16 @@ class App extends Component {
               });
             }
           }
-      );
+      )
     }
   }
 
+  componentDidMount() {
+    this.setup();
+  }
+
   componentWillUnmount() {
-    this._isMounted = false;
+    source.cancel("App is unmounting");
   }
 
   logOut() {
@@ -77,25 +81,26 @@ class App extends Component {
 
   render() {
     const { currentUser, showEmployeeContent, showAdminContent, productsInCart } = this.state;
-
+    // Return null if there's no current user (temporary) to prevent props from being sent empty.
+    if (!currentUser) { return null; }
     return (
         <Router>
           <div>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
               <Link to={{
-                pathname: '/', state: { currentUser: currentUser }
+                pathname: '/', state: {currentUser: currentUser}
               }} className="navbar-brand">Business Name</Link>
               <div className="navbar-nav mr-auto">
                 <li className="nav-item">
                   <Link to={{
-                    pathname: '/home', state: { currentUser: currentUser }
+                    pathname: '/home', state: {currentUser: currentUser}
                   }} className="nav-link">Home</Link>
                 </li>
 
                 {currentUser && (
                     <li className="nav-item">
                       <Link to={{
-                        pathname: '/mystuff', state: { currentUser: currentUser }
+                        pathname: '/mystuff', state: {currentUser: currentUser}
                       }} className="nav-link">My Stuff</Link>
                     </li>
                 )}
@@ -103,7 +108,7 @@ class App extends Component {
                 {showEmployeeContent && (
                     <li className="nav-item">
                       <Link to={{
-                        pathname: '/employee', state: { currentUser: currentUser }
+                        pathname: '/employee', state: {currentUser: currentUser}
                       }} className="nav-link">Employee Content</Link>
                     </li>
                 )}
@@ -111,19 +116,19 @@ class App extends Component {
                 {showAdminContent && (
                     <li className="nav-item">
                       <Link to={{
-                        pathname: '/admin', state: { currentUser: currentUser }
+                        pathname: '/admin', state: {currentUser: currentUser}
                       }} className="nav-link">Admin Content</Link>
                     </li>
                 )}
               </div>
 
               <div className="navbar-nav ml-auto">
-                <SearchBox />
+                <SearchBox/>
 
                 {currentUser ? [
                   <li className="nav-item" key={"profile"}>
                     <Link to={{
-                      pathname: '/profile', state: { currentUser: currentUser }
+                      pathname: '/profile', state: {currentUser: currentUser}
                     }} className="nav-link">My Account</Link>
                   </li>
                   ,
@@ -134,16 +139,16 @@ class App extends Component {
                   </li>
                 ] : [
                   <li className="nav-item" key={"login"}>
-                    <Link to={{ pathname: '/login' }} className="nav-link">Login</Link>
+                    <Link to={{pathname: '/login'}} className="nav-link">Login</Link>
                   </li>
                   ,
                   <li className="nav-item" key={"register"}>
-                    <Link to={{pathname: '/register' }} className="nav-link">Sign Up</Link>
+                    <Link to={{pathname: '/register'}} className="nav-link">Sign Up</Link>
                   </li>
                 ]}
                 <li className="nav-item">
                   <Link to={{
-                    pathname: '/cart', state: { currentUser: currentUser, productsInCart: productsInCart }
+                    pathname: '/cart', state: {currentUser: currentUser, productsInCart: productsInCart}
                   }} className="nav-link">Cart</Link>
                 </li>
               </div>
@@ -151,19 +156,19 @@ class App extends Component {
 
             <div className="container mt-3">
               <Switch>
-                <Route exact path={["/"]} component={Home} />
-                <Route exact path="/home" component={HomePage} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/profile" component={Profile} />
-                <Route path="/mystuff" component={MyStuff} />
-                <Route path="/employee" component={Employee} />
-                <Route path="/admin" component={Admin} />
-                <Route path='/cart' component={Cart} />
-                <Route path='/show/:id' component={Show} />
-                <Route path='/edit/:id' component={Edit} />
-                <Route path='/create' component={Create} />
-                <Route path='/Result' component={Result} />
+                <Route exact path="/" component={Home}/>
+                <Route exact path="/home" component={HomePage}/>
+                <Route exact path="/login" component={Login}/>
+                <Route exact path="/register" component={Register}/>
+                <Route exact path="/profile" component={Profile}/>
+                <Route path="/mystuff" component={MyStuff}/>
+                <Route path="/employee" component={Employee}/>
+                <Route path="/admin" component={Admin}/>
+                <Route path='/cart' component={Cart}/>
+                <Route path='/show/:id' component={Show}/>
+                <Route path='/edit/:id' component={Edit}/>
+                <Route path='/create' component={Create}/>
+                <Route path='/Result' component={Result}/>
               </Switch>
             </div>
           </div>

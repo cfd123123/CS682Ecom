@@ -18,6 +18,7 @@ export default class Profile extends Component {
   }
 
   componentDidMount() {
+    console.log(this);
     this._isMounted = true;
     UserService.getProfile().then(
         response => {

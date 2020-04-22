@@ -4,7 +4,6 @@ import {Link} from "react-router-dom";
 import ProductCard from "./product/ProductCard"
 
 export default class Home extends Component {
-  _isMounted = false;
   constructor(props) {
     super(props);
 
@@ -16,38 +15,30 @@ export default class Home extends Component {
   }
 
   componentDidMount() {
-    this._isMounted = true;
     const { currentUser } = this.props.location.state;
 
     UserService.getPublicContent().then(
         response => {
-          if (this._isMounted) {
             this.setState({
               currentUser: currentUser,
               products: response.data
             });
-          }
         },
         error => {
-          if (this._isMounted) {
             this.setState({
               content:
                   (error.response && error.response.data) ||
                   error.message ||
                   error.toString()
             });
-          }
         }
     );
   }
 
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
 
   render() {
     const limitedProducts = this.state.products.slice(0, 20).map(product => {
-      console.log(product);
+      // console.log(product);
       return <ProductCard key={`${product.id}`} {...product} />
     }
     );
