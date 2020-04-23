@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import SearchBox from "./components/Search/SearchBox";
+import CategoryHeader from "./components/CategoryHeader/CategoryHeader";
 
 import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
@@ -120,7 +121,9 @@ class App extends Component {
                   </Link>
                 </li>
               </div>
+
             </nav>
+              <CategoryHeader />
 
             <div className="container mt-3">
               <Switch>
