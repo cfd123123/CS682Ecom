@@ -16,6 +16,8 @@ import Cart from './components/Cart';
 import Create from './components/Create';
 import HomePage from './components/HomePage';
 import Result from './components/Result';
+import BackImg from './components/img/back-img.jpg';
+import ShowingItems from './components/ShowingItems'
 
 
 class App extends Component {
@@ -122,7 +124,8 @@ class App extends Component {
               </div>
             </nav>
 
-            <div className="container mt-3">
+            <div className="">
+              {/*<img src={BackImg} className = 'background'/> */}
               <Switch>
                 <Route exact path={["/"]} component={Home} />
                 <Route exact path="/home" component={HomePage} />
@@ -134,6 +137,7 @@ class App extends Component {
                 <Route path="/admin" component={Admin} />
                 <Route path='/cart' component={Cart} />
                 <Route path='/create' component={Create} />
+                <Route path='/showingItems' component={ShowingItems} />
                 <Route path='/Result' component={Result} />
               </Switch>
             </div>
