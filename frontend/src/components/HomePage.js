@@ -2,9 +2,11 @@ import React ,{useState}from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import queryString from 'query-string';
 import SideBar from './SideBar.js';
+//import Recommend from './Recommend.js';
 import './HomePage.css';
 import SidebarIcon from './img/side-bar-icon.png'
 import SearchIcon from './img/search-icon.png';
+import Hydrocal from './img/hydrocal.jpg';
 const HomePage = () => {
     //const [leftSideBar, setLeftSideBar]=useState(false);
     const [searchContent, setSearchContent] =useState('');
@@ -46,7 +48,7 @@ const HomePage = () => {
     }
         
     return (
-        <div className ='container'>
+        <div className =''>
         {/* {
             leftSideBar && (
                 <div className ='homepage__side-bar'></div>
@@ -90,12 +92,49 @@ const HomePage = () => {
                     </li>
                 </ul>
             </div>
-            
+      
             <div className='homepage__content'>
-            </div>                
+            <div className='homepage__items-part'>
+                <Link to='showingItems?category=all'>
+           
+                <div className='homepage__item--cate'>
+                    <span>Explore All Items</span>
+                    <src src='' className=""></src>
+                </div> 
+                 </Link>
+                 <Link to='showingItems?category=all'>
+           
+           <div className='homepage__item--cate'>
+               <span>Lightweight Hydrocal</span>
+               <img src={Hydrocal} className = 'homepage__item1'/>
+               <span> recommended quick-setting product!</span>
+           </div> 
+            </Link>
+            <Link to='showingItems?category=all'>
+           
+           <div className='homepage__item--cate'>
+               <span>Explore category</span>
+           </div> 
+            </Link>
+            <Link to='showingItems?category=all'>
+           
+                <div className='homepage__item--cate'>
+                    <span>Explore All Items</span>
+                </div> 
+                 </Link>
+            </div>
+              {/* <Recommend isHomepage={true}/> */}
+            </div>         
+       
 
             <div className = 'homepage__footer'>
                 <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
+                <div className = 'contact_email'>
+                <span>Fangda.Chi001@umb.edu</span> <br />
+                <span>james.michaud001@umb.edu</span> <br/>
+                <span>zhenrong.liew001@umb.edu</span>
+                </div>
+
             </div>    
         </div>
         </div>
