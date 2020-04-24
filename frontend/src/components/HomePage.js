@@ -27,7 +27,6 @@ const HomePage = () => {
         setLeftSideBar(!leftSideBar);
     };
     */
-    console.log(searchContent)
 
     const toggleSearchContent =(event)=>{
         setSearchContent(event.target.value)
@@ -43,7 +42,6 @@ const HomePage = () => {
         if(event.key === 'Enter'){
             history.push(`/Result?${searchContentPara}`)
         }
-        console.log('1')
     }
 
     return (

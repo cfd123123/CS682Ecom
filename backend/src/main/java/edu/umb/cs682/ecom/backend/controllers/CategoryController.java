@@ -44,4 +44,9 @@ public class CategoryController {
 
         return "";
     }
+
+    @GetMapping("/{name}")
+    public Iterable<Product> getCategoryProducts(@PathVariable String name) {
+        return categoryRepository.findByName(name).getProducts();
+    }
 }
