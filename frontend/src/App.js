@@ -52,8 +52,9 @@ class App extends Component {
     const { currentUser, showEmployeeContent, showAdminContent } = this.state;
 
     return (
+      
         <Router>
-          <div>
+          <div className='global'>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
               <Link to={"/"} className="navbar-brand">
                 Business Name
@@ -89,7 +90,6 @@ class App extends Component {
                     </li>
                 )}
               </div>
-
               <div className="navbar-nav ml-auto">
                 <SearchBox />
 
@@ -123,8 +123,9 @@ class App extends Component {
                 </li>
               </div>
             </nav>
+              
 
-            <div className="">
+            <div className="content">
               {/*<img src={BackImg} className = 'background'/> */}
               <Switch>
                 <Route exact path={["/"]} component={Home} />
@@ -132,7 +133,7 @@ class App extends Component {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/profile" component={Profile} />
-                <Route path="/user" component={Customer} />
+                <Route path="/user" component={Customer} />-
                 <Route path="/employee" component={Employee} />
                 <Route path="/admin" component={Admin} />
                 <Route path='/cart' component={Cart} />
@@ -140,9 +141,17 @@ class App extends Component {
                 <Route path='/showingItems' component={ShowingItems} />
                 <Route path='/Result' component={Result} />
               </Switch>
-            </div>
-          </div>
-        </Router>
+            </div>  
+            <div className = 'homepage__footer'>
+                <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
+                <div className = 'contact_email'>
+                <span>Fangda.Chi001@umb.edu</span> <br />
+                <span>james.michaud001@umb.edu</span> <br/>
+                <span>zhenrong.liew001@umb.edu</span>
+                </div>
+            </div>   
+          </div>                                      
+        </Router>       
     );
   }
 }

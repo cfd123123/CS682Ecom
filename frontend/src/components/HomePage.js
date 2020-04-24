@@ -126,7 +126,7 @@ const HomePage = () => {
               {/* <Recommend isHomepage={true}/> */}
             </div>         
        
-
+                            {/*
             <div className = 'homepage__footer'>
                 <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
                 <div className = 'contact_email'>
@@ -134,8 +134,9 @@ const HomePage = () => {
                 <span>james.michaud001@umb.edu</span> <br/>
                 <span>zhenrong.liew001@umb.edu</span>
                 </div>
-
+                            
             </div>    
+            */}
         </div>
         </div>
     )

@@ -106,25 +106,6 @@ font-size: 18px;
   cursor:pointer;
 }
 
-.homepage__footer{
-  width: 100%;
-  height:100px;   /* footer的高度一定要是固定值*/ 
-  background: #333;
-}
-
-.contact_us{
-  margin-left : 28px;
-}
-
-.contact_email{ 
-float:right;
-margin-top: -33px;
-margin-right: 28px;
-}
-.contact_email span{
-  font-size: 20px;
-  color: white
-}
 
 
 .login__container {
@@ -156,9 +137,6 @@ margin-right: 28px;
 
 .login__container--create {
   font-size: 15px;
-}
-.homepage__content{
-
 }
 
 .homepage__items-part {
