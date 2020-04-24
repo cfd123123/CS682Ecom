@@ -8,7 +8,7 @@ class CategoryResult extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      products: ''
+      products: []
     };
   }
 
@@ -19,9 +19,16 @@ class CategoryResult extends Component {
         });
   }
 
+  getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+  }
+
   render() {
-    const searchParams = new URLSearchParams(this.props.location.search);
-    const content = searchParams.get('content');
+    var content = getUrlVars()["CategoryResult"];
     console.log(content);
 
     return (

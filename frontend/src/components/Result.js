@@ -27,7 +27,7 @@ class Result extends Component {
     const searchParams = new URLSearchParams(this.props.location.search);
     const content = searchParams.get('content');
     const content_insensitive_case = this.setCase(content);
-
+    console.log(content);
     return (
         <div className="container">
           <div className="panel panel-default">
