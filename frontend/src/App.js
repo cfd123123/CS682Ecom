@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import SearchBox from "./components/Search/SearchBox";
 import CategoryHeader from "./components/CategoryHeader/CategoryHeader";
-
 import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
@@ -17,7 +16,7 @@ import Cart from './components/Cart';
 import Create from './components/Create';
 import HomePage from './components/HomePage';
 import Result from './components/Result';
-
+import CategoryResult from './components/CategoryResult'
 
 class App extends Component {
   constructor(props) {
@@ -123,8 +122,9 @@ class App extends Component {
               </div>
 
             </nav>
+            
               <CategoryHeader />
-
+             
             <div className="container mt-3">
               <Switch>
                 <Route exact path={["/"]} component={Home} />
@@ -138,6 +138,7 @@ class App extends Component {
                 <Route path='/cart' component={Cart} />
                 <Route path='/create' component={Create} />
                 <Route path='/Result' component={Result} />
+                <Route path='/categoryResult' component={CategoryResult} />
               </Switch>
             </div>
           </div>

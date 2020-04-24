@@ -15,6 +15,8 @@ export default class Toggle extends React.Component {
 
     return (
       <Button className={buttonClass} onClick={clickHandler} size="sm">
+
+
         {text} <FontAwesomeIcon icon={icon} />
       </Button>
     );
