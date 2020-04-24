@@ -1,25 +1,60 @@
 import React, { Component } from 'react';
-import ProductService from "../../services/product.service";
-import CartProductRow from "./CartProductRow";
-import "./Cart.css"
 import {CurrentUserContext} from "../../CurrentUserContext";
+import "./Cart.css"
+import CartProductList from "./CartProductList";
+import ProductService from "../../services/product.service";
+import ProceedToCheckout from "./ProceedToCheckout";
+import UserService from "../../services/user.service";
+import AuthService from "../../services/auth.service";
 
 export default class Cart extends Component {
 
   constructor(props) {
     super(props);
     this.getCart = this.getCart.bind(this);
+    this.proceedToCheckout = this.proceedToCheckout.bind(this);
+    this.logOut = this.logOut.bind(this);
 
     this.state = {
       content: "",
-      products: undefined
-    };
-  }
+      loggedIn: false,
+      products: undefined,
+      total: undefined,
+      count: undefined,
+    }
+  };
 
   componentDidMount() {
     this.getCart();
   }
+  proceedToCheckout() {
+    const {currentUser} = this.context;
+    const {loggedIn, total} = this.state;
+    if (loggedIn) {
+      console.log(currentUser.cart)
+      UserService.proceedToCheckout(currentUser.cart, total).then(
+          response => {
+            this.props.history.push({
+              pathname: '/checkout',
+              state: { response: response.data },
+            });
+            window.location.reload();
+          },
+          error => {
+            console.log(error);
+          }
+      );
+      // alert("checking out");
+    } else {
+      this.logOut();
+      this.props.history.push("/login");
+        window.location.reload();
+    }
+  }
 
+  logOut() {
+    AuthService.logout();
+  }
 
   getCart() {
     const {currentUser} = this.context;
@@ -27,8 +62,18 @@ export default class Cart extends Component {
       const justProducts = Object.entries(currentUser.cart).map(([id, q]) => id);
       ProductService.getListOfProducts(justProducts).then(
           response => {
+            let total = 0.0;
+            let count = 0;
+            let products = (response.data && response.data.products);
+            products.forEach(product => {
+              total = total + (product.price * currentUser.cart[product.id]);
+              count = count + currentUser.cart[product.id];
+            });
             this.setState({
-              products: response.data
+              loggedIn: (response.data && response.data.loggedIn),
+              products: products,
+              total: total,
+              count: count,
             });
           },
           error => {
@@ -45,53 +90,19 @@ export default class Cart extends Component {
   render() {
     const {currentUser} = this.context;
     if (!currentUser) { return null; }
-    if (!this.state.products) {
+    const {products, total, count, loggedIn} = this.state;
+    if (!products) {
       this.getCart();
       return null;
     }
+    // TODO: Find a way to break an infinite loop if products never gets defined
 
-    const { products } = this.state;
-    let total = 0.00;
-    let count = 0;
-    const cartList = products.map(product => {
-      total = total + (product.price * currentUser.cart[product.id]);
-      count = count + (currentUser.cart[product.id]);
-      return <CartProductRow key={`${product.id}`} {...product} quantity={currentUser.cart[product.id]}/>
-    }
-    );
-    // console.log(total);
     return (
-        <div id="active-cart" className="app-section app-spacing-top-base cart-list">
-          <div className="app-row cart-cart-header cart-compact-bottom">
-            <div className="app-row">
-              <h2>Shopping Cart</h2>
-            </div>
+        <div className="app-fixed-right-grid-inner">
+          <div className="app-fixed-right-grid-col app-col-right" style={{'width': '300px', 'float': 'right'}}>
+            <ProceedToCheckout loggedIn={loggedIn} total={total} count={count} proceedToCheckout={this.proceedToCheckout}/>
           </div>
-          <form id="cartForm">
-            <div className="cart-list-header">
-              <div className="app-row">
-                <div className="app-column app-span85" />
-                  <div className="app-column app-span15 app-text-right app-spacing-top-micro app-span-last">
-                    <span className="app-color-secondary">
-                      Price
-                    </span>
-                  </div>
-              </div>
-            </div>
-            <div className="app-row app-spacing-mini cart-list-body active-items">
-              {cartList}
-            </div>
-            <div className="app-row app-spacing-mini cart-subtotal">
-              <span id="cart-subtotal-label-activecart" className="app-size-medium cart-number-of-items">
-                Subtotal ({count}{" "}items):{" "}
-              </span>
-              <span id="cart-subtotal-amount-activecart" className="app-color-price cart-price-container app-text-bold">
-                <span className="app-size-medium app-color-price cart-price cart-white-space-nowrap cart-price-sign">
-                  ${total.toFixed(2)}
-                </span>
-              </span>
-            </div>
-          </form>
+          <CartProductList {...this.state} />
         </div>
     );
   }

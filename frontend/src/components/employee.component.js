@@ -19,6 +19,7 @@ export default class Employee extends Component {
           });
         },
         error => {
+          console.log(error.response);
           this.setState({
             content:
                 (error.response &&

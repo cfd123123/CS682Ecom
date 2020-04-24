@@ -16,6 +16,7 @@ import Result      from './components/Result';
 import Admin       from "./components/admin.component";
 import Login       from "./components/login.component";
 import Cart        from './components/cart/Cart';
+import Checkout    from './components/cart/Checkout';
 import Edit        from './components/Edit';
 import Home        from "./components/home.component";
 import Show        from './components/Show';
@@ -89,7 +90,7 @@ class App extends Component {
         <CurrentUserContext.Provider value={this.state}>
           <Router>
             <div>
-              <nav className="navbar navbar-expand navbar-dark bg-dark">
+              <nav className="navbar navbar-expand navbar-dark bg-dark" style={{'minWidth':'1150px'}}>
 
                 <Link to={{ pathname: '/' }} className="navbar-brand">Business Name</Link>
 
@@ -160,6 +161,7 @@ class App extends Component {
                   <Route exact path="/employee" component={Employee}/>
                   <Route exact path="/admin" component={Admin}/>
                   <Route exact path='/cart' component={Cart}/>
+                  <Route exact path='/checkout' component={Checkout}/>
                   <Route path='/show/:id' component={Show}/>
                   <Route path='/edit/:id' component={Edit}/>
                   <Route path='/create' component={Create}/>

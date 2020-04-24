@@ -3,8 +3,13 @@ package edu.umb.cs682.ecom.backend.controllers;
 import edu.umb.cs682.ecom.backend.models.Product;
 import edu.umb.cs682.ecom.backend.models.Category;
 import edu.umb.cs682.ecom.backend.payload.request.ProductListRequest;
+import edu.umb.cs682.ecom.backend.payload.response.CartResponse;
 import edu.umb.cs682.ecom.backend.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,8 +46,15 @@ public class ProductController {
     }
 
     @PostMapping("/list")
-    public Iterable<Product> listOfProducts(@RequestBody ProductListRequest products) {
-        return productRepository.findByIdIn(products.getProducts());
+    public CartResponse listOfProducts(@RequestBody ProductListRequest products) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        System.err.printf("\n\nauth: %s\n", auth);
+//        System.err.printf("auth.getPrincipal(): %s\n", auth.getPrincipal());
+//        System.err.printf("auth.getAuthorities(): %s\n\n", auth.getAuthorities());
+//        System.err.printf("auth instanceof AnonymousAuthenticationToken: %s\n\n", auth instanceof AnonymousAuthenticationToken);
+        boolean loggedIn = auth instanceof UsernamePasswordAuthenticationToken;
+
+        return new CartResponse(loggedIn, productRepository.findByIdIn(products.getProducts()));
     }
 
     @GetMapping("/{id}")

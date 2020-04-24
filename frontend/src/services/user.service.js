@@ -33,19 +33,18 @@ class UserService {
     return axios.get(API_URL + 'admin', { headers: authHeader() });
   }
 
-  getProfile(source) {
-    if (source) {
-      return axios.get(API_URL + 'profile', {
-        cancelToken: source.token,
-        headers: authHeader(),
-        params: {username: this.getCurrentUsername()}
-      });
-    } else {
-      return axios.get(API_URL + 'profile', {
-        headers: authHeader(),
-        params: {username: this.getCurrentUsername()}
-      });
-    }
+  proceedToCheckout(cart, total) {
+    // console.log(cart);
+    // alert(cart);
+    const data = {
+      username: this.getCurrentUsername(),
+      products: cart,
+      subtotal: total,
+    };
+    console.log(data);
+    return axios.post(API_URL + 'profile/proceedtocheckout', {
+      ...data
+    }, {headers: authHeader()})
   }
 
   addToCart(productID, quantity) {

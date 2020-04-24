@@ -67,8 +67,8 @@ public class AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication);
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        System.err.printf("\n\nauthentication.getPrincipal(): %s\n", authentication.getPrincipal());
-        System.err.printf("authentication.getPrincipal().getClass(): %s\n\n", authentication.getPrincipal().getClass());
+//        System.err.printf("\n\nauthentication.getPrincipal(): %s\n", authentication.getPrincipal());
+//        System.err.printf("authentication.getPrincipal().getClass(): %s\n\n", authentication.getPrincipal().getClass());
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());

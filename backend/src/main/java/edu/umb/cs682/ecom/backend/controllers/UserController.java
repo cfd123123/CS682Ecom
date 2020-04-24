@@ -1,11 +1,16 @@
 package edu.umb.cs682.ecom.backend.controllers;
 
+import edu.umb.cs682.ecom.backend.models.Order;
+import edu.umb.cs682.ecom.backend.models.PreOrder;
 import edu.umb.cs682.ecom.backend.models.Product;
 import edu.umb.cs682.ecom.backend.models.User;
 import edu.umb.cs682.ecom.backend.payload.request.CartRequest;
+import edu.umb.cs682.ecom.backend.payload.request.CheckoutConfirmRequest;
 import edu.umb.cs682.ecom.backend.payload.request.CheckoutRequest;
+import edu.umb.cs682.ecom.backend.payload.response.CheckoutConfirmResponse;
 import edu.umb.cs682.ecom.backend.payload.response.CheckoutResponse;
 import edu.umb.cs682.ecom.backend.payload.response.ProfileResponse;
+import edu.umb.cs682.ecom.backend.repositories.PreOrderRepository;
 import edu.umb.cs682.ecom.backend.repositories.ProductRepository;
 import edu.umb.cs682.ecom.backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +26,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -34,6 +42,9 @@ public class UserController {
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    PreOrderRepository preOrderRepository;
 
     @GetMapping("/all")
     public String allAccess() {
@@ -73,6 +84,34 @@ public class UserController {
     @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and hasRole('CUSTOMER')")
     public CheckoutResponse checkout(@Valid @RequestBody CheckoutRequest request) {
         return null;
+    }
+
+    @PostMapping("/profile/proceedtocheckout")
+    @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and hasRole('CUSTOMER')")
+    public CheckoutConfirmResponse proceedToCheckout(@Valid @RequestBody CheckoutConfirmRequest request) {
+        String requestUsername = request.getUsername();
+        Map<String, Integer> requestCart = request.getProducts();
+        float requestSubTotal = request.getSubtotal();
+
+        User user = userRepository.findByUsername(requestUsername).orElseThrow();
+
+        List<Product> products = productRepository.findByIdIn(new ArrayList<>(requestCart.keySet()));
+        float subTotal = products.stream()
+                .map(product -> product.getPrice() * requestCart.get(product.getId()))
+                .reduce(0.0f, Float::sum);
+
+        Map<String, Float> taxes = new HashMap<>();
+        taxes.put("Awesome Taxes", (float) (Math.round((subTotal * 0.05f)*100)/100.0));
+        Map<String, Float> shipping = new HashMap<>();
+        shipping.put("Get It There Shipping", 15.99f);
+
+        float total = subTotal
+                + taxes.values().stream().reduce(Float::sum).orElse(0f)
+                + shipping.values().stream().reduce(Float::sum).orElse(0f);
+        Date issued = new Date();
+        Date expire = new Date(new Date().getTime() + 600000);
+        PreOrder preOrder = preOrderRepository.save(new PreOrder(issued, expire, user, requestCart, taxes, shipping, subTotal, total));
+        return new CheckoutConfirmResponse(user.getUsername(), preOrder.getId(), requestCart, products, taxes, shipping, subTotal, total);
     }
 
     @GetMapping("/employee")
