@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import { useHistory } from "react-router-dom";
+import {Link} from 'react-router-dom';
+import useHistory from 'react-router-dom';
 import './CategoryHeader.css';
 
 class CategoryHeader extends React.Component {
@@ -17,14 +18,16 @@ class CategoryHeader extends React.Component {
         .then(res => {
           this.setState({categories: res.data});
         });
-  }
 
+  }
 
   renderCategories() {
     if(this.state.categories !== []) {
-        return (this.state.categories.map((item) => <a key={item.name} href={`/CategoryResult?=${item.name}`}>{item.name}</a>))
+        return (this.state.categories.map((item) => <Link key={item.name} to={`/categoryResult?results=${item.name}`}>{item.name}</Link>))
     }
   }
+
+
 
   render() {
     return (
