@@ -65,4 +65,4 @@ class CategoryResult extends Component {
   }
 }
 
-export default Result;
+export default CategoryResult;

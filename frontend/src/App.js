@@ -20,6 +20,7 @@ import CategoryResult from './components/CategoryResult'
 import BackImg from './components/img/back-img.jpg';
 import ShowingItems from './components/ShowingItems'
 
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -54,7 +55,8 @@ class App extends Component {
     return (
       
         <Router>
-          <div className='global'>
+        <div className='global'>
+          <div className = 'global_header'>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
               <Link to={"/"} className="navbar-brand">
                 Business Name
@@ -123,9 +125,10 @@ class App extends Component {
                 </li>
               </div>
             </nav>
+            <CategoryHeader />
+          </div>  
             
-              <CategoryHeader />
-             
+
             <div className="container mt-3">
               <div className="content">
                 {/*<img src={BackImg} className = 'background'/> */}
@@ -146,14 +149,14 @@ class App extends Component {
                 <Route path='/categoryResult' component={CategoryResult} />
               </Switch>
               </div>  
-              <div className = 'homepage__footer'>
+            </div>  
+                  <div className = 'homepage__footer'>
                   <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
                   <div className = 'contact_email'>
                     <span>Fangda.Chi001@umb.edu</span> <br />
                     <span>james.michaud001@umb.edu</span> <br/>
                     <span>zhenrong.liew001@umb.edu</span>
                   </div>
-              </div>  
             </div>    
           </div>                                      
         </Router>       

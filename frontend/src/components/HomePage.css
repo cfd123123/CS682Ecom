@@ -4,6 +4,7 @@
 
 .homepage__container {
   overflow-x: hidden;
+  width:1386px;
 }
 
 .homepage__header {
@@ -11,6 +12,7 @@
   align-items: center;
   justify-content: space-around;
   background-color: azure;
+  width:100%;
 }
 
 .homepage__left-part {
@@ -48,7 +50,7 @@ font-size: 18px;
 .homepage__right-part li {
   font-size: 20px;
   font-weight: 600;
-  margin-left: 60px;
+  margin-left:70px;
   word-wrap: none;
   word-break: keep-all;
 }

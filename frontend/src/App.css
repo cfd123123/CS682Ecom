@@ -1,53 +1,62 @@
 .global{
-   display:flex;
-   flex-direction: column;
-   min-height: 100vh;
+  display:flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.global_header{
+   flex:1;
+   height: 100px
+}
+.container mt-3{
+  top:10
 }
 .content{
-  flex: 1 
+  
 }
+
 label {
-  display: block;
-  margin-top: 10px;
+ display: block;
+ margin-top: 10px;
 }
 
 .card-container.card {
-  max-width: 350px !important;
-  padding: 40px 40px;
+ max-width: 350px !important;
+ padding: 40px 40px;
 }
 
 .card {
-  background-color: #f7f7f7;
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+ background-color: #f7f7f7;
+ padding: 20px 25px 30px;
+ margin: 0 auto 25px;
+ margin-top: 50px;
+ -moz-border-radius: 2px;
+ -webkit-border-radius: 2px;
+ border-radius: 2px;
+ -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+ -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+ box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
 .profile-img-card {
-  width: 96px;
-  height: 96px;
-  margin: 0 auto 10px;
-  display: block;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
+ width: 96px;
+ height: 96px;
+ margin: 0 auto 10px;
+ display: block;
+ -moz-border-radius: 50%;
+ -webkit-border-radius: 50%;
+ border-radius: 50%;
 }
 
 .homepage__footer{
-  width: 100%;
-  height:100px;   /* footer的高度一定要是固定值*/ 
-  background: #333;
-  align-items:flex-end;
+ flex:0;
+ width: 100%;
+ height:100px;   /* footer的高度一定要是固定值*/ 
+ background: #333;
+ align-items:flex-end;
 }
 
 .contact_us{
-  margin-left : 28px;
+ margin-left : 28px;
 }
 
 .contact_email{ 
@@ -56,8 +65,8 @@ margin-top: -33px;
 margin-right: 28px;
 }
 .contact_email span{
-  font-size: 20px;
-  color: white
+ font-size: 20px;
+ color: white
 }
 
 
