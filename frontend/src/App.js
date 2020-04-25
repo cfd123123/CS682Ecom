@@ -129,7 +129,7 @@ class App extends Component {
           </div>  
             
 
-            <div className="container mt-3">
+            <div className="container__homepage">
               <div className="content">
                 {/*<img src={BackImg} className = 'background'/> */}
 

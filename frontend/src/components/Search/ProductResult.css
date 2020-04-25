@@ -1,7 +1,6 @@
 li.result {
   /*transform: scale(0.75, 0.75);*/
-  width:30%;
-  height:auto;
+  width:20vw;
   display: inline-block;
   background-color: white;
   margin: 16px;

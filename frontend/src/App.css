@@ -3,15 +3,11 @@
   flex-direction: column;
   min-height: 100vh;
 }
-.global_header{
-   flex:1;
-   height: 100px
-}
-.container mt-3{
-  top:10
-}
-.content{
-  
+
+.container__homepage {
+  width: 100%;
+  overflow-x: hidden;
+  flex: 1;
 }
 
 label {
@@ -53,6 +49,7 @@ label {
  height:100px;   /* footer的高度一定要是固定值*/ 
  background: #333;
  align-items:flex-end;
+ right:
 }
 
 .contact_us{
