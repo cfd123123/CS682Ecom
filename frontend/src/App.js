@@ -127,8 +127,8 @@ class App extends Component {
               <CategoryHeader />
              
             <div className="container mt-3">
-            <div className="content">
-              {/*<img src={BackImg} className = 'background'/> */}
+              <div className="content">
+                {/*<img src={BackImg} className = 'background'/> */}
 
               <Switch>
                 <Route exact path={["/"]} component={Home} />
@@ -145,15 +145,16 @@ class App extends Component {
                 <Route path='/Result' component={Result} />
                 <Route path='/categoryResult' component={CategoryResult} />
               </Switch>
-            </div>  
-            <div className = 'homepage__footer'>
-                <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
-                <div className = 'contact_email'>
-                <span>Fangda.Chi001@umb.edu</span> <br />
-                <span>james.michaud001@umb.edu</span> <br/>
-                <span>zhenrong.liew001@umb.edu</span>
-                </div>
-            </div>   
+              </div>  
+              <div className = 'homepage__footer'>
+                  <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
+                  <div className = 'contact_email'>
+                    <span>Fangda.Chi001@umb.edu</span> <br />
+                    <span>james.michaud001@umb.edu</span> <br/>
+                    <span>zhenrong.liew001@umb.edu</span>
+                  </div>
+              </div>  
+            </div>    
           </div>                                      
         </Router>       
     );

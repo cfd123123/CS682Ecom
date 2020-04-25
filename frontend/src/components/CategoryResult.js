@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SearchFunctionality from './Search/SearchFunctionality';
+import ProductResult from './Search/ProductResult'
 
 class CategoryResult extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      products: []
+      products: null
     };
   }
 
@@ -19,15 +20,24 @@ class CategoryResult extends Component {
         });
   }
 
-  setCase(content) {
-    return content ? content.toLowerCase() : "";
-  }
+ 
 
   render() {
     const searchParams = new URLSearchParams(this.props.location.search);
-    const content = searchParams.get('content');
-    const content_insensitive_case = this.setCase(content);
-    console.log(content);
+    const resultsPara = searchParams.get('results');
+
+    if(!this.state.products)
+    {
+      return <div/>
+    }
+
+    console.log(this.state.products)
+
+    let result =()=> {
+      return (
+        this.state.products.filter((cate)=> cate.name ===resultsPara )
+      )   
+    }
     return (
         <div className="container">
           <div className="panel panel-default">
@@ -37,9 +47,17 @@ class CategoryResult extends Component {
               <h6 align="left"><Link to="/"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Home</Link></h6>
               <h6 align="right"><Link to="/create"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Add Product</Link></h6>
               <h5 className="panel-title" >
-                Search results {content && `for "${content}"`}
+                Category results {resultsPara && `for "${resultsPara}"`}
               </h5>
-              <SearchFunctionality products={this.state.products} content={content_insensitive_case} category={false}/>
+
+            {
+              result()[0].products.map((items)=>{
+                  return <ProductResult id={items.id} name={items.name} shortDescription={items.shortDescription} price={items.price} />     
+              })
+            }
+          
+
+
             </div>
           </div>
         </div>

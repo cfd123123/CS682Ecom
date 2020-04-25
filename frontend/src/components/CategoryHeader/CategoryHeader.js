@@ -39,3 +39,4 @@ class CategoryHeader extends React.Component {
 }
 
 export default CategoryHeader;
+
