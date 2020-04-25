@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-// import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-class App extends Component {
+class Cart extends Component {
 
   constructor(props) {
     super(props);
@@ -13,7 +12,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('/products')
+    axios.get('/products/all')
         .then(res => {
           this.setState({ products: res.data });
           console.log(this.state.products);
@@ -22,14 +21,14 @@ class App extends Component {
 
   render() {
     return (
-        <div class="container">
-          <div class="panel panel-default">
-            <div class="panel-body">
-              <h6 align="right"><Link to="/create"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Add Product</Link></h6>
-              <h5 class="panel-title" >
+        <div className="container">
+          <div className="panel panel-default">
+            <div className="panel-body">
+              <h6 align="right"><Link to="/create"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Add Product</Link></h6>
+              <h5 className="panel-title" >
                 CART PRODUCTS LIST 
               </h5>
-              <table class="table table-stripe">
+              <table className="table table-stripe">
                 <thead>
                 <tr>
                   <th>Name</th>
@@ -53,4 +52,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Cart;

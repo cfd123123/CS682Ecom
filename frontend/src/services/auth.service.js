@@ -13,12 +13,21 @@ class AuthService {
           if (response.data.accessToken) {
             localStorage.setItem("user", JSON.stringify(response.data));
           }
-
           return response.data;
         });
   }
 
   logout() {
+    axios
+        .post(API_URL + "signout", JSON.parse(localStorage.getItem('user'))).then(
+            response => {
+              console.log(response);
+              },
+            error => {
+              if (error && error.response) {
+                console.log(error.response);
+              }
+            });
     localStorage.removeItem("user");
   }
 
@@ -31,7 +40,9 @@ class AuthService {
   }
 
   getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));;
+    // let userInfo = JSON.parse(localStorage.getItem('user'));
+    // return userInfo ? userInfo : JSON.parse("{\"username\":\"anonymous\",\"roles\":[\"ROLE_PUBLIC\"]}");
+    return JSON.parse(localStorage.getItem('user'));
   }
 }
 

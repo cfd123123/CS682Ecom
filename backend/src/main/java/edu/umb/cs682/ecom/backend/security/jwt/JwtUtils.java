@@ -1,5 +1,6 @@
 package edu.umb.cs682.ecom.backend.security.jwt;
 
+import edu.umb.cs682.ecom.backend.models.Token;
 import edu.umb.cs682.ecom.backend.security.services.UserDetailsImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -14,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Random;
 
 @Component
 public class JwtUtils {
@@ -33,8 +35,25 @@ public class JwtUtils {
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setId(userPrincipal.getId() +"lll"+ new Date().toString() +"lll"+ new Random().nextInt())
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
+    }
+
+    public String getIdFromJwtToken(String token) {
+        try {
+            return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getId();
+        } catch (ExpiredJwtException e) {
+            return e.getClaims().getId();
+        }
+    }
+
+    public Token makeTokenFromJwtString(String token) {
+        return new Token(
+                Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getId(),
+                Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getIssuedAt(),
+                Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getExpiration()
+        );
     }
 
     public String getUserNameFromJwtToken(String token) {
@@ -51,12 +70,12 @@ public class JwtUtils {
             logger.error("Invalid JWT token: {}", e.getMessage());
         } catch (ExpiredJwtException e) {
             logger.error("JWT token is expired: {}", e.getMessage());
+            throw e;
         } catch (UnsupportedJwtException e) {
             logger.error("JWT token is unsupported: {}", e.getMessage());
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
-
         return false;
     }
 }
