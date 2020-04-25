@@ -12,7 +12,7 @@ export default class Admin extends Component {
   }
 
   componentDidMount() {
-    UserService.getAdminHomepage().then(
+    UserService.getAdminContent().then(
         response => {
           this.setState({
             content: response.data

@@ -12,7 +12,7 @@ export default class Employee extends Component {
   }
 
   componentDidMount() {
-    UserService.getEmployeeHomepage().then(
+    UserService.getEmployeeContent().then(
         response => {
           this.setState({
             content: response.data

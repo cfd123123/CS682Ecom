@@ -4,22 +4,23 @@ import queryString from 'query-string';
 import SideBar from './SideBar.js';
 //import Recommend from './Recommend.js';
 import './HomePage.css';
-import SidebarIcon from './img/side-bar-icon.png'
+// import SidebarIcon from './img/side-bar-icon.png'
 import SearchIcon from './img/search-icon.png';
 import Hydrocal from './img/hydrocal.jpg';
 
 const HomePage = () => {
-    //const [leftSideBar, setLeftSideBar]=useState(false);
-    const [searchContent, setSearchContent] =useState('');
-    const [toggleLogin,setToggleLogin] = useState(false);
-    const history = useHistory();
+  //const [leftSideBar, setLeftSideBar]=useState(false);
+  const [searchContent, setSearchContent] =useState('');
+  const [toggleLogin,setToggleLogin] = useState(false);
+  const history = useHistory();
 
-    const accountLogin = () =>{
-        setToggleLogin(!toggleLogin);
-    }
+  const accountLogin = () =>{
+    setToggleLogin(!toggleLogin);
+  }
 
-    const signIn = ()=>{
+  const signIn = ()=>{
     sessionStorage.getItem('username') && sessionStorage.getItem('password') ? alert('already login') : history.push('/login')
+
     };
     const cartCheck = () =>{
         history.push('/cart')
@@ -30,15 +31,17 @@ const HomePage = () => {
     };
     */
 
-    const toggleSearchContent =(event)=>{
-        setSearchContent(event.target.value)
-    };
 
-    const searchContentPara = queryString.stringify(
-        {
-            content: searchContent
-        }
-    )
+  const toggleSearchContent =(event)=>{
+    setSearchContent(event.target.value)
+  };
+
+  const searchContentPara = queryString.stringify(
+      {
+        content: searchContent
+      }
+  )
+
 
     const handleKeyPress = (event) =>{
         if(event.key === 'Enter'){
@@ -48,6 +51,7 @@ const HomePage = () => {
 
     return (
         <div className =''>
+
         {/* {
             leftSideBar && (
                 <div className ='homepage__side-bar'></div>
@@ -100,8 +104,8 @@ const HomePage = () => {
             </div>    
             */}
         </div>
-        </div>
-    )
+      </div>
+  )
 }
 
 export default HomePage
