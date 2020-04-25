@@ -31,14 +31,15 @@ export default class Cart extends Component {
     const {currentUser} = this.context;
     const {loggedIn, total} = this.state;
     if (loggedIn) {
-      console.log(currentUser.cart)
+      // alert("Proceeding to checkout");
+      // console.log(currentUser.cart);
       UserService.proceedToCheckout(currentUser.cart, total).then(
           response => {
             this.props.history.push({
               pathname: '/checkout',
               state: { response: response.data },
             });
-            window.location.reload();
+            // window.location.reload();
           },
           error => {
             console.log(error);

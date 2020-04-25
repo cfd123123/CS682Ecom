@@ -33,6 +33,10 @@ public class Order {
         this.total = total;
     }
 
+    public Order(@NotBlank PreOrder preOrder) {
+        this(preOrder.getUser(), preOrder.getProducts(), preOrder.getTaxes(), preOrder.getShipping(), preOrder.getSubtotal(), preOrder.getTotal());
+    }
+
     public String getId()                     { return id; }
     public User getUser()                     { return user; }
     public Map<String, Integer> getProducts() { return products; }

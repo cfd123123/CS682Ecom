@@ -325,8 +325,10 @@ p {
 }
 
 .app-button-primary {
-  background: #f0c14b;
-  border-color: #a88734 #9c7e31 #846a29;
+  /*background: #f0c14b;*/
+  /*border-color: #a88734 #9c7e31 #846a29;*/
+  background: #6f79f0;
+  border-color: #7487a8 #4f669c #4d5184;
   color: #111;
 }
 
@@ -346,9 +348,12 @@ p {
 }
 
 .app-button-primary .app-button-inner {
-  background: #f4d078;
-  background: -webkit-linear-gradient(top,#f7dfa5,#f0c14b);
-  background: linear-gradient(to bottom,#f7dfa5,#f0c14b);
+  /*background: #f4d078;*/
+  /*background: -webkit-linear-gradient(top,#f7dfa5,#f0c14b);*/
+  /*background: linear-gradient(to bottom,#f7dfa5,#f0c14b);*/
+  background: #b4c2f4;
+  background: -webkit-linear-gradient(top, #c7cef7, #7985f0);
+  background: linear-gradient(to bottom,#c7cef7,#7985f0);
 }
 
 .app-button-primary .app-button-inner {

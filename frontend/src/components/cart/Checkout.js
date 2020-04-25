@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import CheckoutProductRow from "./CheckoutProductRow";
 import PlaceOrderRow from "./PlaceOrderRow";
 import PlaceOrderColumn from "./PlaceOrderColumn";
+import UserService from "../../services/user.service";
 
 export default class Checkout extends Component {
   constructor(props) {
     super(props);
+    this.placeOrder = this.placeOrder.bind(this);
     this.state = {
       ...this.props.location.state.response,
     }
@@ -15,12 +17,25 @@ export default class Checkout extends Component {
     console.log(this.state);
   }
 
+  placeOrder() {
+    const {preOrder} = this.state;
+    UserService.placeOrder(preOrder).then(
+        response => {
+          console.log(response);
+        },
+        error => {
+          console.log(error);
+        }
+    )
+  }
+
 
   render() {
-    const {cart, products, shipping, taxes, subtotal, total} = this.state;
+    const {cart, products, shippingCost, taxCost, subtotal, total, itemCount} = this.state;
     const productList = products.map(product => {
       return (<CheckoutProductRow key={product.id} {...product} cart={cart} />)
     });
+
     return (
         <div className="app-container app-page-container">
           <div className="app-fixed-right-grid">
@@ -31,12 +46,12 @@ export default class Checkout extends Component {
                     {productList}
                   </div>
                   <div className="app-box-inner">
-                    <PlaceOrderRow total={total}/>
+                    <PlaceOrderRow total={total}placeOrder={this.placeOrder}/>
                   </div>
                 </div>
               </div>
               <div className="app-fixed-right-grid-col app-col-right" style={{'width':'290px','marginRight':'-290px','float':'left'}}>
-                <PlaceOrderColumn />
+                <PlaceOrderColumn placeOrder={this.placeOrder} total={total} itemCount={itemCount} shippingCost={shippingCost} subTotal={subtotal} taxCost={taxCost} />
               </div>
             </div>
           </div>

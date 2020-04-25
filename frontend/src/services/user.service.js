@@ -33,6 +33,17 @@ class UserService {
     return axios.get(API_URL + 'admin', { headers: authHeader() });
   }
 
+  placeOrder(orderID) {
+    const data = {
+      username: this.getCurrentUsername(),
+      preOrderId: orderID,
+    };
+    console.log(data);
+    return axios.post(API_URL + 'profile/placeorder', {
+      ...data
+    }, {headers: authHeader()})
+  }
+
   proceedToCheckout(cart, total) {
     // console.log(cart);
     // alert(cart);

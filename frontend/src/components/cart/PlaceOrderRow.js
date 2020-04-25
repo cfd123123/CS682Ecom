@@ -17,6 +17,7 @@ export default class PlaceOrderRow extends Component {
           <div className="app-section app-inline-container-left">
             <span id="cart-place-order-button" className="app-button  app-place-order-button-height app-button-primary">
               <span className="app-button-inner">
+                <input name="placeOrder" className="app-button-input" type="button" onClick={placeOrder} />
                 <span className="app-button-text">
                   <span className="app-place-order-button-height">
                     Place your order

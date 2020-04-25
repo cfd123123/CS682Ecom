@@ -6,17 +6,16 @@ import edu.umb.cs682.ecom.backend.models.Product;
 import edu.umb.cs682.ecom.backend.models.User;
 import edu.umb.cs682.ecom.backend.payload.request.CartRequest;
 import edu.umb.cs682.ecom.backend.payload.request.CheckoutConfirmRequest;
-import edu.umb.cs682.ecom.backend.payload.request.CheckoutRequest;
+import edu.umb.cs682.ecom.backend.payload.request.PlaceOrderRequest;
 import edu.umb.cs682.ecom.backend.payload.response.CheckoutConfirmResponse;
 import edu.umb.cs682.ecom.backend.payload.response.CheckoutResponse;
 import edu.umb.cs682.ecom.backend.payload.response.ProfileResponse;
+import edu.umb.cs682.ecom.backend.repositories.OrderRepository;
 import edu.umb.cs682.ecom.backend.repositories.PreOrderRepository;
 import edu.umb.cs682.ecom.backend.repositories.ProductRepository;
 import edu.umb.cs682.ecom.backend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +44,9 @@ public class UserController {
 
     @Autowired
     PreOrderRepository preOrderRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     @GetMapping("/all")
     public String allAccess() {
@@ -80,10 +82,14 @@ public class UserController {
         return getProfileResponse(request.getUsername());
     }
 
-    @PostMapping("/profile/checkout")
+    @PostMapping("/profile/placeorder")
     @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and hasRole('CUSTOMER')")
-    public CheckoutResponse checkout(@Valid @RequestBody CheckoutRequest request) {
-        return null;
+    public Order checkout(@Valid @RequestBody PlaceOrderRequest request) {
+        String requestUsername = request.getUsername();
+        String preOrderId = request.getPreOrderId();
+        PreOrder preOrder = preOrderRepository.findById(preOrderId).orElseThrow();
+        Order order = new Order(preOrder);
+        return orderRepository.save(order);
     }
 
     @PostMapping("/profile/proceedtocheckout")
@@ -99,19 +105,23 @@ public class UserController {
         float subTotal = products.stream()
                 .map(product -> product.getPrice() * requestCart.get(product.getId()))
                 .reduce(0.0f, Float::sum);
-
+        if (requestSubTotal != subTotal) {
+            throw new RuntimeException("Checkout subtotal doesn't match calculated subtotal");
+        }
         Map<String, Float> taxes = new HashMap<>();
         taxes.put("Awesome Taxes", (float) (Math.round((subTotal * 0.05f)*100)/100.0));
         Map<String, Float> shipping = new HashMap<>();
         shipping.put("Get It There Shipping", 15.99f);
 
-        float total = subTotal
-                + taxes.values().stream().reduce(Float::sum).orElse(0f)
-                + shipping.values().stream().reduce(Float::sum).orElse(0f);
+        float shippingCost = shipping.values().stream().reduce(Float::sum).orElse(0f);
+        float taxCost = taxes.values().stream().reduce(Float::sum).orElse(0f);
+        int itemCount = requestCart.values().stream().reduce(Integer::sum).orElse(0);
+
+        float total = subTotal + shippingCost + taxCost;
         Date issued = new Date();
         Date expire = new Date(new Date().getTime() + 600000);
         PreOrder preOrder = preOrderRepository.save(new PreOrder(issued, expire, user, requestCart, taxes, shipping, subTotal, total));
-        return new CheckoutConfirmResponse(user.getUsername(), preOrder.getId(), requestCart, products, taxes, shipping, subTotal, total);
+        return new CheckoutConfirmResponse(user.getUsername(), preOrder.getId(), requestCart, products, taxes, shipping, itemCount, subTotal, shippingCost, taxCost, total);
     }
 
     @GetMapping("/employee")
