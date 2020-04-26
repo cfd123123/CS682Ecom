@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-
 import UserService from "../services/user.service";
+import {CurrentUserContext} from "../CurrentUserContext";
 
 export default class Admin extends Component {
   constructor(props) {
@@ -32,6 +32,8 @@ export default class Admin extends Component {
   }
 
   render() {
+    // const {currentUser} = this.context;
+    // console.log(currentUser);
     return (
         <div className="container">
           <header className="jumbotron">
@@ -41,3 +43,4 @@ export default class Admin extends Component {
     );
   }
 }
+Admin.contextType = CurrentUserContext;

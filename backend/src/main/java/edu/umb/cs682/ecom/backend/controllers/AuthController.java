@@ -1,18 +1,14 @@
 package edu.umb.cs682.ecom.backend.controllers;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import edu.umb.cs682.ecom.backend.models.ERole;
 import edu.umb.cs682.ecom.backend.models.Role;
-import edu.umb.cs682.ecom.backend.models.Token;
 import edu.umb.cs682.ecom.backend.models.User;
 import edu.umb.cs682.ecom.backend.payload.request.LoginRequest;
-import edu.umb.cs682.ecom.backend.payload.request.LogoutRequest;
 import edu.umb.cs682.ecom.backend.payload.request.SignupRequest;
 import edu.umb.cs682.ecom.backend.payload.response.JwtResponse;
 import edu.umb.cs682.ecom.backend.payload.response.MessageResponse;
@@ -58,25 +54,18 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(item -> item.getAuthority())
-                .collect(Collectors.toList());
-
         tokenWhitelist.save(jwtUtils.makeTokenFromJwtString(jwt));
 
-        return ResponseEntity.ok(new JwtResponse(jwt,
-                userDetails.getId(),
-                userDetails.getUsername(),
-                userDetails.getEmail(),
-                roles));
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername()).orElseThrow();
+
+        return ResponseEntity.ok(new JwtResponse(jwt, user));
     }
 
     @PostMapping("/signout")
