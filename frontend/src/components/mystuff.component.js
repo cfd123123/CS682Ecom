@@ -30,8 +30,7 @@ export default class MyStuff extends Component {
   }
 
   render() {
-    const {currentUser} = this.context;
-    console.log(currentUser);
+    // const {currentUser} = this.context;
 
     const { requireLogin, content } = this.state;
     return (

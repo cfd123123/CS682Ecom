@@ -5,10 +5,10 @@ import edu.umb.cs682.ecom.backend.models.PreOrder;
 import edu.umb.cs682.ecom.backend.models.Product;
 import edu.umb.cs682.ecom.backend.models.User;
 import edu.umb.cs682.ecom.backend.payload.request.CartRequest;
-import edu.umb.cs682.ecom.backend.payload.request.CheckoutConfirmRequest;
+import edu.umb.cs682.ecom.backend.payload.request.CheckoutRequest;
 import edu.umb.cs682.ecom.backend.payload.request.PlaceOrderRequest;
-import edu.umb.cs682.ecom.backend.payload.response.CheckoutConfirmResponse;
 import edu.umb.cs682.ecom.backend.payload.response.CheckoutResponse;
+import edu.umb.cs682.ecom.backend.payload.response.PlaceOrderResponse;
 import edu.umb.cs682.ecom.backend.payload.response.ProfileResponse;
 import edu.umb.cs682.ecom.backend.repositories.OrderRepository;
 import edu.umb.cs682.ecom.backend.repositories.PreOrderRepository;
@@ -66,9 +66,9 @@ public class UserController {
     }
 
     private ProfileResponse getProfileResponse(String username) {
-        Optional<User> opt = userRepository.findByUsername(username);
-        User user = opt.orElseThrow();
-        return new ProfileResponse(user.getId(), user.getUsername(), user.getEmail(), user.getCart());
+        User user = userRepository.findByUsername(username).orElseThrow();
+        return new ProfileResponse(user);
+//        return new ProfileResponse(user.getId(), user.getUsername(), user.getEmail(), user.getCart());
     }
 
     @PostMapping("/profile/cart")
@@ -84,17 +84,25 @@ public class UserController {
 
     @PostMapping("/profile/placeorder")
     @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and hasRole('CUSTOMER')")
-    public Order checkout(@Valid @RequestBody PlaceOrderRequest request) {
-        String requestUsername = request.getUsername();
-        String preOrderId = request.getPreOrderId();
-        PreOrder preOrder = preOrderRepository.findById(preOrderId).orElseThrow();
-        Order order = new Order(preOrder);
-        return orderRepository.save(order);
+    public PlaceOrderResponse checkout(@Valid @RequestBody PlaceOrderRequest request) {
+        User requestUser = userRepository.findByUsername(request.getUsername()).orElseThrow();
+        PreOrder preOrder = preOrderRepository.findById(request.getPreOrderId()).orElseThrow();
+
+        if (!requestUser.equals(preOrder.getUser())) {
+            throw new RuntimeException("PlaceOrder user doesn't match PreOrder user.");
+        }
+
+        Order order = orderRepository.save(new Order(preOrder));
+        requestUser.addOrder(order);
+        requestUser.setCart(new HashMap<>());
+        requestUser = userRepository.save(requestUser);
+        preOrderRepository.delete(preOrder);
+        return new PlaceOrderResponse(order, requestUser);
     }
 
-    @PostMapping("/profile/proceedtocheckout")
+    @PostMapping("/profile/checkout")
     @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and hasRole('CUSTOMER')")
-    public CheckoutConfirmResponse proceedToCheckout(@Valid @RequestBody CheckoutConfirmRequest request) {
+    public CheckoutResponse proceedToCheckout(@Valid @RequestBody CheckoutRequest request) {
         String requestUsername = request.getUsername();
         Map<String, Integer> requestCart = request.getProducts();
         float requestSubTotal = request.getSubtotal();
@@ -121,7 +129,7 @@ public class UserController {
         Date issued = new Date();
         Date expire = new Date(new Date().getTime() + 600000);
         PreOrder preOrder = preOrderRepository.save(new PreOrder(issued, expire, user, requestCart, taxes, shipping, subTotal, total));
-        return new CheckoutConfirmResponse(user.getUsername(), preOrder.getId(), requestCart, products, taxes, shipping, itemCount, subTotal, shippingCost, taxCost, total);
+        return new CheckoutResponse(user.getUsername(), preOrder.getId(), requestCart, products, taxes, shipping, itemCount, subTotal, shippingCost, taxCost, total);
     }
 
     @GetMapping("/employee")

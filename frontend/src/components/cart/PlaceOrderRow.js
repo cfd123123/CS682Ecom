@@ -29,7 +29,7 @@ export default class PlaceOrderRow extends Component {
           <div className="app-section app-inline-container-right">
             <span className="cart-order-summary">
               <span className="app-size-medium app-color-price app-text-bold">
-                Order total:{" $"}{total}
+                Order total:{" $"}{total.toFixed(2)}
               </span>
             </span>
             <span className="app-place-order-condition">

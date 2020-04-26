@@ -33,8 +33,7 @@ export default class Home extends Component {
 
 
   render() {
-    const {currentUser} = this.context;
-    console.log(currentUser);
+    // const {currentUser} = this.context;
 
     const limitedProducts = this.state.products.slice(0, 20).map(product => {
       return <ProductCard key={`${product.id}`} {...product} />

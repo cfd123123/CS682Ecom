@@ -33,8 +33,8 @@ export default class Employee extends Component {
   }
 
   render() {
-    const {currentUser} = this.context;
-    console.log(currentUser);
+    // const {currentUser} = this.context;
+    // console.log(currentUser);
     return (
         <div className="container">
           <header className="jumbotron">

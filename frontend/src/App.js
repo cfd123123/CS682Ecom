@@ -5,6 +5,7 @@ import "./App.css";
 import axios from "axios";
 
 import AuthService from "./services/auth.service";
+import UserService from "./services/user.service";
 import SearchBox   from "./components/Search/SearchBox";
 import Employee    from "./components/employee.component";
 import HomePage    from './components/HomePage';
@@ -17,6 +18,7 @@ import Admin       from "./components/admin.component";
 import Login       from "./components/login.component";
 import Cart        from './components/cart/Cart';
 import Checkout    from './components/cart/Checkout';
+import OrderConfirmation from './components/cart/OrderConfirmation';
 import Edit        from './components/Edit';
 import Home        from "./components/home.component";
 import Show        from './components/Show';
@@ -24,60 +26,50 @@ import {CurrentUserContext} from "./CurrentUserContext";
 
 const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
-// const CurrentUserContext = React.createContext();
-// CurrentUserContext.displayName = "UserDetailsContext";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.logOut = this.logOut.bind(this);
-    this.addToCart = this.addToCart.bind(this);
+    this.updateApp = this.updateApp.bind(this);
+    // TODO: Find out if using a global variable like this is bad
+    window.refresh = this.updateApp;
 
     this.state = {
       showEmployeeContent: false,
       showAdminContent: false,
       currentUser: undefined,
       loggedIn: false,
-      addToCart: this.addToCart,
     };
   }
 
-  componentDidMount() {
-    const user = AuthService.getCurrentUser();
-    if (user) {
+  updateApp() {
+    const currentUser = UserService.getCurrentUser();
+    if (currentUser) {
       this.setState({
-        currentUser: user,
-        showEmployeeContent: user.roles.includes("ROLE_EMPLOYEE"),
-        showAdminContent: user.roles.includes("ROLE_ADMIN"),
-        loggedIn: user.roles.includes("ROLE_CUSTOMER"),
+        currentUser: currentUser,
+        showEmployeeContent: (currentUser.roles && currentUser.roles.filter(role => role.name === "ROLE_EMPLOYEE").length > 0),
+        showAdminContent:    (currentUser.roles && currentUser.roles.filter(role => role.name === "ROLE_ADMIN").length > 0),
+        loggedIn:            (currentUser.roles && currentUser.roles.filter(role => role.name === "ROLE_CUSTOMER").length > 0),
       });
     } else {
       this.setState({
         currentUser: {
-          username: "None",
-          cart: {},
-          roles: []
+          user: {
+            username: "None",
+            cart: {},
+            roles: []
+          },
         }
       })
     }
   }
+  componentDidMount() {
+    this.updateApp();
+  }
 
   componentWillUnmount() {
     source.cancel("App is unmounting");
-  }
-
-  addToCart(id, quantity) {
-    const newCart = {
-      ...this.state.currentUser.cart,
-      [id]: quantity
-    };
-    const newCurrentUser = {
-      ...this.state.currentUser,
-      cart: newCart
-    };
-    this.setState({
-      currentUser: newCurrentUser
-    })
   }
 
   logOut() {
@@ -86,11 +78,12 @@ class App extends Component {
 
   render() {
     const { showEmployeeContent, showAdminContent, currentUser, loggedIn } = this.state;
+    if (!currentUser) { return null; }
     return (
         <CurrentUserContext.Provider value={this.state}>
           <Router>
             <div>
-              <nav className="navbar navbar-expand navbar-dark bg-dark" style={{'minWidth':'1150px'}}>
+              <nav className="navbar navbar-expand navbar-dark bg-dark">
 
                 <Link to={{ pathname: '/' }} className="navbar-brand">Business Name</Link>
 
@@ -121,7 +114,7 @@ class App extends Component {
 
                 <div className="navbar-nav ml-auto">
 
-                  <SearchBox/>
+                  <SearchBox />
 
               {loggedIn ? [
                   <li className="nav-item" key={"profile"}>
@@ -144,7 +137,10 @@ class App extends Component {
               ]}
                   <li className="nav-item">
                     <Link to={{ pathname: '/cart' }} className="nav-link">
-                      Cart {currentUser && (`(${Object.keys(currentUser.cart).length})`)}
+                      <span>Cart</span>
+                      <span className="app-size-small">
+                        {currentUser.cart && (` (${Object.values(currentUser.cart).reduce((acc, curr) => acc + curr, 0)})`)}
+                      </span>
                     </Link>
                   </li>
                 </div>
@@ -162,6 +158,7 @@ class App extends Component {
                   <Route exact path="/admin" component={Admin}/>
                   <Route exact path='/cart' component={Cart}/>
                   <Route exact path='/checkout' component={Checkout}/>
+                  <Route exact path='/confirm' component={OrderConfirmation}/>
                   <Route path='/show/:id' component={Show}/>
                   <Route path='/edit/:id' component={Edit}/>
                   <Route path='/create' component={Create}/>

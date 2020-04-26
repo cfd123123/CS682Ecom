@@ -25,18 +25,7 @@ export default class ProductCard extends React.Component {
   }
 
   addToCartStep(quantity) {
-    console.log("Something was added! sending API request");
-    // this.context.addToCart(this.state.id, quantity)
-    UserService.addToCart(this.state.id, quantity).then(
-        response => {
-          console.log(response);
-          alert("Item added to cart: " + response.data);
-        },
-        error => {
-          console.log(error && error.response);
-          alert("error adding to cart: " + error);
-        }
-    )
+    UserService.addToCart(this.state.id, quantity);
   }
 
   componentDidMount() {

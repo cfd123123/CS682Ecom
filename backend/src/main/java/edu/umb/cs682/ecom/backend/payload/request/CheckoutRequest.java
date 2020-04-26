@@ -3,7 +3,7 @@ package edu.umb.cs682.ecom.backend.payload.request;
 import javax.validation.constraints.NotBlank;
 import java.util.Map;
 
-public class CheckoutConfirmRequest {
+public class CheckoutRequest {
     @NotBlank
     private String username;
 

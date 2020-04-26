@@ -24,15 +24,15 @@ export default class Cart extends Component {
     }
   };
 
-  componentDidMount() {
-    this.getCart();
-  }
+  // Don't need to call getCart() on mount, as the render() method is short circuited.
+  // componentDidMount() {
+  //   this.getCart();
+  // }
+
   proceedToCheckout() {
     const {currentUser} = this.context;
     const {loggedIn, total} = this.state;
     if (loggedIn) {
-      // alert("Proceeding to checkout");
-      // console.log(currentUser.cart);
       UserService.proceedToCheckout(currentUser.cart, total).then(
           response => {
             this.props.history.push({
@@ -58,17 +58,18 @@ export default class Cart extends Component {
   }
 
   getCart() {
-    const {currentUser} = this.context;
-    if (currentUser) {
-      const justProducts = Object.entries(currentUser.cart).map(([id, q]) => id);
+    const {cart} = this.context.currentUser;
+    if (cart) {
+      const justProducts = Object.entries(cart).map(([id, q]) => id);
       ProductService.getListOfProducts(justProducts).then(
           response => {
+            // console.log(response);
             let total = 0.0;
             let count = 0;
             let products = (response.data && response.data.products);
             products.forEach(product => {
-              total = total + (product.price * currentUser.cart[product.id]);
-              count = count + currentUser.cart[product.id];
+              total = total + (product.price * cart[product.id]);
+              count = count + cart[product.id];
             });
             this.setState({
               loggedIn: (response.data && response.data.loggedIn),
@@ -96,7 +97,6 @@ export default class Cart extends Component {
       this.getCart();
       return null;
     }
-    // TODO: Find a way to break an infinite loop if products never gets defined
 
     return (
         <div className="app-fixed-right-grid-inner">

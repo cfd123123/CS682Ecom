@@ -13,20 +13,25 @@ export default class Checkout extends Component {
     }
   }
 
-  componentDidMount() {
-    console.log(this.state);
-  }
+  // componentDidMount() {
+  //   console.log(this.state);
+  // }
 
   placeOrder() {
     const {preOrder} = this.state;
     UserService.placeOrder(preOrder).then(
         response => {
-          console.log(response);
+          const newUser = (response.data.user);
+          UserService.updateCurrentUser(newUser);
+          this.props.history.push({
+            pathname: '/confirm',
+            state: { order: response.data.order },
+          });
         },
         error => {
           console.log(error);
         }
-    )
+    );
   }
 
 

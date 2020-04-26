@@ -14,12 +14,11 @@ export default class Profile extends Component {
 
   render() {
     const {currentUser} = this.context;
-    console.log(currentUser);
 
     if (!currentUser) {
       return null;
     }
-    const { username, id, email, cart, roles } = currentUser;
+    const { username, id, email, cart, roles, orders } = currentUser;
 
     return (
         <div className="container">
@@ -30,8 +29,9 @@ export default class Profile extends Component {
             <p><strong>Username:</strong>{" "}     {username}</p>
             <p><strong>ID:</strong>{" "}     {id}</p>
             <p><strong>Email:</strong>{" "}  {email}</p>
-            <p /><strong>Roles:</strong>{" "}  {roles.map(role => <div key={role}>{role}</div>)}
+            <p /><strong>Roles:</strong>{" "}  {roles.map(role => <div key={role.id}>{role.name}</div>)}
             <p /><strong>Cart:</strong>{" "} {Object.entries(cart).map(([k,v]) => <div key={k}>{k}: {v}</div>)}
+            <p /><strong>Orders:</strong>{" "}  {orders.map(order => <div key={order}>{order}</div>)}
           </div>
         </div>
     );
