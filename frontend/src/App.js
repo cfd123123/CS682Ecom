@@ -19,7 +19,8 @@ import Result from './components/Result';
 import CategoryResult from './components/CategoryResult'
 import BackImg from './components/img/back-img.jpg';
 import ShowingItems from './components/ShowingItems'
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignInAlt, faSignOutAlt, faShoppingCart, faUserCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
 class App extends Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class App extends Component {
     const { currentUser, showEmployeeContent, showAdminContent } = this.state;
 
     return (
-      
+
         <Router>
         <div className='global'>
           <div className = 'global_header'>
@@ -98,37 +99,37 @@ class App extends Component {
                 {currentUser ? [
                   <li className="nav-item" key={"profile"}>
                     <Link to={{pathname: '/profile', state: { currentUser: currentUser }}} className="nav-link">
-                      My Account
+                      <FontAwesomeIcon icon={faUserCircle} /> My Account 
                       {/*{currentUser.username}*/}
                     </Link>
                   </li>,
                   <li className="nav-item" key={"logout"}>
                     <a href="/login" className="nav-link" onClick={this.logOut}>
-                      LogOut
+                      <FontAwesomeIcon icon={faSignOutAlt} /> LogOut
                     </a>
                   </li>
                 ] : [
                   <li className="nav-item" key={"login"}>
                     <Link to={"/login"} className="nav-link">
-                      Login
+                      <FontAwesomeIcon icon={faSignInAlt} /> Login
                     </Link>
                   </li>,
                   <li className="nav-item" key={"register"}>
                     <Link to={"/register"} className="nav-link">
-                      Sign Up
+                      <FontAwesomeIcon icon={faUserPlus} /> Sign Up
                     </Link>
                   </li>
                 ]}
                 <li className="nav-item">
                   <Link to={"/cart"} className="nav-link">
-                    Cart
+                    <FontAwesomeIcon icon={faShoppingCart} /> Cart
                   </Link>
                 </li>
               </div>
             </nav>
             <CategoryHeader />
-          </div>  
-            
+          </div>
+
 
             <div className="container__homepage">
               <div className="content">
@@ -140,9 +141,6 @@ class App extends Component {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
                 <Route exact path="/profile" component={Profile} />
-
-                <Route path="/user" component={Customer} />-
-
                 <Route path="/employee" component={Employee} />
                 <Route path="/admin" component={Admin} />
                 <Route path='/cart' component={Cart} />
@@ -151,8 +149,8 @@ class App extends Component {
                 <Route path='/Result' component={Result} />
                 <Route path='/categoryResult' component={CategoryResult} />
               </Switch>
-              </div>  
-            </div>  
+              </div>
+            </div>
                   <div className = 'homepage__footer'>
                   <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
                   <div className = 'contact_email'>
@@ -160,9 +158,9 @@ class App extends Component {
                     <span>james.michaud001@umb.edu</span> <br/>
                     <span>zhenrong.liew001@umb.edu</span>
                   </div>
-            </div>    
-          </div>                                      
-        </Router>       
+            </div>
+          </div>
+        </Router>
     );
   }
 }
