@@ -76,7 +76,6 @@ class Recommended extends React.Component {
         container.image = productPics[Math.floor(Math.random()*productPics.length)];
         return container;
     });
-    console.log(content);
     return (
       this.createRecommended(content)
     );
