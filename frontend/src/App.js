@@ -2,6 +2,15 @@ import React, {Component} from "react";
 import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+
+import CategoryHeader from "./components/CategoryHeader/CategoryHeader";
+// import Cart from './components/Cart'; // <<<<<<< new1_categories
+import CategoryResult from './components/CategoryResult'
+import BackImg from './components/img/back-img.jpg';
+import ShowingItems from './components/ShowingItems'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignInAlt, faSignOutAlt, faShoppingCart, faUserCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+
 import axios from "axios";
 
 import AuthService from "./services/auth.service";
@@ -82,62 +91,61 @@ class App extends Component {
     return (
         <CurrentUserContext.Provider value={this.state}>
           <Router>
-            <div>
-              <nav className="navbar navbar-expand navbar-dark bg-dark">
-
-                <Link to={{ pathname: '/' }} className="navbar-brand">Business Name</Link>
-
-                <div className="navbar-nav mr-auto">
-
-                  <li className="nav-item">
-                    <Link to={{ pathname: '/home' }} className="nav-link">Home</Link>
-                  </li>
-
+            <div className='global'>
+              <div className = 'global_header'>
+                <nav className="navbar navbar-expand navbar-dark bg-dark">
+                  <Link to={{ pathname: '/' }} className="navbar-brand">Business Name</Link>
+                  <div className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                      <Link to={{ pathname: '/home' }} className="nav-link">Home</Link>
+                    </li>
               {loggedIn && (
-                  <li className="nav-item">
-                    <Link to={{ pathname: '/mystuff' }} className="nav-link">My Stuff</Link>
-                  </li>
+                    <li className="nav-item">
+                      <Link to={{ pathname: '/mystuff' }} className="nav-link">My Stuff</Link>
+                    </li>
               )}
-
               {showEmployeeContent && (
-                  <li className="nav-item">
-                    <Link to={{ pathname: '/employee' }} className="nav-link">Employee Content</Link>
-                  </li>
+                    <li className="nav-item">
+                      <Link to={{ pathname: '/employee' }} className="nav-link">Employee Content</Link>
+                    </li>
               )}
-
               {showAdminContent && (
-                  <li className="nav-item">
-                    <Link to={{ pathname: '/admin' }} className="nav-link">Admin Content</Link>
-                  </li>
+                    <li className="nav-item">
+                      <Link to={{ pathname: '/admin' }} className="nav-link">Admin Content</Link>
+                    </li>
               )}
-                </div>
-
-                <div className="navbar-nav ml-auto">
-
-                  <SearchBox />
+                  </div>
+                  <div className="navbar-nav ml-auto">
+                    <SearchBox />
 
               {loggedIn ? [
-                  <li className="nav-item" key={"profile"}>
-                    <Link to={{ pathname: '/profile' }} className="nav-link">My Account</Link>
-                  </li>
-                ,
-                  <li className="nav-item" key={"logout"}>
-                    <a href="/login" className="nav-link" onClick={this.logOut}>
-                      LogOut
-                    </a>
-                  </li>
+                    <li className="nav-item" key={"profile"}>
+                      <Link to={{ pathname: '/profile' }} className="nav-link">
+                        <FontAwesomeIcon icon={faUserCircle} /> My Account
+                      </Link>
+                    </li>
+              ,
+                    <li className="nav-item" key={"logout"}>
+                      <a href="/login" className="nav-link" onClick={this.logOut}>
+                        <FontAwesomeIcon icon={faSignOutAlt} /> LogOut
+                      </a>
+                    </li>
               ] : [
-                  <li className="nav-item" key={"login"}>
-                    <Link to={{pathname: '/login' }} className="nav-link">Login</Link>
+                    <li className="nav-item" key={"login"}>
+                    <Link to={{pathname: '/login' }} className="nav-link">
+                      <FontAwesomeIcon icon={faSignInAlt} /> Login
+                    </Link>
                   </li>
                 ,
                   <li className="nav-item" key={"register"}>
-                    <Link to={{pathname: '/register' }} className="nav-link">Sign Up</Link>
+                    <Link to={{pathname: '/register' }} className="nav-link">
+                      <FontAwesomeIcon icon={faUserPlus} /> Sign Up
+                    </Link>
                   </li>
               ]}
                   <li className="nav-item">
                     <Link to={{ pathname: '/cart' }} className="nav-link">
-                      <span>Cart</span>
+                      <span><FontAwesomeIcon icon={faShoppingCart} /> Cart</span>
                       <span className="app-size-small">
                         {currentUser.cart && (` (${Object.values(currentUser.cart).reduce((acc, curr) => acc + curr, 0)})`)}
                       </span>
@@ -145,8 +153,11 @@ class App extends Component {
                   </li>
                 </div>
               </nav>
+              <CategoryHeader />
+            </div>
 
-              <div className="container mt-3">
+            <div className="container__homepage">
+              <div className="content">
                 <Switch>
                   <Route exact path="/" component={Home}/>
                   <Route exact path="/home" component={HomePage}/>
@@ -163,7 +174,17 @@ class App extends Component {
                   <Route path='/edit/:id' component={Edit}/>
                   <Route path='/create' component={Create}/>
                   <Route path='/Result' component={Result}/>
+                  <Route path='/showingItems' component={ShowingItems} />
+                  <Route path='/categoryResult' component={CategoryResult} />
                 </Switch>
+              </div>
+            </div>
+            <div className = 'homepage__footer'>
+              <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
+              <div className = 'contact_email'>
+                <span>Fangda.Chi001@umb.edu</span> <br />
+                <span>james.michaud001@umb.edu</span> <br/>
+                <span>zhenrong.liew001@umb.edu</span>
               </div>
             </div>
           </Router>

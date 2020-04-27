@@ -1,6 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Button } from 'reactstrap';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class Toggle extends React.Component {
   render() {
@@ -11,12 +12,12 @@ export default class Toggle extends React.Component {
       active,
       large,
     });
-    const iconClass = `fa fa-fw fa-${icon}`;
 
     return (
       <Button className={buttonClass} onClick={clickHandler} size="sm">
-        <i className={iconClass} />
-        {text}
+
+
+        {text} <FontAwesomeIcon icon={icon} />
       </Button>
     );
   }

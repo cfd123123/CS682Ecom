@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Button } from 'reactstrap';
 
 class Create extends Component {
 
@@ -11,29 +12,57 @@ class Create extends Component {
       shortDescription: '',
       longDescription: '',
       price: '',
-      quantity: ''
+      quantity: '',
+      category: '',
+      categoryList: []
     };
   }
-  onChange = (e) => {
+  onChange = (event) => {
     const state = this.state
-    state[e.target.name] = e.target.value;
+    state[event.target.name] = event.target.value;
     this.setState(state);
-  }
+  };
 
-  onSubmit = (e) => {
-    e.preventDefault();
+  onClose = (event) => {
+    const state = this.state
+    state['categoryList'] = state['categoryList'].filter( c => c !== event.target.name);
+    this.setState(state);
+  };
 
-    const { name, shortDescription, longDescription, price, quantity } = this.state;
+  addCategories = (event) => {
+    const state = this.state;
+    if(event.target.value.substr(-1)===",") {
+      state['categoryList'] = state['categoryList'].concat(event.target.value.replace(",",""));
+      state[event.target.name] = '';
+    }
 
-    axios.post('/products/all', { name, shortDescription, longDescription, price, quantity })
-        .then((result) => {
+    else {
+      state[event.target.name] = event.target.value;
+    }
+    this.setState(state);
+
+  };
+
+  onSubmit = (event) => {
+    event.preventDefault();
+    const { name, shortDescription, longDescription, price, quantity, categoryList } = this.state;
+
+    axios.post('/products/all', {
+      name: name,
+      shortDescription: shortDescription,
+      longDescription: longDescription,
+      price: price,
+      quantity: quantity,
+      categories: categoryList,
+    }).then(
+        result => {
           this.props.history.push("/");
           console.log(result)
         });
-  }
+  };
 
   render() {
-    const { name, shortDescription, longDescription, price, quantity } = this.state;
+    const { name, shortDescription, longDescription, price, quantity, category } = this.state;
     return (
         <div className="container">
           <div className="panel panel-default">
@@ -55,11 +84,11 @@ class Create extends Component {
                   <input type="text" className="form-control" name="name" value={name} onChange={this.onChange} placeholder="Product Name" />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="title">ShortDescription:</label>
+                  <label htmlFor="title">Short Description:</label>
                   <input type="text" className="form-control" name="shortDescription" value={shortDescription} onChange={this.onChange} placeholder="This description appears on the product list" />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="author">LongDescription:</label>
+                  <label htmlFor="author">Long Description:</label>
                   <input type="text" className="form-control" name="longDescription" value={longDescription} onChange={this.onChange} placeholder="This description appears on the product's page" />
                 </div>
                 <div className="form-group">
@@ -69,6 +98,18 @@ class Create extends Component {
                 <div className="form-group">
                   <label htmlFor="author">Quantity:</label>
                   <input type="number" className="form-control" name="quantity" value={quantity} onChange={this.onChange} placeholder="Quantity" />
+                </div>
+
+                <ul>
+                  {this.state.categoryList.map((tags) => (
+                    <li><Button variant="secondary" onClick={this.onClose} size="sm" name={tags}>{tags} &times;</Button></li>
+                  ))}
+                </ul>
+
+
+                <div className="form-group">
+                  <label htmlFor="author">Category:</label>
+                  <input type="text[]" className="form-control" name="category" value={category} onChange={this.addCategories} placeholder="Category" />
                 </div>
                 <button type="submit" className="btn btn-default">Submit</button>
               </form>

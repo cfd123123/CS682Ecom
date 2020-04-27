@@ -7,7 +7,7 @@ import ProductImage from './../img/empty-product-icon.png';
 
 class ProductResult extends React.Component {
   render() {
-    const {id, name, shortDescription, price} = this.props;
+    const {id, name, shortDescription,price} = this.props;
 
     return (
         <li className="result">
@@ -22,6 +22,7 @@ class ProductResult extends React.Component {
               <h1 className="product-price">${price.toFixed(2)}</h1>
             </div>
             <h2 className="product-short-description">{shortDescription}</h2>
+            {/*<h3 className="product-short-description">{longDescription}</h3>>*/}
             <Link to={`/show/${id}`}>
               <Button className='product-action-button' variant="outline-info" size="sm">Edit</Button>
             </Link>

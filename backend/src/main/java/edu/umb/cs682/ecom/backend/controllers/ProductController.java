@@ -2,6 +2,7 @@ package edu.umb.cs682.ecom.backend.controllers;
 
 import edu.umb.cs682.ecom.backend.models.Product;
 import edu.umb.cs682.ecom.backend.models.Category;
+import edu.umb.cs682.ecom.backend.repositories.CategoryRepository;
 import edu.umb.cs682.ecom.backend.payload.request.ProductListRequest;
 import edu.umb.cs682.ecom.backend.payload.response.CartResponse;
 import edu.umb.cs682.ecom.backend.repositories.ProductRepository;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -34,6 +37,9 @@ public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    CategoryRepository categoryRepository;
+
     @GetMapping("/all")
     public Iterable<Product> product() {
         return productRepository.findAll();
@@ -41,6 +47,16 @@ public class ProductController {
 
     @PostMapping("/all")
     public Product save(@RequestBody Product product) {
+        System.err.printf("\n\nproduct.getCategories: %s\n\n", product.getCategories());
+
+        for (String curr : product.getCategories()) {
+            String name = curr.substring(0, 1).toUpperCase() + curr.substring(1).toLowerCase();
+            if (!categoryRepository.existsByName(name)) {
+                categoryRepository.save(new Category(curr).addProduct(product));
+            } else {
+                categoryRepository.save(categoryRepository.findByName(name).addProduct(product));
+            }
+        }
         productRepository.save(product);
         return product;
     }
