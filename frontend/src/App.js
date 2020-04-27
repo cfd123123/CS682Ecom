@@ -99,7 +99,7 @@ class App extends Component {
                 {currentUser ? [
                   <li className="nav-item" key={"profile"}>
                     <Link to={{pathname: '/profile', state: { currentUser: currentUser }}} className="nav-link">
-                      <FontAwesomeIcon icon={faUserCircle} /> My Account 
+                      <FontAwesomeIcon icon={faUserCircle} /> My Account
                       {/*{currentUser.username}*/}
                     </Link>
                   </li>,
