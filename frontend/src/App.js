@@ -187,6 +187,7 @@ class App extends Component {
                 <span>zhenrong.liew001@umb.edu</span>
               </div>
             </div>
+            </div>
           </Router>
         </CurrentUserContext.Provider>
     );
