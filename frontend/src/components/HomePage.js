@@ -65,7 +65,7 @@ const HomePage = () => {
             <div className='homepage__content'>
             <div className='homepage__items-part'>
             <div className='homepage__item--cate'>
-           <Recommended recommendedProducts={
+           <Recommended autoplay={6000} recommendedProducts={
               [
                 {
                   name: "Salad Bar",
@@ -89,33 +89,33 @@ const HomePage = () => {
               />
            </div>
            <div className='homepage__item--cate'>
-           <Recommended recommendedProducts={
+           <Recommended autoplay={6000} recommendedProducts={
               [
                 {
-                  name: "Salad Bar",
+                  name: "Coca Cola",
                   shortDescription:
-                    "Best Salad Bar in the WORLD!",
+                    "Your favourite soft drink.",
                   longDescription: "asd"
                 },
                 {
-                  name: "SAMSUNG 123X",
+                  name: "Pens",
                   shortDescription:
-                    "The best one yet!",
+                    "More permanent than pencils",
                   longDescription: "asd"
                 },
                 {
-                  name: "Le Beauty",
+                  name: "Bags",
                   shortDescription:
-                    "Soaps and other stuff.",
+                    "Put your valuables in here!",
                   longDescription: "asd"
                 }
               ]}
               />
            </div>
-            
+
 
            <div className='homepage__item--cate'>
-           <Recommended recommendedProducts={
+           <Recommended autoplay={6000} recommendedProducts={
               [
                 {
                   name: "Salad Bar",
@@ -138,9 +138,9 @@ const HomePage = () => {
               ]}
               />
            </div>
-            
+
            <div className='homepage__item--cate'>
-           <Recommended recommendedProducts={
+           <Recommended autoplay={6000} recommendedProducts={
               [
                 {
                   name: "Salad Bar",
@@ -166,6 +166,8 @@ const HomePage = () => {
             </div>
               {/* <Recommend isHomepage={true}/> */}
             </div>
+            <div className = 'black_margin' />
+
             <Recommended recommendedProducts={
               [
                 {
