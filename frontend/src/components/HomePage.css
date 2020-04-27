@@ -4,7 +4,7 @@
 
 .homepage__container {
   overflow-x: hidden;
-  width:1386px;
+  width:;
 }
 
 .homepage__header {
@@ -144,7 +144,7 @@ font-size: 18px;
 .homepage__items-part {
   height: 90vh;
   width: 100%;
-  background-image: url('../components/img/back-img.jpg');
+  background-image: url(https://wallpaperaccess.com/full/862227.png);
   background-repeat: no-repeat;
   background-size: 100% 90vh;
   display: flex;
@@ -156,9 +156,8 @@ font-size: 18px;
 .homepage__item--cate {
   width: 300px;
   height: 500px;
-   text-align: center;
-  padding: 10px 20px;
-  background-color: azure;
+  text-align: center;
+  background-color: black;
 }
 
 .homepage__item--cate:hover {

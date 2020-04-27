@@ -17,7 +17,6 @@ class Recommended extends React.Component {
     return (
       <div>
         <div className="wrapper">
-          <h2>What's popular!</h2>
 
         </div>
         <Slider className="slider-wrapper">
