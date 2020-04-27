@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-
 import UserService from "../services/user.service";
+import {CurrentUserContext} from "../CurrentUserContext";
 
 export default class Employee extends Component {
   constructor(props) {
@@ -19,6 +19,7 @@ export default class Employee extends Component {
           });
         },
         error => {
+          console.log(error.response);
           this.setState({
             content:
                 (error.response &&
@@ -32,6 +33,8 @@ export default class Employee extends Component {
   }
 
   render() {
+    // const {currentUser} = this.context;
+    // console.log(currentUser);
     return (
         <div className="container">
           <header className="jumbotron">
@@ -41,3 +44,4 @@ export default class Employee extends Component {
     );
   }
 }
+Employee.contextType = CurrentUserContext;

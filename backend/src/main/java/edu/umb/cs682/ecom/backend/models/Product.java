@@ -18,7 +18,6 @@ public class Product {
     ProductSpecifications specs;
     String image;
 
-
     Set<String> categories = new HashSet<>();
 
     public Product() {

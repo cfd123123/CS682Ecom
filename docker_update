@@ -111,7 +111,14 @@ do
     $backcommand | while read line; do  # run the command, then for each line do:
       if [ "$line" -nt "../updateMirror/backend/$line" ]; then
         echo $'\t'"Updating: /backend/$line"
-        cp "$line" "../updateMirror/backend/$line"
+        currOutput="$(cp "$line" "../updateMirror/backend/$line" 2>&1)"
+        if [[ ! -z "$currOutput" ]] ; then
+          newDir=${line%/*}
+          echo $'\t'"Making new directory: $newDir"
+          mkdir "../updateMirror/backend/$newDir"
+          cp "$line" "../updateMirror/backend/$line"
+          docker exec "$backid" mkdir -p "/backend/$newDir"
+        fi
         docker cp "$line" "$backid":"/backend/$line"
       fi
 
@@ -134,7 +141,14 @@ do
     $frontcommand | while read line; do
       if [ "$line" -nt "../updateMirror/frontend/$line" ]; then
         echo $'\t'"Updating: /app/$line"
-        cp "$line" "../updateMirror/frontend/$line"
+        currOutput="$(cp "$line" "../updateMirror/frontend/$line" 2>&1)"
+        if [[ ! -z "$currOutput" ]] ; then
+          newDir=${line%/*}
+          echo $'\t'"Making new directory: $newDir"
+          mkdir "../updateMirror/frontend/$newDir"
+          cp "$line" "../updateMirror/frontend/$line"
+          docker exec "$frontid" mkdir -p "/app/$newDir"
+        fi
         docker cp "$line" "$frontid":"/app/$line"
       fi
 
