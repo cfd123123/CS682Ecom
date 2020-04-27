@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "classnames": "^2.2.5",
+    "normalize.css": "latest",
     "eslint-plugin-flowtype": "^3.13.0",
     "jquery": "^3.5.0",
     "lodash": "^4.17.4",
@@ -27,7 +28,8 @@
     "react-validation": "^3.0.7",
     "reactstrap": "^8.4.1",
     "typescript": "^3.8.3",
-    "validator": "^13.0.0"
+    "validator": "^13.0.0",
+    "react-animated-slider": "2.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -51,6 +53,7 @@
     ]
   },
   "devDependencies": {
-    "bootstrap": "^4.4.1"
+    "bootstrap": "^4.4.1",
+    "@material-ui/core": "^3.0.2"
   }
 }

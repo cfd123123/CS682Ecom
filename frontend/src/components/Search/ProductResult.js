@@ -7,7 +7,7 @@ import ProductImage from './../img/empty-product-icon.png';
 
 class ProductResult extends React.Component {
   render() {
-    const {id, name, shortDescription,longDescription,price} = this.props;
+    const {id, name, shortDescription,price} = this.props;
 
     return (
         <li className="result">

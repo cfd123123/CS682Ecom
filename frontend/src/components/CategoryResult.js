@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import SearchFunctionality from './Search/SearchFunctionality';
 import ProductResult from './Search/ProductResult'
 
 class CategoryResult extends Component {
@@ -20,7 +19,7 @@ class CategoryResult extends Component {
         });
   }
 
- 
+
 
   render() {
     const searchParams = new URLSearchParams(this.props.location.search);
@@ -36,7 +35,7 @@ class CategoryResult extends Component {
     let result =()=> {
       return (
         this.state.products.filter((cate)=> cate.name ===resultsPara )
-      )   
+      )
     }
     return (
         <div className="container">
@@ -52,10 +51,10 @@ class CategoryResult extends Component {
 
             {
               result()[0].products.map((items)=>{
-                  return <ProductResult id={items.id} name={items.name} shortDescription={items.shortDescription} price={items.price} />     
+                  return <ProductResult id={items.id} name={items.name} shortDescription={items.shortDescription} price={items.price} />
               })
             }
-          
+
 
 
             </div>
