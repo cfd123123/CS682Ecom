@@ -99,7 +99,7 @@ export default class Cart extends Component {
     }
 
     return (
-        <div className="app-fixed-right-grid-inner">
+        <div className="app-fixed-right-grid-inner" style={{'margin':'1em 1em 1em 1em'}}>
           <div className="app-fixed-right-grid-col app-col-right" style={{'width': '300px', 'float': 'right'}}>
             <ProceedToCheckout loggedIn={loggedIn} total={total} count={count} proceedToCheckout={this.proceedToCheckout}/>
           </div>

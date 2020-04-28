@@ -6,7 +6,7 @@ import "./App.css";
 import CategoryHeader from "./components/CategoryHeader/CategoryHeader";
 // import Cart from './components/Cart'; // <<<<<<< new1_categories
 import CategoryResult from './components/CategoryResult'
-import BackImg from './components/img/back-img.jpg';
+// import BackImg from './components/img/back-img.jpg';
 import ShowingItems from './components/ShowingItems'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faSignOutAlt, faShoppingCart, faUserCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons';
@@ -180,7 +180,7 @@ class App extends Component {
               </div>
             </div>
             <div className = 'homepage__footer'>
-              <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
+              <h1 className = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
               <div className = 'contact_email'>
                 <span>Fangda.Chi001@umb.edu</span> <br />
                 <span>james.michaud001@umb.edu</span> <br/>

@@ -1,33 +1,33 @@
-import React ,{useState} from 'react';
-import {Link, useHistory} from 'react-router-dom';
-import queryString from 'query-string';
+import React /*,{useState}*/ from 'react';
+import {Link, /*useHistory*/} from 'react-router-dom';
+// import queryString from 'query-string';
 import Recommended from './Recommend/Recommended.js';
-import SideBar from './SideBar.js';
+// import SideBar from './SideBar.js';
 //import Recommend from './Recommend.js';
 import './HomePage.css';
 // import SidebarIcon from './img/side-bar-icon.png'
-import SearchIcon from './img/search-icon.png';
+// import SearchIcon from './img/search-icon.png';
 import Hydrocal from './img/hydrocal.jpg';
-import EmptyProduct from './img/empty-product-icon.png';
+// import EmptyProduct from './img/empty-product-icon.png';
 
 
 const HomePage = () => {
   //const [leftSideBar, setLeftSideBar]=useState(false);
-  const [searchContent, setSearchContent] =useState('');
-  const [toggleLogin,setToggleLogin] = useState(false);
-  const history = useHistory();
+  // const [searchContent, setSearchContent] =useState('');
+  // const [toggleLogin,setToggleLogin] = useState(false);
+  // const history = useHistory();
 
-  const accountLogin = () =>{
-    setToggleLogin(!toggleLogin);
-  }
+  // const accountLogin = () =>{
+  //   setToggleLogin(!toggleLogin);
+  // }
 
-  const signIn = ()=>{
-    sessionStorage.getItem('username') && sessionStorage.getItem('password') ? alert('already login') : history.push('/login')
-
-    };
-    const cartCheck = () =>{
-        history.push('/cart')
-    }
+  // const signIn = ()=>{
+  //   sessionStorage.getItem('username') && sessionStorage.getItem('password') ? alert('already login') : history.push('/login')
+  //
+  //   };
+  //   const cartCheck = () =>{
+  //       history.push('/cart')
+  //   }
     /*
     const toggleLeftSidebar =()=>{
         setLeftSideBar(!leftSideBar);
@@ -35,22 +35,22 @@ const HomePage = () => {
     */
 
 
-  const toggleSearchContent =(event)=>{
-    setSearchContent(event.target.value)
-  };
+  // const toggleSearchContent =(event)=>{
+  //   setSearchContent(event.target.value)
+  // };
 
-  const searchContentPara = queryString.stringify(
-      {
-        content: searchContent
-      }
-  )
+  // const searchContentPara = queryString.stringify(
+  //     {
+  //       content: searchContent
+  //     }
+  // )
 
 
-    const handleKeyPress = (event) =>{
-        if(event.key === 'Enter'){
-            history.push(`/Result?${searchContentPara}`)
-        }
-    }
+    // const handleKeyPress = (event) =>{
+    //     if(event.key === 'Enter'){
+    //         history.push(`/Result?${searchContentPara}`)
+    //     }
+    // }
 
     return (
         <div className =''>
@@ -68,14 +68,14 @@ const HomePage = () => {
 
                 <div className='homepage__item--cate'>
                     <span>Explore All Items</span>
-                    <src src='' className=""></src>
+                    {/*<src src='' className=""></src>*/}
                 </div>
                  </Link>
                  <Link to='showingItems?category=all'>
 
            <div className='homepage__item--cate'>
                <span>Lightweight Hydrocal</span>
-               <img src={Hydrocal} className = 'homepage__item1'/>
+               <img src={Hydrocal} className = 'homepage__item1' alt=""/>
                <span> recommended quick-setting product!</span>
            </div>
             </Link>

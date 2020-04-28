@@ -29,7 +29,7 @@ export default class ProceedToCheckout extends Component {
               <div className="app-box-inner">
                 <div className="app-row app-spacing-mini">
                   <span id="cart-subtotal-label-checkout" className="app-size-medium cart-number-of-items">
-                    Subtotal ({count}{" "}items):{" "}
+                    {count}{" "}item Subtotal:{" "}
                   </span>
                   <span id="cart-subtotal-amount-checkout" className="app-color-price cart-price-container app-text-bold">
                     <span className="app-size-medium app-color-price cart-price cart-white-space-nowrap cart-price-sign">
