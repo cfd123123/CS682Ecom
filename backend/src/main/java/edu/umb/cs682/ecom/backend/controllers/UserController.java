@@ -88,9 +88,9 @@ public class UserController {
         User requestUser = userRepository.findByUsername(request.getUsername()).orElseThrow();
         PreOrder preOrder = preOrderRepository.findById(request.getPreOrderId()).orElseThrow();
 
-        if (!requestUser.equals(preOrder.getUser())) {
-            throw new RuntimeException("PlaceOrder user doesn't match PreOrder user.");
-        }
+//        if (!requestUser.equals(preOrder.getUser())) {
+//            throw new RuntimeException("PlaceOrder user doesn't match PreOrder user.");
+//        }
 
         Order order = orderRepository.save(new Order(preOrder));
         requestUser.addOrder(order);
@@ -113,9 +113,9 @@ public class UserController {
         float subTotal = products.stream()
                 .map(product -> product.getPrice() * requestCart.get(product.getId()))
                 .reduce(0.0f, Float::sum);
-        if (requestSubTotal != subTotal) {
-            throw new RuntimeException("Checkout subtotal doesn't match calculated subtotal");
-        }
+//        if (requestSubTotal != subTotal) {
+//            throw new RuntimeException("Checkout subtotal doesn't match calculated subtotal");
+//        }
         Map<String, Float> taxes = new HashMap<>();
         taxes.put("Awesome Taxes", (float) (Math.round((subTotal * 0.05f)*100)/100.0));
         Map<String, Float> shipping = new HashMap<>();
