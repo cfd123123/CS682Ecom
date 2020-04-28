@@ -49,7 +49,7 @@ label {
  height:100px;   /* footer的高度一定要是固定值*/
  background: #333;
  align-items:flex-end;
- right:
+ /*right:*/
 }
 
 .contact_us{
@@ -257,7 +257,7 @@ p {
 }
 
 .app-color-price {
-  color: #B12704!important;
+  color: #b18809 !important;
 }
 
 .a-fixed-right-grid {
@@ -297,6 +297,32 @@ p {
 
 .app-float-left {
   float: left!important;
+}
+
+.app-card-container {
+  border: 1px #ddd solid;
+  background-color: #fff;
+  border-radius: 4px 4px 0 0;
+  width: 215px;
+  height: 500px;
+  margin: 0 0 1em 0;
+}
+
+.app-cart-picture {
+  height: 35%;
+}
+.app-card-name {
+  height: 15%;
+}
+.app-card-price {
+  height: 5%;
+}
+.app-card-description {
+  height: 25%;
+  font-size: 14px;
+}
+.app-card-buttons {
+  height: 20%;
 }
 
 .app-box-group>.app-box {
@@ -366,8 +392,8 @@ p {
 .app-button-primary {
   /*background: #f0c14b;*/
   /*border-color: #a88734 #9c7e31 #846a29;*/
-  background: #6f79f0;
-  border-color: #7487a8 #4f669c #4d5184;
+  background: #f04638;
+  border-color: #a8787c #9c4543 #842111;
   color: #111;
 }
 
@@ -390,9 +416,9 @@ p {
   /*background: #f4d078;*/
   /*background: -webkit-linear-gradient(top,#f7dfa5,#f0c14b);*/
   /*background: linear-gradient(to bottom,#f7dfa5,#f0c14b);*/
-  background: #b4c2f4;
-  background: -webkit-linear-gradient(top, #c7cef7, #7985f0);
-  background: linear-gradient(to bottom,#c7cef7,#7985f0);
+  background: #f4bfb9;
+  background: -webkit-linear-gradient(top, #f7a5a0, #f04e3c);
+  background: linear-gradient(to bottom,#f7a5a0,#f04e3c);
 }
 
 .app-button-primary .app-button-inner {
