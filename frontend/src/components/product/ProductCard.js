@@ -19,6 +19,7 @@ export default class ProductCard extends React.Component {
       name: '',
       shortDescription: '',
       price: undefined,
+      image: '',
       content: "",
       loaded: false
     };
@@ -36,6 +37,7 @@ export default class ProductCard extends React.Component {
             name: response.data.name,
             shortDescription: response.data.shortDescription,
             price: response.data.price,
+            image: response.data.image,
             loaded: true
           });
         },
@@ -50,15 +52,15 @@ export default class ProductCard extends React.Component {
   }
 
   render() {
-    const {id, name, shortDescription, price, loaded} = this.state;
-
+    const {id, name, shortDescription, price, image, loaded} = this.state;
+    let img = (image==='') ? ProductImage : image;
     return (
         <li className="result">
           {loaded &&
             <span>
               <div className="product-image">
                 <Link to={`/show/${id}`}>
-                  <img src={ProductImage} className="center" alt={"missingID"}/>
+                  <img src={img} className="center" alt={"Missing"}/>
                 </Link>
               </div>
               <div className="product-info">

@@ -49,6 +49,10 @@ public class ProductController {
     public Product save(@RequestBody Product product) {
         System.err.printf("\n\nproduct.getCategories: %s\n\n", product.getCategories());
 
+        //if (product.getCategories().size == 0) {
+        //    product.insertOtherCategories();
+        //}
+
         for (String curr : product.getCategories()) {
             String name = curr.substring(0, 1).toUpperCase() + curr.substring(1).toLowerCase();
             if (!categoryRepository.existsByName(name)) {
@@ -90,6 +94,7 @@ public class ProductController {
             existingProduct.setLongDescription(product.getLongDescription());
         existingProduct.setPrice(product.getPrice());
         existingProduct.setQuantity(product.getQuantity());
+        existingProduct.setCategories(product.getCategories());
         productRepository.save(existingProduct);
         return existingProduct;
     }
@@ -98,6 +103,11 @@ public class ProductController {
     public String delete(@PathVariable String id) {
         Optional<Product> optproduct = productRepository.findById(id);
         Product product = optproduct.get();
+        console.log(product.getCategories());
+        for (String curr : product.getCategories()) {
+
+          categoryRepository.save(categoryRepository.findByName(curr).deleteProduct(product));
+        }
         productRepository.delete(product);
 
         return "";

@@ -33,7 +33,7 @@ class Result extends Component {
     console.log(content);
     return (
         <div className="container">
-          <div className="panel panel-default">
+          <div className="panel-panel-default">
             <div className="panel-heading">
             </div>
             <div className="panel-body">

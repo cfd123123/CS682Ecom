@@ -34,3 +34,7 @@
 .container__homepage {
   background-image: url(https://wallpaperaccess.com/full/862227.png);
 }
+
+.panel-panel-default body {
+  width: auto;
+}

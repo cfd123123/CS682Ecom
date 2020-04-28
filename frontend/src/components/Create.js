@@ -14,7 +14,8 @@ class Create extends Component {
       price: '',
       quantity: '',
       category: '',
-      categoryList: []
+      categoryList: [],
+      image: ''
     };
   }
   onChange = (event) => {
@@ -45,7 +46,7 @@ class Create extends Component {
 
   onSubmit = (event) => {
     event.preventDefault();
-    const { name, shortDescription, longDescription, price, quantity, categoryList } = this.state;
+    const { name, shortDescription, longDescription, price, quantity, categoryList, image } = this.state;
 
     axios.post('/products/all', {
       name: name,
@@ -54,15 +55,15 @@ class Create extends Component {
       price: price,
       quantity: quantity,
       categories: categoryList,
+      image: image,
     }).then(
         result => {
-          this.props.history.push("/");
-          console.log(result)
+          this.props.history.push("Result?content=");
         });
   };
 
   render() {
-    const { name, shortDescription, longDescription, price, quantity, category } = this.state;
+    const { name, shortDescription, longDescription, price, quantity, category, image } = this.state;
     return (
         <div className="container">
           <div className="panel panel-default">
@@ -98,6 +99,10 @@ class Create extends Component {
                 <div className="form-group">
                   <label htmlFor="author">Quantity:</label>
                   <input type="number" className="form-control" name="quantity" value={quantity} onChange={this.onChange} placeholder="Quantity" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="author">Product Image:</label>
+                  <input type="text" className="form-control" name="image" value={image} onChange={this.onChange} placeholder="Image URL" />
                 </div>
 
                 <ul>

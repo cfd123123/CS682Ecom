@@ -30,8 +30,6 @@ class CategoryResult extends Component {
       return <div/>
     }
 
-    console.log(this.state.products)
-
     let result =()=> {
       return (
         this.state.products.filter((cate)=> cate.name ===resultsPara )
@@ -51,7 +49,7 @@ class CategoryResult extends Component {
 
             {
               result()[0].products.map((items)=>{
-                  return <ProductResult id={items.id} name={items.name} shortDescription={items.shortDescription} price={items.price} />
+                  return <ProductResult id={items.id} name={items.name} shortDescription={items.shortDescription} price={items.price} image={items.image}/>
               })
             }
 

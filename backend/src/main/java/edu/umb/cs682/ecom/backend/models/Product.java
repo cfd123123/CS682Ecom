@@ -23,7 +23,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, String shortDescription, String longDescription, float price, int quantity, Set<String> categories) {
+    public Product(String name, String shortDescription, String longDescription, float price, int quantity, Set<String> categories, String image) {
         this.name = name;
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
@@ -32,6 +32,7 @@ public class Product {
         for (String category : categories) {
             this.categories.add(category.substring(0,1).toUpperCase() + category.substring(1).toLowerCase());
         }
+        this.image = image;
     }
 
     public String getId() { return id; }
@@ -54,5 +55,8 @@ public class Product {
 
     public Set<String>  getCategories() { return this.categories; }
     public void setCategories(Set<String> categories) { this.categories = categories; }
+    public void insertOtherCategories() {this.categories.add("Others");}
 
+    public String getImage() { return this.image; }
+    public void setImage(String image) { this.image = image; }
 }

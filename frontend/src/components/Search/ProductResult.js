@@ -7,14 +7,14 @@ import ProductImage from './../img/empty-product-icon.png';
 
 class ProductResult extends React.Component {
   render() {
-    const {id, name, shortDescription,price} = this.props;
-
+    const {id, name, shortDescription,price,image} = this.props;
+    let img = (image==='') ? ProductImage : image;
     return (
         <li className="result">
           <span>
             <div className="product-image">
               <Link to={`/show/${id}`}>
-                <img src={ProductImage} className="center" alt={"missingID"}/>
+                <img src={img} className="center" alt={"Missing"}/>
               </Link>
             </div>
             <div className="product-info">
