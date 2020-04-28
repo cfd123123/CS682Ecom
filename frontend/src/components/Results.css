@@ -23,6 +23,14 @@
   color: black;
 }
 
+.add-product-button {
+  right: 100px;
+}
+
 .panel-body {
   height: 50%;
   }
+
+.container__homepage {
+  background-image: url(https://wallpaperaccess.com/full/862227.png);
+}

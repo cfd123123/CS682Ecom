@@ -55,6 +55,10 @@ font-size: 18px;
   word-break: keep-all;
 }
 
+.navbar-nav {
+  align-items: center;
+}
+
 .homepage__side-bar {
   width: 500px;
   height: 620px;
@@ -142,7 +146,7 @@ font-size: 18px;
 }
 
 .homepage__items-part {
-  height: 65vh;
+  height: 75vh;
   width: 100%;
   background-image: url(https://wallpaperaccess.com/full/862227.png);
   background-repeat: no-repeat;
