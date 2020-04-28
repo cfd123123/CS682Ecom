@@ -103,7 +103,6 @@ public class ProductController {
     public String delete(@PathVariable String id) {
         Optional<Product> optproduct = productRepository.findById(id);
         Product product = optproduct.get();
-        console.log(product.getCategories());
         for (String curr : product.getCategories()) {
 
           categoryRepository.save(categoryRepository.findByName(curr).deleteProduct(product));
