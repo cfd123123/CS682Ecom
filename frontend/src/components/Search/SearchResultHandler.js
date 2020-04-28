@@ -5,6 +5,7 @@ import {shuffle} from 'lodash';
 import FlipMove from 'react-flip-move';
 import HeaderButtons from './HeaderButtons';
 import ProductResult from './ProductResult';
+import './SearchResultHandler.css';
 
 class SearchResultHandler extends React.Component {
     constructor(props) {
@@ -103,7 +104,7 @@ class SearchResultHandler extends React.Component {
             shuffleClickHandler = {this.sortShuffle}
           />
           <div className="dropdown-spacer" style={{ height: 10 }} />
-          <ul>
+          <ul className="result-space">
             <FlipMove
               staggerDurationBy="30"
               duration={500}>

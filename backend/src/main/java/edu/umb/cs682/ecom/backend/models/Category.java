@@ -39,6 +39,11 @@ public class Category {
         return this;
     }
 
+    public Category deleteProduct(Product toBeDeleted) {
+        products.remove(toBeDeleted);
+        return this;
+    }
+
     public String getId() { return id; }
     public void   setId(String id) { this.id = id; }
 

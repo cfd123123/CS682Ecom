@@ -78,7 +78,7 @@ button:hover {
 
 .slider-wrapper {
   position: relative;
-  height: 70vh;
+  height: 60vh;
   overflow: hidden;
 }
 
@@ -127,6 +127,7 @@ button:hover {
 
 .slider-content {
   text-align: center;
+
 }
 
 .slider-content .inner {
