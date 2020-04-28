@@ -6,7 +6,7 @@ import "./App.css";
 import CategoryHeader from "./components/CategoryHeader/CategoryHeader";
 // import Cart from './components/Cart'; // <<<<<<< new1_categories
 import CategoryResult from './components/CategoryResult'
-import BackImg from './components/img/back-img.jpg';
+// import BackImg from './components/img/back-img.jpg';
 import ShowingItems from './components/ShowingItems'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faSignOutAlt, faShoppingCart, faUserCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons';
@@ -180,11 +180,12 @@ class App extends Component {
               </div>
             </div>
             <div className = 'homepage__footer'>
-              <h1 class = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
+              <h1 className = 'contact_us' style={{fontSize: '20px', color: 'white'}}>connect with us</h1>
               <div className = 'contact_email'>
-                <span>Fangda.Chi001@umb.edu</span> <br />
-                <span>james.michaud001@umb.edu</span> <br/>
-                <span>zhenrong.liew001@umb.edu</span>
+
+                <span><img src={"https://lh3.googleusercontent.com/a-/AOh14Gj72w3buSwTcNFkCmDbnUFxg2bYloifAbD3rhkZ=s50-c-k-no"} alt="FD" /> Fangda.Chi001@umb.edu</span>
+                <span><img src={"https://ca.slack-edge.com/TU0T2D80L-UU0T2D9E0-7374ac2188e8-48"} alt="JM" /> James.Michaud001@umb.edu</span>
+                <span><img src={"https://ca.slack-edge.com/TU0T2D80L-UU0T6FQH2-f610aad4cc26-48"} alt="ZR" /> Zhenrong.Liew001@umb.edu</span>
               </div>
             </div>
             </div>

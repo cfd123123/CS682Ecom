@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import SearchFunctionality from './Search/SearchFunctionality';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { Button } from 'reactstrap';
 
 class Result extends Component {
 
@@ -30,12 +33,13 @@ class Result extends Component {
     console.log(content);
     return (
         <div className="container">
-          <div className="panel panel-default">
+          <div className="panel-panel-default">
             <div className="panel-heading">
             </div>
             <div className="panel-body">
-              <h6 align="left"><Link to="/"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Home</Link></h6>
-              <h6 align="right"><Link to="/create"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Add Product</Link></h6>
+              <div className="add-product-button">
+                <Link to="/create"><Button variant="light" size="sm"><FontAwesomeIcon icon={faPlusCircle} /> Add Product</Button></Link>
+              </div>
               <h5 className="panel-title" >
                 Search results {content && `for "${content}"`}
               </h5>

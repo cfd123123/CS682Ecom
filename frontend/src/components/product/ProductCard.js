@@ -19,6 +19,7 @@ export default class ProductCard extends React.Component {
       name: '',
       shortDescription: '',
       price: undefined,
+      image: '',
       content: "",
       loaded: false
     };
@@ -36,6 +37,7 @@ export default class ProductCard extends React.Component {
             name: response.data.name,
             shortDescription: response.data.shortDescription,
             price: response.data.price,
+            image: response.data.image,
             loaded: true
           });
         },
@@ -50,28 +52,39 @@ export default class ProductCard extends React.Component {
   }
 
   render() {
+
     const {id, name, shortDescription, price, loaded} = this.state;
+    const fixedDescription = shortDescription.length > 120 ? shortDescription.substring(0,117) + "..." : shortDescription;
+    const fixedName = name.length > 60 ? name.substring(0,57) + "..." : name;
 
     return (
         <li className="result">
           {loaded &&
-            <span>
-              <div className="product-image">
-                <Link to={`/show/${id}`}>
-                  <img src={ProductImage} className="center" alt={"missingID"}/>
-                </Link>
+              <div className="app-card-container">
+                <div className="app-cart-picture">
+                  <Link to={`/show/${id}`}>
+                    <img src={ProductImage} className="center" alt={"missingID"}/>
+                  </Link>
+                </div>
+                <div className="app-row app-card-name">
+                  <a href={`/products/${id}`} className="app-size-medium">{fixedName}</a>
+                </div>
+                <div className="app-row app-card-price">
+                  <span className="app-color-price app-size-medium app-text-bold">
+                    {"  "}${price.toFixed(2)}
+                  </span>
+                </div>
+                <div className="app-card-description">
+                  {fixedDescription}
+                </div>
+                <div className="app-card-buttons">
+                  <AddToCart addToCart={this.addToCartStep} />
+                  {/*<Button onClick={addToCart}>Add to cart</Button>*/}
+                  <Link to={`/show/${id}`}>
+                    <Button className='product-action-button' variant="outline-info" size="sm">Edit</Button>
+                  </Link>
+                </div>
               </div>
-              <div className="product-info">
-                <h1 className="product-name">{name}</h1>
-                <h1 className="product-price">${price.toFixed(2)}</h1>
-              </div>
-              <h2 className="product-short-description">{shortDescription}</h2>
-              <AddToCart addToCart={this.addToCartStep} />
-              {/*<Button onClick={addToCart}>Add to cart</Button>*/}
-              <Link to={`/show/${id}`}>
-                <Button className='product-action-button' variant="outline-info" size="sm">Edit</Button>
-              </Link>
-            </span>
           }
         </li>
     );

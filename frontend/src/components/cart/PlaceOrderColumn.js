@@ -16,26 +16,6 @@ export default class PlaceOrderColumn extends Component {
         <div className="app-box-group" style={{'position':'relative','width':'inherit','top':'0px'}}>
           <div className="app-box app-first">
             <div className="app-box-inner">
-              <div className="app-row">
-                <div className="app-row app-spacing-top-micro">
-                  <div className="app-row">
-                    <span className="app-button app-button-span100 app-button-primary app-place-order-button-height app-place-order-button-sky-fix">
-                      <span className="app-button-inner">
-                        <input name="placeOrder" className="app-button-input" type="button" onClick={placeOrder} />
-                        <span className="app-button-text">
-                          <span className="app-place-order-button-height">Place your order</span>
-                        </span>
-                      </span>
-                    </span>
-                  </div>
-                </div>
-                <div className="app-row app-spacing-small app-text-center app-condensed-line-height">
-                  <span className="app-size-small app-color-secondary">
-                    By placing your order, you agree to Company Name's privacy notice and conditions of use.
-                  </span>
-                </div>
-                <hr className="app-spacing-small app-divider-normal"/>
-              </div>
               <div className="app-section" role="form">
                 <div className="app-row">
                   <div className="app-row app-grid-vertical-align app-grid-center">
@@ -100,6 +80,26 @@ export default class PlaceOrderColumn extends Component {
                       </table>
                     </div>
                   </div>
+                </div>
+              </div>
+              <div className="app-row">
+                <hr className="app-spacing-small app-divider-normal"/>
+                <div className="app-row app-spacing-top-micro">
+                  <div className="app-row">
+                    <span className="app-button app-button-span100 app-button-primary app-place-order-button-height app-place-order-button-sky-fix">
+                      <span className="app-button-inner">
+                        <input name="placeOrder" className="app-button-input" type="button" onClick={placeOrder} />
+                        <span className="app-button-text">
+                          <span className="app-place-order-button-height">Place your order</span>
+                        </span>
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div className="app-row app-spacing-small app-text-center app-condensed-line-height">
+                  <span className="app-size-small app-color-secondary">
+                    By placing your order, you agree to Company Name's privacy notice and conditions of use.
+                  </span>
                 </div>
               </div>
             </div>
