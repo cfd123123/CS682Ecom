@@ -26,7 +26,6 @@ import Login       from "./components/Login";
 import Cart        from './components/cart/Cart';
 import Checkout    from './components/cart/Checkout';
 import OrderConfirmation from './components/cart/OrderConfirmation';
-import Edit        from './components/Edit';
 import Home        from "./components/TempRoot";
 import Show        from './components/Show';
 
