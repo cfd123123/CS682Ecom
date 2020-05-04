@@ -12,7 +12,7 @@ export default function SearchBox() {
   };
 
   const searchContentPara = queryString.stringify({
-    content: searchContent
+    searched: searchContent
   });
 
   const handleKeyPress = (event) => {

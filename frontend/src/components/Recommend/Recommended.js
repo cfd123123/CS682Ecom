@@ -1,12 +1,11 @@
 import React from "reactn";
-// import { render } from "react-dom";
 import Slider from "react-animated-slider";
 import "react-animated-slider/build/horizontal.css";
 import "normalize.css/normalize.css";
 import "./slider-animations.css";
 import "./styles.css";
 
-export default class Recommended extends React.Component {
+export default class Recommended extends React.PureComponent {
   constructor(props){
     super(props);
     this.createRecommended = this.createRecommended.bind(this);

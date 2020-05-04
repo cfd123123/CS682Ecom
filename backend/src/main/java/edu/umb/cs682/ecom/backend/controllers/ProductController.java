@@ -43,7 +43,7 @@ public class ProductController {
 
     @PostMapping("/{id}")
     public Product save(@PathVariable String id, @RequestBody Product product) {
-        System.err.printf("\n\nproduct.getCategories: %s\n\n", product.getCategories());
+//        System.err.printf("\n\nproduct.getCategories: %s\n\n", product.getCategories());
         Set<String> categories = new HashSet<>();
         // Step 1: Save product to generate product ID.
         product = productRepository.save(product);
@@ -68,20 +68,21 @@ public class ProductController {
     }
 
     @PostMapping("/list")
-    public CartResponse listOfProducts(@RequestBody ProductListRequest products) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    public Iterable<Product> listOfProducts(@RequestBody ProductListRequest products) {
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 //        System.err.printf("\n\nauth: %s\n", auth);
 //        System.err.printf("auth.getPrincipal(): %s\n", auth.getPrincipal());
 //        System.err.printf("auth.getAuthorities(): %s\n\n", auth.getAuthorities());
 //        System.err.printf("auth instanceof AnonymousAuthenticationToken: %s\n\n", auth instanceof AnonymousAuthenticationToken);
-        boolean loggedIn = auth instanceof UsernamePasswordAuthenticationToken;
+//        boolean loggedIn = auth instanceof UsernamePasswordAuthenticationToken;
 
-        return new CartResponse(loggedIn, productRepository.findByIdIn(products.getProducts()));
+//        return new CartResponse(loggedIn, productRepository.findByIdIn(products.getProducts()));
+        return productRepository.findByIdIn(products.getProducts());
     }
 
     @GetMapping("/{id}")
     public Product show(@PathVariable String id) {
-        System.err.printf("\n\n%s\n\n", id);
+//        System.err.printf("\n\n%s\n\n", id);
         return productRepository.findById(id).orElseThrow();
     }
 

@@ -33,20 +33,19 @@ public class CategoryController {
     @GetMapping("/all")
     public Iterable<Category> allCategories() {
         List<Category> result = categoryRepository.findAll();
-        System.err.printf("\n\n%s\n\n", result.toString());
-        for (Category category : result) {
-            System.err.printf("Category.getProducts().toString(): %s\n", category.getProducts().toString());
-            for (String product : category.getProducts()) {
-                System.err.printf("\tproduct.getId(): %s\n", product);
-            }
-        }
+//        System.err.printf("\n\n%s\n\n", result.toString());
+//        for (Category category : result) {
+//            System.err.printf("Category.getProducts().toString(): %s\n", category.getProducts().toString());
+//            for (String product : category.getProducts()) {
+//                System.err.printf("\tproduct.getId(): %s\n", product);
+//            }
+//        }
         return result;
     }
 
     @PostMapping("/all")
     public Category save(@RequestBody Category category) {
         category = categoryRepository.save(category);
-
         return category;
     }
 

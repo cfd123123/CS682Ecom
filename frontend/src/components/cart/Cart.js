@@ -53,13 +53,14 @@ export default class Cart extends React.PureComponent {
             // console.log(response);
             let total = 0.0;
             let count = 0;
-            let products = (response.data && response.data.products);
+            // let products = (response.data && response.data.products);
+            let products = response.data;
             products.forEach(product => {
               total = total + (product.price * cart[product.id]);
               count = count + cart[product.id];
             });
             this.setState({
-              loggedIn: (response.data && response.data.loggedIn),
+              // loggedIn: (response.data && response.data.loggedIn),
               products: products,
               total: total,
               count: count,
@@ -77,9 +78,9 @@ export default class Cart extends React.PureComponent {
   }
 
   render() {
-    const {currentUser} = this.global;
+    const {currentUser, loggedIn} = this.global;
     if (!currentUser) { return null; }
-    const {products, total, count, loggedIn} = this.state;
+    const {products, total, count} = this.state;
     if (!products) {
       this.getCart();
       return null;

@@ -1,7 +1,7 @@
 import React from 'reactn';
-import axios from 'axios';
 import {Link} from 'react-router-dom';
 import './CategoryHeader.css';
+import CategoryService from "../../services/category.service"
 
 export default class CategoryHeader extends React.PureComponent {
   constructor(props) {
@@ -13,7 +13,7 @@ export default class CategoryHeader extends React.PureComponent {
   }
 
   componentDidMount() {
-    axios.get('/category/all').then(
+    CategoryService.getAll().then(
         res => this.setState({categories: res.data})
     );
   }

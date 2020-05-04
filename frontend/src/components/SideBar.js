@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, {useState} from 'reactn';
 import SidebarIcon from './img/side-bar-icon.png'
 
 const SideBar = () => {
@@ -15,5 +15,4 @@ const SideBar = () => {
         </div>
     )
 };
-
 export default SideBar;
