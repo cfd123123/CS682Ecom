@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'reactn';
 import PropTypes from 'prop-types';
 import Toggle from './Toggle.js';
 import { faChevronCircleUp, faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
@@ -14,7 +14,7 @@ const defaultProps = {
   order: 'asc',
 };
 
-class SortButton extends React.Component {
+export default class SortButton extends React.PureComponent {
 
   render() {
     const { order } = this.props;
@@ -43,4 +43,3 @@ class SortButton extends React.Component {
 SortButton.propTypes = propTypes;
 SortButton.defaultProps = defaultProps;
 
-export default SortButton;

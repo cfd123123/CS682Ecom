@@ -2,6 +2,7 @@ package edu.umb.cs682.ecom.backend.controllers;
 
 import edu.umb.cs682.ecom.backend.models.Category;
 import edu.umb.cs682.ecom.backend.models.Product;
+import edu.umb.cs682.ecom.backend.payload.request.CategoryListRequest;
 import edu.umb.cs682.ecom.backend.repositories.CategoryRepository;
 import edu.umb.cs682.ecom.backend.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,5 +70,8 @@ public class CategoryController {
         return products;
     }
 
-
+    @PostMapping("/list")
+    public Iterable<Category> getCategoryList(@RequestBody CategoryListRequest categoryIDs) {
+        return categoryRepository.findAllById(categoryIDs.getCategoryIDs());
+    }
 }

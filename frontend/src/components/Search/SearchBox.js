@@ -1,6 +1,6 @@
+import React, {useState} from "reactn";
 import { useHistory } from "react-router-dom";
 import queryString from "query-string";
-import React, {useState} from "react";
 import SearchIcon from "../img/search-icon.png";
 
 export default function SearchBox() {

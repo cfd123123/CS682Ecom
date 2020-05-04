@@ -2,6 +2,7 @@ import React from 'reactn';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import ProductService from "../services/product.service"
+import CategoryService from "../services/category.service"
 
 export default class Create extends React.PureComponent {
   constructor(props) {
@@ -46,16 +47,44 @@ export default class Create extends React.PureComponent {
 
   onSubmit = (event) => {
     event.preventDefault();
-    ProductService.addProduct(this.state).then(
-        result => { this.props.history.push("Result?content="); }
-    );
+    const {edit} = this.state;
+    if (edit) {
+      ProductService.updateProduct(this.state).then(
+          result => {
+            this.props.history.goBack();
+          }
+      );
+    } else {
+      ProductService.addProduct(this.state).then(
+          result => {
+            this.props.history.push("Result?content=");
+          }
+      );
+    }
   };
 
   getExistingProduct = () => {
     ProductService.getSingleProduct(this.props.match.params.id).then(
-        response => this.setState({...response.data, edit: true}),
-        error    => alert(error)
+        response => {
+          this.setState({...response.data, edit: true});
+          this.parseCategories();
+        },
+        error => alert(error)
     );
+  };
+
+  parseCategories = () => {
+    const {categories} = this.state;
+    if (categories) {
+      CategoryService.getListOfCategories(categories).then(
+          response => {
+            this.setState({
+              categoryList: response.data.map((category) => category.name)
+            });
+          },
+          error => alert(error)
+      );
+    }
   };
 
   render() {
