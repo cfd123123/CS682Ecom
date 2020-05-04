@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React from 'reactn';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
+import ProductService from "../services/product.service"
 
-class Create extends Component {
-
-  constructor() {
-    super();
+export default class Create extends React.PureComponent {
+  constructor(props) {
+    super(props);
     this.state = {
       name: '',
       shortDescription: '',
@@ -18,67 +17,61 @@ class Create extends Component {
       image: ''
     };
   }
+
   onChange = (event) => {
-    const state = this.state
-    state[event.target.name] = event.target.value;
-    this.setState(state);
+    let newState = {};
+    newState[event.target.name] = event.target.value;
+    this.setState({...newState});
   };
 
   onClose = (event) => {
-    const state = this.state
-    state['categoryList'] = state['categoryList'].filter( c => c !== event.target.name);
-    this.setState(state);
+    let newState = {};
+    newState['categoryList'] = this.state['categoryList'].filter( c => c !== event.target.name);
+    this.setState({...newState});
   };
 
   addCategories = (event) => {
-    const state = this.state;
-    if(event.target.value.substr(-1)===",") {
-      state['categoryList'] = state['categoryList'].concat(event.target.value.replace(",",""));
-      state[event.target.name] = '';
+    let newState = {};
+    if(event.target.value.substr(-1) === ",") {
+      let newCategory = event.target.value.replace(",","");
+      if (!this.state['categoryList'].includes(newCategory)) {
+        newState['categoryList'] = this.state['categoryList'].concat(newCategory);
+      }
+      newState[event.target.name] = '';
+    } else {
+      newState[event.target.name] = event.target.value;
     }
-
-    else {
-      state[event.target.name] = event.target.value;
-    }
-    this.setState(state);
-
+    this.setState({...newState});
   };
 
   onSubmit = (event) => {
     event.preventDefault();
-    const { name, shortDescription, longDescription, price, quantity, categoryList, image } = this.state;
+    ProductService.addProduct(this.state).then(
+        result => { this.props.history.push("Result?content="); }
+    );
+  };
 
-    axios.post('/products/all', {
-      name: name,
-      shortDescription: shortDescription,
-      longDescription: longDescription,
-      price: price,
-      quantity: quantity,
-      categories: categoryList,
-      image: image,
-    }).then(
-        result => {
-          this.props.history.push("Result?content=");
-        });
+  getExistingProduct = () => {
+    ProductService.getSingleProduct(this.props.match.params.id).then(
+        response => this.setState({...response.data, edit: true}),
+        error    => alert(error)
+    );
   };
 
   render() {
-    const { name, shortDescription, longDescription, price, quantity, category, image } = this.state;
+    if (!this.state.id && this.props.match.path.substr(1,4) === "edit") {
+      this.getExistingProduct();
+      return null;
+    }
+    const { name, shortDescription, longDescription, price, quantity, category, image, categoryList, edit } = this.state;
     return (
         <div className="container">
           <div className="panel panel-default">
             <div className="panel-heading">
-              <h3 className="panel-title">
-                ADD PRODUCT
-              </h3>
+              <h3 className="panel-title">{edit ? "EDIT " : "ADD "}PRODUCT</h3>
             </div>
             <div className="panel-body">
-              <h4>
-                <Link to="/Home">
-                  {/*<span className="glyphicon glyphicon-th-list" aria-hidden="true"></span>*/}
-                  Products List
-                </Link>
-              </h4>
+              <h4><Link to="/Home">Products List</Link></h4>
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <label htmlFor="isbn">Name:</label>
@@ -106,17 +99,16 @@ class Create extends Component {
                 </div>
 
                 <ul>
-                  {this.state.categoryList.map((tags) => (
-                    <li><Button variant="secondary" onClick={this.onClose} size="sm" name={tags}>{tags} &times;</Button></li>
+                  {categoryList.map((tag) => (
+                    <li key={tag}><Button variant="secondary" onClick={this.onClose} size="sm" name={tag}>{tag} &times;</Button></li>
                   ))}
                 </ul>
-
 
                 <div className="form-group">
                   <label htmlFor="author">Category:</label>
                   <input type="text[]" className="form-control" name="category" value={category} onChange={this.addCategories} placeholder="Category" />
                 </div>
-                <button type="submit" className="btn btn-default">Submit</button>
+                <button type="submit" className="btn btn-default">{edit ? "Update" : "Submit"}</button>
               </form>
             </div>
           </div>
@@ -124,5 +116,3 @@ class Create extends Component {
     );
   }
 }
-
-export default Create;

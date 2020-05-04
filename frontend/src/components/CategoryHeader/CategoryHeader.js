@@ -1,41 +1,37 @@
-import React from 'react';
+import React from 'reactn';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import './CategoryHeader.css';
 
-class CategoryHeader extends React.Component {
+export default class CategoryHeader extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-      categories: []
+      categories: undefined
     };
   }
 
   componentDidMount() {
-    axios.get('/category/all')
-        .then(res => {
-          this.setState({categories: res.data});
-        });
-
+    axios.get('/category/all').then(
+        res => this.setState({categories: res.data})
+    );
   }
-
-  renderCategories() {
-    if(this.state.categories !== []) {
-        return (this.state.categories.map((item) => <Link key={item.name} to={`/categoryResult?results=${item.name}`}>{item.name}</Link>))
-    }
-  }
-
-
 
   render() {
+    const { categories } = this.state;
+    if (!categories) { return null; }
+
+    const renderCategories = categories.map((category) =>
+        <Link key={category.name} to={`/categoryResult?results=${category.name}`}>
+          {category.name}
+        </Link>
+    );
+
     return (
       <div className="scrollmenu">
-        { this.renderCategories() }
+        { renderCategories }
       </div>
     );
   }
 }
-
-export default CategoryHeader;
-

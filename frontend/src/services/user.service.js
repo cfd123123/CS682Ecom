@@ -1,3 +1,4 @@
+import { setGlobal } from "reactn";
 import axios from 'axios';
 import authHeader from './auth-header';
 
@@ -18,10 +19,7 @@ class UserService {
   }
 
   getMyStuff() {
-    return axios.get(API_URL + 'mystuff', {
-      headers: authHeader(),
-      params: { username: this.getCurrentUsername() }
-    });
+    return axios.get(API_URL + 'mystuff', { headers: authHeader() });
   }
 
   getEmployeeContent() {
@@ -30,6 +28,10 @@ class UserService {
 
   getAdminContent() {
     return axios.get(API_URL + 'admin', { headers: authHeader() });
+  }
+
+  getMyAccount() {
+    return axios.get(API_URL + 'profile', { headers: authHeader() });
   }
 
   placeOrder(orderID) {
@@ -55,6 +57,15 @@ class UserService {
     }, {headers: authHeader()})
   }
 
+  /**
+   * INCOMPLETE!! This function does not currently work if the user is not logged in.
+   *
+   * Adds the given quantity of the given productID to the current user's cart,
+   * then calls @updateCurrentUser
+   *
+   * @param productID the product to be added to the cart
+   * @param quantity the quantity of productID to be added to the cart
+   */
   addToCart(productID, quantity) {
     const username = this.getCurrentUsername();
     if (username === "None") {
@@ -78,20 +89,31 @@ class UserService {
     )
   }
 
+  /**
+   * Returns the current value of "user" in localStorage, or the "None" user if
+   * the key does not exist.
+   * @returns {currentUser}
+   */
   getCurrentUser() {
-    return JSON.parse(localStorage.getItem('user'));
+    const currentUser = JSON.parse(localStorage.getItem('user'));
+    return currentUser ? currentUser : { username: "None", cart: {}, roles: [] };
   }
 
+  /**
+   * Updates the "user" localStorage item and "currentUser" global variable
+   * to include newUser as the new currentUser. accessToken and tokenType are
+   * taken from existing values.
+   * @param newUser the new data to replace existing currentUser.
+   */
   updateCurrentUser(newUser) {
     const oldCurrentUser = this.getCurrentUser();
-    localStorage.setItem("user", JSON.stringify({
+    const newCurrentUser = {
       accessToken: oldCurrentUser.accessToken,
-      tokeType: oldCurrentUser.tokeType,
+      tokenType: oldCurrentUser.tokenType,
       ...newUser,
-    }));
-    // TODO: Find out if using a global variable like this is bad
-    window.refresh();
-    // window.location.reload()
+    };
+    localStorage.setItem("user", JSON.stringify(newCurrentUser));
+    setGlobal({ currentUser: { ...newCurrentUser } });
   }
 }
 export default new UserService()

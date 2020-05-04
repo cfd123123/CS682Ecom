@@ -1,17 +1,8 @@
-import React, { Component } from 'react';
+import React from 'reactn';
 
-export default class PlaceOrderColumn extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      content: "",
-      ...this.props,
-    };
-  }
-
+export default class PlaceOrderColumn extends React.PureComponent {
   render() {
-    const {total, placeOrder, shippingCost, taxCost, itemCount, subTotal} = this.state;
+    const {total, placeOrder, shippingCost, taxCost, itemCount, subTotal} = this.props;
     return(
         <div className="app-box-group" style={{'position':'relative','width':'inherit','top':'0px'}}>
           <div className="app-box app-first">

@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import {CurrentUserContext} from "../../CurrentUserContext";
+import React from 'reactn';
 import "./Cart.css"
 import CartProductList from "./CartProductList";
 import ProductService from "../../services/product.service";
@@ -7,31 +6,25 @@ import ProceedToCheckout from "./ProceedToCheckout";
 import UserService from "../../services/user.service";
 import AuthService from "../../services/auth.service";
 
-export default class Cart extends Component {
+export default class Cart extends React.PureComponent {
 
   constructor(props) {
     super(props);
     this.getCart = this.getCart.bind(this);
     this.proceedToCheckout = this.proceedToCheckout.bind(this);
-    this.logOut = this.logOut.bind(this);
 
     this.state = {
       content: "",
-      loggedIn: false,
       products: undefined,
       total: undefined,
       count: undefined,
     }
   };
 
-  // Don't need to call getCart() on mount, as the render() method is short circuited.
-  // componentDidMount() {
-  //   this.getCart();
-  // }
-
+  // TODO: Make the proceedToCheckout API return an existing preOrder if it exists.
   proceedToCheckout() {
-    const {currentUser} = this.context;
-    const {loggedIn, total} = this.state;
+    const {loggedIn, currentUser} = this.global;
+    const {total} = this.state;
     if (loggedIn) {
       UserService.proceedToCheckout(currentUser.cart, total).then(
           response => {
@@ -39,26 +32,20 @@ export default class Cart extends Component {
               pathname: '/checkout',
               state: { response: response.data },
             });
-            // window.location.reload();
           },
           error => {
             console.log(error);
           }
       );
-      // alert("checking out");
     } else {
-      this.logOut();
+      AuthService.logout();
       this.props.history.push("/login");
         window.location.reload();
     }
   }
 
-  logOut() {
-    AuthService.logout();
-  }
-
   getCart() {
-    const {cart} = this.context.currentUser;
+    const {cart} = this.global.currentUser;
     if (cart) {
       const justProducts = Object.entries(cart).map(([id, q]) => id);
       ProductService.getListOfProducts(justProducts).then(
@@ -90,7 +77,7 @@ export default class Cart extends Component {
   }
 
   render() {
-    const {currentUser} = this.context;
+    const {currentUser} = this.global;
     if (!currentUser) { return null; }
     const {products, total, count, loggedIn} = this.state;
     if (!products) {
@@ -108,4 +95,3 @@ export default class Cart extends Component {
     );
   }
 }
-Cart.contextType = CurrentUserContext;

@@ -1,6 +1,7 @@
 package edu.umb.cs682.ecom.backend;
 
 import edu.umb.cs682.ecom.backend.models.ERole;
+import edu.umb.cs682.ecom.backend.models.Product;
 import edu.umb.cs682.ecom.backend.models.Role;
 import edu.umb.cs682.ecom.backend.models.User;
 import edu.umb.cs682.ecom.backend.repositories.RoleRepository;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Set;
 
 @Component
 public class DataInitializer {
@@ -31,5 +33,7 @@ public class DataInitializer {
             }
             userRepository.save(adminUser);
         }
+//        Set<String>
+//        Product apples = new Product();
     }
 }

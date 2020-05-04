@@ -1,17 +1,8 @@
-import React, { Component } from 'react';
+import React from 'reactn';
 
-export default class PlaceOrderRow extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      content: "",
-      ...this.props,
-    };
-  }
-
+export default class PlaceOrderRow extends React.PureComponent {
   render() {
-    const {total, placeOrder} = this.state;
+    const {total, placeOrder} = this.props;
     return(
         <div className="app-section app-inline-container">
           <div className="app-section app-inline-container-left">

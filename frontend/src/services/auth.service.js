@@ -18,13 +18,13 @@ class AuthService {
           password
         })
         .then(response => {
+          console.log(response);
           if (response.data.accessToken) {
             localStorage.setItem("user", JSON.stringify({
               accessToken: response.data.accessToken,
               tokenType: response.data.tokenType,
               ...response.data.user,
             }));
-            window.refresh();
           }
           return response.data;
         });

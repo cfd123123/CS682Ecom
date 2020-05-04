@@ -15,46 +15,38 @@ public class Category {
     @NotBlank
     String name;
 
-    Set<Product> products = new HashSet<>();
+    Set<String> products = new HashSet<>();
 
+    public Category() {}
     public Category(String name) {
-        this.name = this.normalizeName(name);
+        this.name = normalizeName(name);
+    }
+
+    public Category(String name, Set<String> products) {
+        this.name = normalizeName(name);
+        this.products = products;
     }
 
     private String normalizeName(String name) {
         return name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
     }
 
-
-    public Category() {
-    }
-
-    public Category(String name, Set<Product> products) {
-      this.name = name;
-      this.products = products;
-    }
-
-    public Category addProduct(Product toBeAdded) {
+    public Category addProduct(String toBeAdded) {
         products.add(toBeAdded);
         return this;
     }
 
-    public Category deleteProduct(Product toBeDeleted) {
+    public Category deleteProduct(String toBeDeleted) {
         products.remove(toBeDeleted);
         return this;
     }
 
-    public String getId() { return id; }
-    public void   setId(String id) { this.id = id; }
+    public String getId()            { return id; }
+    public String getName()          { return name; }
+    public Set<String> getProducts() { return products; }
 
-    public String getName() { return name; }
-    public void   setName(String name) { this.name = name; }
-
-    public void setProducts(Set<Product> products){
-      this.products = products;
-    }
-    public Set<Product> getProducts(){
-      return this.products;
-    }
+    public void setProducts(Set<String> products) { this.products = products; }
+    public void setName(String name)              { this.name = name; }
+    public void setId(String id)                  { this.id = id; }
 
 }

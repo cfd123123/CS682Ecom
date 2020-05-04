@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "reactn";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -15,7 +15,7 @@ const required = value => {
   }
 };
 
-export default class Login extends Component {
+export default class Login extends React.PureComponent {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
@@ -56,7 +56,7 @@ export default class Login extends Component {
       AuthService.login(this.state.username, this.state.password)
           .then( () => {
             this.props.history.push("/home");
-            // window.location.reload();
+            window.location.reload();
           },
           error => {
             const resMessage =

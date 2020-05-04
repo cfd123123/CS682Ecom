@@ -1,10 +1,9 @@
-import React, { Component } from "react";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
+import React from "reactn";
 import CheckButton from "react-validation/build/button";
-import { isEmail } from "validator";
-
 import AuthService from "../services/auth.service";
+import isEmail from 'validator/lib/isEmail';
+import Input from "react-validation/build/input";
+import Form from "react-validation/build/form";
 
 const required = value => {
   if (!value) {
@@ -46,7 +45,7 @@ const vpassword = value => {
   }
 };
 
-export default class Register extends Component {
+export default class Register extends React.PureComponent {
   constructor(props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);

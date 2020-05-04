@@ -1,43 +1,52 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React from 'reactn';
 import { Link } from 'react-router-dom';
+import ProductService from "../services/product.service"
+import {Button} from "reactstrap";
 
-class Edit extends Component {
-
+export default class Edit extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      product: undefined
+      name: '',
+      shortDescription: '',
+      longDescription: '',
+      price: '',
+      quantity: '',
+      category: '',
+      categoryList: [],
+      image: ''
     };
   }
 
   componentDidMount() {
-    axios.get('/products/'+this.props.match.params.id)
-        .then(response => {
-          this.setState({ product: response.data });
-          console.log(this.state.product);
-        });
+    ProductService.getSingleProduct(this.props.match.params.id).then(
+        response => this.setState({...response.data}),
+        error    => alert(error)
+    );
   }
 
   onChange = (event) => {
-    const state = this.state.product;
-    state[event.target.name] = event.target.value;
-    this.setState({product:state});
+    let newState = {};
+    newState[event.target.name] = event.target.value;
+    this.setState({...newState});
   };
 
   onSubmit = (e) => {
     e.preventDefault();
+    ProductService.updateProduct(this.state).then(result => {
+      this.props.history.push("/show/"+this.props.match.params.id)
+    });
+  };
 
-    const { name, shortDescription, longDescription, price, quantity } = this.state.product;
-
-    axios.put('/products/'+this.props.match.params.id, { name, shortDescription, longDescription, price, quantity })
-        .then((result) => {
-          this.props.history.push("/show/"+this.props.match.params.id)
-        });
+  onClose = (event) => {
+    let newState = {};
+    newState['categoryList'] = this.state['categoryList'].filter( c => c !== event.target.name);
+    this.setState({...newState});
   };
 
   render() {
-    const {product} = this.state;
+    if (!this.state) { return null; }
+    const {id, name, shortDescription, longDescription, price, quantity, categories, image} = this.state;
     return (
         <div className="container">
           <div className="panel panel-default">
@@ -46,35 +55,44 @@ class Edit extends Component {
                 EDIT Product
               </h3>
             </div>
-            {product &&
+            {id &&
             <div className="panel-body">
-              <h4><Link to={`/show/${product.id}`}><span className="glyphicon glyphicon-eye-open"
-                                                         aria-hidden="true"/> Product List</Link></h4>
+              <h4><Link to={'/'}>Product List</Link></h4>
               <form onSubmit={this.onSubmit}>
                 <div className="form-group">
                   <label htmlFor="name">Name:</label>
-                  <input type="text" className="form-control" name="name" value={product.name} onChange={this.onChange}
-                         placeholder="Name"/>
+                  <input type="text" className="form-control" name="name" value={name} onChange={this.onChange} placeholder="Name"/>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="title">ShortDescription:</label>
-                  <input type="text" className="form-control" name="shortDescription" value={product.shortDescription}
+                  <label htmlFor="shortDescription">ShortDescription:</label>
+                  <input type="text" className="form-control" name="shortDescription" value={shortDescription}
                          onChange={this.onChange} placeholder="ShortDescription"/>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="author">LongDescription:</label>
-                  <input type="text" className="form-control" name="longDescription" value={product.longDescription}
+                  <label htmlFor="longDescription">LongDescription:</label>
+                  <input type="text" className="form-control" name="longDescription" value={longDescription}
                          onChange={this.onChange} placeholder="LongDescription"/>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="author">Price:</label>
-                  <input type="text" className="form-control" name="price" value={product.price}
-                         onChange={this.onChange} placeholder="Price"/>
+                  <label htmlFor="price">Price:</label>
+                  <input type="text" className="form-control" name="price" value={price} onChange={this.onChange} placeholder="Price"/>
                 </div>
                 <div className="form-group">
-                  <label htmlFor="author">Quantity:</label>
-                  <input type="text" className="form-control" name="quantity" value={product.quantity}
-                         onChange={this.onChange} placeholder="Quantity"/>
+                  <label htmlFor="quantity">Quantity:</label>
+                  <input type="text" className="form-control" name="quantity" value={quantity} onChange={this.onChange} placeholder="Quantity"/>
+                </div>
+                <ul>
+                  {categories.map((tag) => (
+                      <li key={tag}><Button variant="secondary" onClick={this.onClose} size="sm" name={tag}>{tag} &times;</Button></li>
+                  ))}
+                </ul>
+                <div className="form-group">
+                  <label htmlFor="categories">Categories:</label>
+                  <input type="text" className="form-control" name="categories" value={categories} onChange={this.onChange} placeholder="Categories"/>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="quantity">Quantity:</label>
+                  <input type="text" className="form-control" name="quantity" value={quantity} onChange={this.onChange} placeholder="Quantity"/>
                 </div>
                 <button type="submit" className="btn btn-default">Update</button>
               </form>
@@ -85,5 +103,3 @@ class Edit extends Component {
     );
   }
 }
-
-export default Edit;

@@ -1,4 +1,4 @@
-import React from "react";
+import React from "reactn";
 // import { render } from "react-dom";
 import Slider from "react-animated-slider";
 import "react-animated-slider/build/horizontal.css";
@@ -6,10 +6,9 @@ import "normalize.css/normalize.css";
 import "./slider-animations.css";
 import "./styles.css";
 
-class Recommended extends React.Component {
+export default class Recommended extends React.Component {
   constructor(props){
     super(props);
-
     this.createRecommended = this.createRecommended.bind(this);
   }
 
@@ -32,32 +31,27 @@ class Recommended extends React.Component {
     let duration = this.duration;
 
     return (
-      <div>
-        <div className="wrapper">
-
+        <div>
+          <div className="wrapper" />
+          <Slider className="slider-wrapper" autoplay={autoplay} duration={duration}>
+            {content.map((item, index) => (
+                <div key={index} className="slider-content"
+                     style={{ background: `url('${item.image}') no-repeat center center` }} >
+                  <div className="inner">
+                    <h1>{item.name}</h1>
+                    <p>{item.shortDescription}</p>
+                    <button>{item.button}</button>
+                  </div>
+                  <section>
+                    <img src={item.userProfile} alt={item.user} />
+                    <span>
+                      <strong>People who have bought this</strong>
+                    </span>
+                  </section>
+                </div>
+            ))}
+          </Slider>
         </div>
-        <Slider className="slider-wrapper" autoplay={autoplay} duration={duration}>
-          {content.map((item, index) => (
-            <div
-              key={index}
-              className="slider-content"
-              style={{ background: `url('${item.image}') no-repeat center center` }}
-            >
-              <div className="inner">
-                <h1>{item.name}</h1>
-                <p>{item.shortDescription}</p>
-                <button>{item.button}</button>
-              </div>
-              <section>
-                <img src={item.userProfile} alt={item.user} />
-                <span>
-                  <strong>People who have bought this</strong>
-                </span>
-              </section>
-            </div>
-          ))}
-        </Slider>
-      </div>
     );
   }
 
@@ -101,5 +95,3 @@ class Recommended extends React.Component {
     );
   }
 }
-
-export default Recommended;
