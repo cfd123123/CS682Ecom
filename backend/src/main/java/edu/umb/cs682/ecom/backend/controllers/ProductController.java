@@ -43,7 +43,7 @@ public class ProductController {
 
     @PostMapping("/{id}")
     public Product save(@PathVariable String id, @RequestBody Product product) {
-//        System.err.printf("\n\nproduct.getCategories: %s\n\n", product.getCategories());
+        System.err.printf("\n\nproduct.getCategories: %s\n\n", product.getCategories());
         Set<String> categories = new HashSet<>();
         // Step 1: Save product to generate product ID.
         product = productRepository.save(product);
@@ -67,31 +67,63 @@ public class ProductController {
         return productRepository.save(product);
     }
 
+    /**
+     * Updates an existing product using specifications from the given product.
+     *
+     * Iterates through the product's categories, adding or removing if necessary.
+     * The frontend uses category names, but category IDs are stored inside products.
+     * As a result, effort is made to parse through the categories as needed.
+     *
+     * @param id the product ID
+     * @param product the product details
+     * @return the updated product
+     */
+    @PutMapping("/{id}")
+    public Product update(@PathVariable String id, @RequestBody Product product) {
+        Product existingProduct = productRepository.findById(id).orElseThrow();
+        
+        Set<String> existingCategories = existingProduct.getCategories();
+        Set<String> newCategories = product.getCategories();
+        Set<String> categories = new HashSet<>();
+
+        for (String curr : newCategories) {
+            if (existingCategories.remove(curr)) {
+                categories.add(curr);
+                continue;
+            }
+            Category category;
+            if (categoryRepository.existsById(curr)) {
+                category = categoryRepository.findById(curr).orElseThrow();
+            } else {
+                String name = curr.substring(0, 1).toUpperCase() + curr.substring(1).toLowerCase();
+                if (categoryRepository.existsByName(name)) {
+                    category = categoryRepository.findByName(name);
+                    existingCategories.remove(category.getId());
+                } else {
+                    category = categoryRepository.save(new Category(curr));
+                }
+            }
+            category.addProduct(existingProduct.getId());
+            categories.add(categoryRepository.save(category).getId());
+        }
+        for (String curr : existingCategories) {
+            Category category = categoryRepository.findById(curr).orElseThrow();
+            category.deleteProduct(existingProduct.getId());
+            categoryRepository.save(category);
+        }
+        existingProduct.updateProduct(product);
+        existingProduct.setCategories(categories);
+        return productRepository.save(existingProduct);
+    }
+
     @PostMapping("/list")
     public Iterable<Product> listOfProducts(@RequestBody ProductListRequest products) {
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        System.err.printf("\n\nauth: %s\n", auth);
-//        System.err.printf("auth.getPrincipal(): %s\n", auth.getPrincipal());
-//        System.err.printf("auth.getAuthorities(): %s\n\n", auth.getAuthorities());
-//        System.err.printf("auth instanceof AnonymousAuthenticationToken: %s\n\n", auth instanceof AnonymousAuthenticationToken);
-//        boolean loggedIn = auth instanceof UsernamePasswordAuthenticationToken;
-
-//        return new CartResponse(loggedIn, productRepository.findByIdIn(products.getProducts()));
         return productRepository.findByIdIn(products.getProducts());
     }
 
     @GetMapping("/{id}")
     public Product show(@PathVariable String id) {
-//        System.err.printf("\n\n%s\n\n", id);
         return productRepository.findById(id).orElseThrow();
-    }
-
-    @PutMapping("/{id}")
-    public Product update(@PathVariable String id, @RequestBody Product product) {
-        Optional<Product> optProduct = productRepository.findById(id);
-        Product existingProduct = optProduct.orElseThrow();
-        existingProduct.updateProduct(product);
-        return productRepository.save(existingProduct);
     }
 
     @DeleteMapping("/{id}")

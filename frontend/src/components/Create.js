@@ -14,6 +14,7 @@ export default class Create extends React.PureComponent {
       price: '',
       quantity: '',
       category: '',
+      categories: [],
       categoryList: [],
       image: ''
     };
@@ -28,6 +29,7 @@ export default class Create extends React.PureComponent {
   onClose = (event) => {
     let newState = {};
     newState['categoryList'] = this.state['categoryList'].filter( c => c !== event.target.name);
+    newState['categories'] = this.state['categoryList'].filter( c => c !== event.target.name);
     this.setState({...newState});
   };
 
@@ -37,6 +39,9 @@ export default class Create extends React.PureComponent {
       let newCategory = event.target.value.replace(",","");
       if (!this.state['categoryList'].includes(newCategory)) {
         newState['categoryList'] = this.state['categoryList'].concat(newCategory);
+      }
+      if (!this.state['categories'].includes(newCategory)) {
+        newState['categories'] = this.state['categories'].concat(newCategory);
       }
       newState[event.target.name] = '';
     } else {
