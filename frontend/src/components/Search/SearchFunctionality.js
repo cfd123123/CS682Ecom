@@ -1,27 +1,20 @@
-import React, { Component } from 'react';
+import React from 'reactn';
 import SearchResultHandler from './SearchResultHandler';
 
-class SearchFunctionality extends Component {
+export default class SearchFunctionality extends React.PureComponent {
   render() {
-    const searched = this.props.content;
-    const categorySearch = this.props.category;
+    const {searched, categorySearch, products} = this.props;
     const regex = /[.,]/;
     let results = this.props.products;
-
-      if (!categorySearch || (searched !== "")) {
-        results =
-          this.props.products.filter((searchedItem)=>
-            (searchedItem.name.toLowerCase().indexOf(searched) !== -1) ||
-             searchedItem.shortDescription.replace(regex, "").split(/ /).map(w => w.toLowerCase()).includes(searched) ||
-             searchedItem.longDescription.replace(regex, "").split(/ /).map(w => w.toLowerCase()).includes(searched)
-            );
-      }
-      
-    return (
-      <SearchResultHandler products={results}/>
-    );
-
+    if (!categorySearch || (searched !== "")) {
+      results =
+          products.filter((product) => (
+              product.name.toLowerCase().indexOf(searched) !== -1) ||
+              product.shortDescription.replace(regex, "").split(/ /).map(word => word.toLowerCase()).includes(searched) ||
+              product.longDescription.replace(regex, "").split(/ /).map(word => word.toLowerCase()).includes(searched)
+              // || product.categories.includes(searched) TODO: Make this line work too (need to get categories from backend)
+          );
+    }
+    return (<SearchResultHandler products={results} />);
   }
 }
-
-export default SearchFunctionality;

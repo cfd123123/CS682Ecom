@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'reactn';
 import CheckoutProductRow from "./CheckoutProductRow";
 import PlaceOrderRow from "./PlaceOrderRow";
 import PlaceOrderColumn from "./PlaceOrderColumn";
 import UserService from "../../services/user.service";
 
-export default class Checkout extends Component {
+export default class Checkout extends React.PureComponent {
   constructor(props) {
     super(props);
     this.placeOrder = this.placeOrder.bind(this);
@@ -12,10 +12,6 @@ export default class Checkout extends Component {
       ...this.props.location.state.response,
     }
   }
-
-  // componentDidMount() {
-  //   console.log(this.state);
-  // }
 
   placeOrder() {
     const {preOrder} = this.state;
@@ -51,7 +47,7 @@ export default class Checkout extends Component {
                     {productList}
                   </div>
                   <div className="app-box-inner">
-                    <PlaceOrderRow total={total}placeOrder={this.placeOrder}/>
+                    <PlaceOrderRow total={total} placeOrder={this.placeOrder}/>
                   </div>
                 </div>
               </div>

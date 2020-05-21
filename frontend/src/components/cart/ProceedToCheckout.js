@@ -1,24 +1,8 @@
-import React, { Component } from 'react';
+import React from 'reactn';
 
-export default class ProceedToCheckout extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      content: "",
-    };
-  }
-  componentDidMount() {
-    this.setState({
-      proceedToCheckout: this.props.proceedToCheckout,
-      total: this.props.total,
-      count: this.props.count,
-      loggedIn: this.props.loggedIn,
-    })
-  }
-
+export default class ProceedToCheckout extends React.PureComponent {
   render() {
-    const {loggedIn, total, count, proceedToCheckout} = this.state;
+    const {loggedIn, total, count, proceedToCheckout} = this.props;
     if (!loggedIn) {
       return null;
     }

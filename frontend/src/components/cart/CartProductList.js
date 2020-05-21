@@ -1,21 +1,11 @@
-import React, { Component } from 'react';
-import {CurrentUserContext} from "../../CurrentUserContext";
+import React from 'reactn';
 import CartProductRow from "./CartProductRow";
 import "./Cart.css"
 
-export default class CartProductList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      content: "",
-      ...this.props,
-    };
-  }
-
+export default class CartProductList extends React.PureComponent {
   render() {
-    const {currentUser} = this.context;
-    const {products, total, count} = this.state;
+    const {currentUser} = this.global;
+    const {products, total, count} = this.props;
 
     const cartList = products.map(product => {
           return <CartProductRow key={`${product.id}`} {...product} quantity={currentUser.cart[product.id]}/>
@@ -57,4 +47,3 @@ export default class CartProductList extends Component {
     );
   }
 }
-CartProductList.contextType = CurrentUserContext;

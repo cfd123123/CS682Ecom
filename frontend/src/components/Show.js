@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React from 'reactn';
 import { Link } from 'react-router-dom';
+import ProductService from "../services/product.service"
 
-class Show extends Component {
-
+export default class Show extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,17 +11,16 @@ class Show extends Component {
   }
 
   componentDidMount() {
-    axios.get('/products/'+this.props.match.params.id)
-        .then(response => {
-          this.setState({ product: response.data });
-        });
+    const {id} = this.props.match.params;
+    ProductService.getSingleProduct(id).then(response => {
+      this.setState({ product: response.data });
+    });
   }
 
   delete(id){
-    axios.delete('/products/'+id)
-        .then((result) => {
-          this.props.history.push("/")
-        });
+    ProductService.deleteProduct(id).then(result => {
+      this.props.history.push("/")
+    });
   }
 
   render() {
@@ -70,5 +68,3 @@ class Show extends Component {
     );
   }
 }
-
-export default Show;

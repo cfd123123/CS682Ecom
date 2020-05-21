@@ -1,20 +1,8 @@
-import React, { Component } from 'react';
-import {CurrentUserContext} from "../../CurrentUserContext";
+import React from 'reactn';
 
-export default class OrderConfirmation extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      order: this.props.location.state.order,
-    }
-  }
-
-  // componentDidMount() {
-  //   console.log(this.state);
-  // }
-
+export default class OrderConfirmation extends React.PureComponent {
   render() {
-    const {orderDate, id, products, subtotal, taxes, shipping, total} = this.state.order;
+    const {orderDate, id, products, subtotal, taxes, shipping, total} = this.props.location.state.order;
     return(
         <div>
           <div>
@@ -33,4 +21,3 @@ export default class OrderConfirmation extends Component {
     )
   }
 }
-OrderConfirmation.contextType = CurrentUserContext;

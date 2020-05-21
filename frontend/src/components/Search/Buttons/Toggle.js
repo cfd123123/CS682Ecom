@@ -1,9 +1,9 @@
-import React from 'react';
+import React from 'reactn';
 import classNames from 'classnames';
 import { Button } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default class Toggle extends React.Component {
+export default class Toggle extends React.PureComponent {
   render() {
     const { clickHandler, text, icon, active, large } = this.props;
     const buttonClass = classNames({
@@ -15,8 +15,6 @@ export default class Toggle extends React.Component {
 
     return (
       <Button className={buttonClass} onClick={clickHandler} size="sm">
-
-
         {text} <FontAwesomeIcon icon={icon} />
       </Button>
     );

@@ -1,10 +1,9 @@
-import React, {Component} from "react";
+import React from "reactn";
 import UserService from "../services/user.service";
 import {Link} from "react-router-dom";
-import ProductCard from "./product/ProductCard"
-import {CurrentUserContext} from "../CurrentUserContext";
+import ProductResult from "./Search/ProductResult"
 
-export default class Home extends Component {
+export default class Home extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,21 +35,25 @@ export default class Home extends Component {
     // const {currentUser} = this.context;
 
     const limitedProducts = this.state.products.slice(0, 20).map(product => {
-      return <ProductCard key={`${product.id}`} {...product} />
+      return <ProductResult key={`${product.id}`} id={product.id} />
     });
 
     return (
         <div className="container">
-          <header className="jumbotron">
-            <h3>Products</h3>
-            <Link to="/create">
-              Add Product
-            </Link>
-          </header>
-          {this.state.content}
-          {limitedProducts}
+          <div>
+            <header className="jumbotron">
+              <h3>Products</h3>
+              <Link to="/create">
+                Add Product
+              </Link>
+            </header>
+          </div>
+          <br />
+          <div>
+            {this.state.content}
+            {limitedProducts}
+          </div>
         </div>
     );
   }
 }
-Home.contextType = CurrentUserContext;

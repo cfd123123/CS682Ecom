@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React from "reactn";
 import UserService from "../services/user.service";
-import {CurrentUserContext} from "../CurrentUserContext";
 
-export default class Admin extends Component {
+export default class Admin extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -15,7 +14,7 @@ export default class Admin extends Component {
     UserService.getAdminContent().then(
         response => {
           this.setState({
-            content: response.data
+            content: JSON.stringify(response.data)
           });
         },
         error => {
@@ -32,15 +31,17 @@ export default class Admin extends Component {
   }
 
   render() {
-    // const {currentUser} = this.context;
-    // console.log(currentUser);
+    const {currentUser} = this.global;
+    const {content} = this.state;
+    if (!(content && currentUser)) { return null; }
+    console.log(content);
+
     return (
         <div className="container">
           <header className="jumbotron">
-            <h3>{this.state.content}</h3>
+            <h3>{content}</h3>
           </header>
         </div>
     );
   }
 }
-Admin.contextType = CurrentUserContext;
