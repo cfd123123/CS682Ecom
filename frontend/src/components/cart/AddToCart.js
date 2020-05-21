@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'reactn';
 import {Button} from 'reactstrap';
 
-export default class AddToCart extends React.Component {
+export default class AddToCart extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -12,9 +12,9 @@ export default class AddToCart extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(e) {
+  handleChange(event) {
     this.setState({
-      quantity: e.target.value
+      quantity: event.target.value
     });
   }
 

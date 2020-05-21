@@ -1,65 +1,53 @@
-import React, { Component } from 'react';
+import React from 'reactn';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ProductResult from './Search/ProductResult'
 
-class CategoryResult extends Component {
-
+export default class CategoryResult extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      products: null
+      categories: null
     };
   }
 
   componentDidMount() {
-    axios.get('/category/all')
-        .then(res => {
-          this.setState({ products: res.data });
-        });
+    axios.get('/category/all').then(
+        res => {
+          this.setState({ categories: res.data });
+        }
+    );
   }
 
-
-
   render() {
-    const searchParams = new URLSearchParams(this.props.location.search);
-    const resultsPara = searchParams.get('results');
+    const { categories } = this.state;
+    if(!categories) { return null; }
 
-    if(!this.state.products)
-    {
-      return <div/>
-    }
+    // Parse the url query string
+    const resultsParam = new URLSearchParams(this.props.location.search).get('results');
+    // filter the categories
+    const results = categories.filter((category) => category.name === resultsParam );
+    // construct ProductResult components for all products belonging to results
+    const productResults = results.map((category) => category.products.map((productID) => {
+      return <ProductResult id={productID} key={productID}/>
+    }));
 
-    let result =()=> {
-      return (
-        this.state.products.filter((cate)=> cate.name ===resultsPara )
-      )
-    }
     return (
         <div className="container">
           <div className="panel panel-default">
             <div className="panel-heading">
+              <Link to="/" style={{'float':'left'}}>Home</Link>
+              <Link to="/create" style={{'float':'right'}}>Add Product</Link>
+              <br />
+              <h5 className="panel-title" >
+                Category results {resultsParam && `for "${resultsParam}"`}
+              </h5>
             </div>
             <div className="panel-body">
-              <h6 align="left"><Link to="/"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Home</Link></h6>
-              <h6 align="right"><Link to="/create"><span className="glyphicon glyphicon-plus-sign" aria-hidden="true"/> Add Product</Link></h6>
-              <h5 className="panel-title" >
-                Category results {resultsPara && `for "${resultsPara}"`}
-              </h5>
-
-            {
-              result()[0].products.map((items)=>{
-                  return <ProductResult id={items.id} name={items.name} shortDescription={items.shortDescription} price={items.price} image={items.image}/>
-              })
-            }
-
-
-
+              { productResults }
             </div>
           </div>
         </div>
     );
   }
 }
-
-export default CategoryResult;

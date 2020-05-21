@@ -7,7 +7,6 @@ import edu.umb.cs682.ecom.backend.payload.request.ProductListRequest;
 import edu.umb.cs682.ecom.backend.payload.response.CartResponse;
 import edu.umb.cs682.ecom.backend.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,12 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -45,70 +41,99 @@ public class ProductController {
         return productRepository.findAll();
     }
 
-    @PostMapping("/all")
-    public Product save(@RequestBody Product product) {
+    @PostMapping("/{id}")
+    public Product save(@PathVariable String id, @RequestBody Product product) {
         System.err.printf("\n\nproduct.getCategories: %s\n\n", product.getCategories());
-
-        //if (product.getCategories().size == 0) {
-        //    product.insertOtherCategories();
-        //}
+        Set<String> categories = new HashSet<>();
+        // Step 1: Save product to generate product ID.
+        product = productRepository.save(product);
 
         for (String curr : product.getCategories()) {
             String name = curr.substring(0, 1).toUpperCase() + curr.substring(1).toLowerCase();
+            Category category;
+            // Step 2: Save or find category by name
             if (!categoryRepository.existsByName(name)) {
-                categoryRepository.save(new Category(curr).addProduct(product));
+                category = categoryRepository.save(new Category(curr));
             } else {
-                categoryRepository.save(categoryRepository.findByName(name).addProduct(product));
+                category = categoryRepository.findByName(name);
             }
+            // Step 3: Add product to category
+            category.addProduct(product.getId());
+            categories.add(categoryRepository.save(category).getId());
         }
-        productRepository.save(product);
-        return product;
+        // Step 4: Replace product's category set (was set of names, now set of IDs)
+        product.setCategories(categories);
+        // Step 5: save and return product
+        return productRepository.save(product);
+    }
+
+    /**
+     * Updates an existing product using specifications from the given product.
+     *
+     * Iterates through the product's categories, adding or removing if necessary.
+     * The frontend uses category names, but category IDs are stored inside products.
+     * As a result, effort is made to parse through the categories as needed.
+     *
+     * @param id the product ID
+     * @param product the product details
+     * @return the updated product
+     */
+    @PutMapping("/{id}")
+    public Product update(@PathVariable String id, @RequestBody Product product) {
+        Product existingProduct = productRepository.findById(id).orElseThrow();
+        
+        Set<String> existingCategories = existingProduct.getCategories();
+        Set<String> newCategories = product.getCategories();
+        Set<String> categories = new HashSet<>();
+
+        for (String curr : newCategories) {
+            if (existingCategories.remove(curr)) {
+                categories.add(curr);
+                continue;
+            }
+            Category category;
+            if (categoryRepository.existsById(curr)) {
+                category = categoryRepository.findById(curr).orElseThrow();
+            } else {
+                String name = curr.substring(0, 1).toUpperCase() + curr.substring(1).toLowerCase();
+                if (categoryRepository.existsByName(name)) {
+                    category = categoryRepository.findByName(name);
+                    existingCategories.remove(category.getId());
+                } else {
+                    category = categoryRepository.save(new Category(curr));
+                }
+            }
+            category.addProduct(existingProduct.getId());
+            categories.add(categoryRepository.save(category).getId());
+        }
+        for (String curr : existingCategories) {
+            Category category = categoryRepository.findById(curr).orElseThrow();
+            category.deleteProduct(existingProduct.getId());
+            categoryRepository.save(category);
+        }
+        existingProduct.updateProduct(product);
+        existingProduct.setCategories(categories);
+        return productRepository.save(existingProduct);
     }
 
     @PostMapping("/list")
-    public CartResponse listOfProducts(@RequestBody ProductListRequest products) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        System.err.printf("\n\nauth: %s\n", auth);
-//        System.err.printf("auth.getPrincipal(): %s\n", auth.getPrincipal());
-//        System.err.printf("auth.getAuthorities(): %s\n\n", auth.getAuthorities());
-//        System.err.printf("auth instanceof AnonymousAuthenticationToken: %s\n\n", auth instanceof AnonymousAuthenticationToken);
-        boolean loggedIn = auth instanceof UsernamePasswordAuthenticationToken;
-
-        return new CartResponse(loggedIn, productRepository.findByIdIn(products.getProducts()));
+    public Iterable<Product> listOfProducts(@RequestBody ProductListRequest products) {
+        return productRepository.findByIdIn(products.getProducts());
     }
 
     @GetMapping("/{id}")
-    public Optional<Product> show(@PathVariable String id) {
-        return productRepository.findById(id);
-    }
-
-    @PutMapping("/{id}")
-    public Product update(@PathVariable String id, @RequestBody Product product) {
-        Optional<Product> optProduct = productRepository.findById(id);
-        Product existingProduct = optProduct.orElseThrow();
-        if(product.getName() != null)
-            existingProduct.setName(product.getName());
-        if(product.getShortDescription() != null)
-            existingProduct.setShortDescription(product.getShortDescription());
-        if(product.getLongDescription() != null)
-            existingProduct.setLongDescription(product.getLongDescription());
-        existingProduct.setPrice(product.getPrice());
-        existingProduct.setQuantity(product.getQuantity());
-        existingProduct.setCategories(product.getCategories());
-        productRepository.save(existingProduct);
-        return existingProduct;
+    public Product show(@PathVariable String id) {
+        return productRepository.findById(id).orElseThrow();
     }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable String id) {
-        Optional<Product> optproduct = productRepository.findById(id);
-        Product product = optproduct.get();
+        Product product = productRepository.findById(id).orElseThrow();
         for (String curr : product.getCategories()) {
-
-          categoryRepository.save(categoryRepository.findByName(curr).deleteProduct(product));
+          categoryRepository.save(categoryRepository.findByName(curr).deleteProduct(product.getId()));
         }
         productRepository.delete(product);
 
-        return "";
+        return "Product deleted and removed from any categories to which it belonged";
     }
 }

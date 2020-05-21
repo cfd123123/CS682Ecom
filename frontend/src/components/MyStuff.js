@@ -1,15 +1,13 @@
-import React, { Component } from "react";
+import React from "reactn";
 import UserService from "../services/user.service";
 import LoginRedirect from "./Login/LoginRedirect";
-import {CurrentUserContext} from "../CurrentUserContext";
 
-export default class MyStuff extends Component {
+export default class MyStuff extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
       content: "",
-      requireLogin: false
     };
   }
 
@@ -19,23 +17,29 @@ export default class MyStuff extends Component {
           this.setState({
             content: JSON.stringify(response.data)
           });
-        }, error => {
+        },
+        error => {
           this.setState({
-            requireLogin: true,
-            content: (error.response && error.response.data && error.response.data.message) ||
-                error.message || error.toString()
+            content:
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
           });
         }
     );
   }
 
   render() {
-    // const {currentUser} = this.context;
+    const {currentUser, loggedIn} = this.global;
+    const {content} = this.state;
+    if (!(content && currentUser)) { return null; }
+    console.log(content);
 
-    const { requireLogin, content } = this.state;
     return (
         <div className="container">
-            {requireLogin ? LoginRedirect(content) :
+            {!loggedIn ? LoginRedirect(content) :
                 <header className="jumbotron">
                   <h3>{content}</h3>
                 </header>
@@ -44,4 +48,3 @@ export default class MyStuff extends Component {
     );
   }
 }
-MyStuff.contextType = CurrentUserContext;

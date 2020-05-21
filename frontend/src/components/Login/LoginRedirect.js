@@ -1,4 +1,4 @@
-import React from "react";
+import React from "reactn";
 import AuthService from "../../services/auth.service";
 
 export default function LoginRedirect(message) {

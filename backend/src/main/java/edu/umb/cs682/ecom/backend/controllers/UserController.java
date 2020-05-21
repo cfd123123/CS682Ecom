@@ -14,14 +14,16 @@ import edu.umb.cs682.ecom.backend.repositories.OrderRepository;
 import edu.umb.cs682.ecom.backend.repositories.PreOrderRepository;
 import edu.umb.cs682.ecom.backend.repositories.ProductRepository;
 import edu.umb.cs682.ecom.backend.repositories.UserRepository;
+import edu.umb.cs682.ecom.backend.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -55,20 +57,21 @@ public class UserController {
 
     @GetMapping("/mystuff")
     @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and hasRole('CUSTOMER')")
-    public ProfileResponse customerAccess(@RequestParam(value = "username", required = false) String username) {
-        return getProfileResponse(username);
+    public ProfileResponse customerAccess() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return getProfileResponse(((UserDetailsImpl)auth.getPrincipal()).getUsername());
     }
 
     @GetMapping("/profile")
     @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and (hasRole('CUSTOMER') or hasRole('EMPLOYEE') or hasRole('ADMIN'))")
-    public ProfileResponse profileAccess(@RequestParam(value = "username", required = false) String username) {
-        return getProfileResponse(username);
+    public ProfileResponse profileAccess() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return getProfileResponse(((UserDetailsImpl)auth.getPrincipal()).getUsername());
     }
 
     private ProfileResponse getProfileResponse(String username) {
         User user = userRepository.findByUsername(username).orElseThrow();
         return new ProfileResponse(user);
-//        return new ProfileResponse(user.getId(), user.getUsername(), user.getEmail(), user.getCart());
     }
 
     @PostMapping("/profile/cart")
@@ -86,6 +89,7 @@ public class UserController {
     @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and hasRole('CUSTOMER')")
     public PlaceOrderResponse checkout(@Valid @RequestBody PlaceOrderRequest request) {
         User requestUser = userRepository.findByUsername(request.getUsername()).orElseThrow();
+        // TODO: Make this method return a failure if pre-order doesn't exist.
         PreOrder preOrder = preOrderRepository.findById(request.getPreOrderId()).orElseThrow();
 
 //        if (!requestUser.equals(preOrder.getUser())) {

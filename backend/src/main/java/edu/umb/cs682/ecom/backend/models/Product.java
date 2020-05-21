@@ -20,9 +20,7 @@ public class Product {
 
     Set<String> categories = new HashSet<>();
 
-    public Product() {
-    }
-
+    public Product() {}
     public Product(String name, String shortDescription, String longDescription, float price, int quantity, Set<String> categories, String image) {
         this.name = name;
         this.shortDescription = shortDescription;
@@ -35,28 +33,35 @@ public class Product {
         this.image = image;
     }
 
-    public String getId() { return id; }
-    public void   setId(String id) { this.id = id; }
+    public void updateProduct(Product that) {
+        if (that.getName() != null) this.setName(that.getName());
+        if (that.getShortDescription() != null) this.setShortDescription(that.getShortDescription());
+        if (that.getLongDescription() != null) this.setLongDescription(that.getLongDescription());
+        this.setPrice(that.getPrice());
+        this.setQuantity(that.getQuantity());
+        if (that.getImage() != null) this.setImage(that.getImage());
+        if (that.getCategories() != null) this.setCategories(that.getCategories());
+    }
 
-    public String getName() { return name; }
-    public void   setName(String name) { this.name = name; }
-
+    public String getId()               { return id; }
+    public String getName()             { return name; }
     public String getShortDescription() { return shortDescription; }
-    public void   setShortDescription(String shortDescription) { this.shortDescription = shortDescription; }
+    public String getLongDescription()  { return longDescription; }
+    public float  getPrice()            { return this.price; }
+    public int    getQuantity()         { return this.quantity; }
+    public String getImage()            { return this.image; }
+    public Set<String> getCategories()  { return categories; }
 
-    public String getLongDescription() { return longDescription; }
-    public void   setLongDescription(String longDescription) { this.longDescription = longDescription; }
+    public void setId(String id)                             { this.id = id; }
+    public void setName(String name)                         { this.name = name; }
+    public void setShortDescription(String shortDescription) { this.shortDescription = shortDescription; }
+    public void setLongDescription(String longDescription)   { this.longDescription = longDescription; }
+    public void setPrice(float price)                        { this.price = price; }
+    public void setQuantity(int quantity)                    { this.quantity = quantity; }
+    public void setImage(String image)                       { this.image = image; }
+    public void setCategories(Set<String> categories)        { this.categories = categories; }
 
-    public float getPrice() { return this.price; }
-    public void  setPrice(float price) { this.price = price; }
+    public void insertOtherCategories() { categories.add("Others");}
+    public void removeCategory(String categoryID) { categories.remove(categoryID); }
 
-    public int  getQuantity() { return this.quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
-
-    public Set<String>  getCategories() { return this.categories; }
-    public void setCategories(Set<String> categories) { this.categories = categories; }
-    public void insertOtherCategories() {this.categories.add("Others");}
-
-    public String getImage() { return this.image; }
-    public void setImage(String image) { this.image = image; }
 }

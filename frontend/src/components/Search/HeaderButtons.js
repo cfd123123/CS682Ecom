@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'reactn';
 import PropTypes from 'prop-types';
 import SortButton from './Buttons/SortButton.js';
 
@@ -11,7 +11,7 @@ const propTypes = {
   sortClickHandler: PropTypes.func,
 };
 
-class HeaderButtons extends React.Component {
+export default class HeaderButtons extends React.PureComponent {
   render() {
     const { nameOrder, priceOrder, sortingMethod, nameSortClickHandler, priceSortClickHandler } = this.props;
 
@@ -34,7 +34,4 @@ class HeaderButtons extends React.Component {
     );
   }
 }
-
 HeaderButtons.propTypes = propTypes;
-
-export default HeaderButtons;
