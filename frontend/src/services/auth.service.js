@@ -2,6 +2,10 @@ import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/auth/";
 
+/**
+ * AuthService manages all backend communication that has to do with
+ * authentication. For now, that means login, logout, and signup.
+ */
 class AuthService {
   /**
    * Calls axios.post() with the given username and password. The JwtResponse
@@ -30,6 +34,11 @@ class AuthService {
         });
   }
 
+  /**
+   * Sends a POST request to the backend requesting a logout. The backend
+   * invalidates the JWT token, then this method removes the user details from
+   * localStorage.
+   */
   logout() {
     axios.post(API_URL + "signout", JSON.parse(localStorage.getItem('user'))).then(
             response => {
@@ -43,6 +52,16 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
+  /**
+   * Sends a POST request to the backend requesting a user signup. Details are
+   * sent to the backend for validation. If successful, an OK message is
+   * returned to the calling method.
+   *
+   * @param username the desired username
+   * @param email the user's email
+   * @param password the desired password
+   * @returns {Promise<AxiosResponse<T>>} success or failure from the backend
+   */
   register(username, email, password) {
     return axios.post(API_URL + "signup", {
       username,
