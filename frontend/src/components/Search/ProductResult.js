@@ -2,11 +2,11 @@ import React from 'reactn';
 import {Button} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import AddToCart from "../cart/AddToCart";
-import ProductService from "../../services/product.service"
+import ProductService from "../../services/ProductService"
 
 import './ProductResult.css';
 import ProductImage from './../img/empty-product-icon.png';
-import UserService from "../../services/user.service";
+import UserService from "../../services/UserService";
 
 class ProductResult extends React.PureComponent {
   constructor(props) {

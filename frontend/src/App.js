@@ -11,8 +11,8 @@ import { faSignInAlt, faSignOutAlt, faShoppingCart, faUserCircle, faUserPlus } f
 
 // import axios from "axios";
 
-import AuthService from "./services/auth.service";
-import UserService from "./services/user.service";
+import AuthService from "./services/AuthService";
+import UserService from "./services/UserService";
 import SearchBox   from "./components/Search/SearchBox";
 import Employee    from "./components/Employee";
 import HomePage    from './components/HomePage';

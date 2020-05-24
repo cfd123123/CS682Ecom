@@ -2,7 +2,7 @@ import React from 'reactn';
 import CheckoutProductRow from "./CheckoutProductRow";
 import PlaceOrderRow from "./PlaceOrderRow";
 import PlaceOrderColumn from "./PlaceOrderColumn";
-import UserService from "../../services/user.service";
+import UserService from "../../services/UserService";
 
 export default class Checkout extends React.PureComponent {
   constructor(props) {

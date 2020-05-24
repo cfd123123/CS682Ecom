@@ -1,9 +1,13 @@
 import { setGlobal } from "reactn";
 import axios from 'axios';
-import authHeader from './auth-header';
+import authHeader from './authHeader';
 
 const API_URL = 'http://localhost:8080/api/user/';
 
+/**
+ * UserService manages all backend communication related to Users. It also
+ * contains a small number of functions related to navigation and shopping cart.
+ */
 class UserService {
   getCurrentUsername() {
     const currentUser = this.getCurrentUser();
@@ -14,6 +18,10 @@ class UserService {
     }
   }
 
+  /**
+   *
+   * @returns {Promise<AxiosResponse<T>>}
+   */
   getPublicContent() {
     return axios.get('http://localhost:8080/products/all');
   }

@@ -1,5 +1,5 @@
 import React from "reactn";
-import UserService from "../services/user.service";
+import UserService from "../services/UserService";
 import {Link} from "react-router-dom";
 import ProductResult from "./Search/ProductResult"
 

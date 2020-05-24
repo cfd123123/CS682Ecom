@@ -1,7 +1,7 @@
 import React from 'reactn';
 import {Link} from 'react-router-dom';
 import './CategoryHeader.css';
-import CategoryService from "../../services/category.service"
+import CategoryService from "../../services/CategoryService"
 
 export default class CategoryHeader extends React.PureComponent {
   constructor(props) {

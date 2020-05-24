@@ -30,6 +30,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * AuthController manages authentication requests from the frontend. This amounts
+ * to login, logout, and signup requests.
+ *
+ * The methods in this class directly correspond to the functions in the
+ * auth.service.js frontend class.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
@@ -57,7 +64,7 @@ public class AuthController {
      * JWT token is generated. JWT token is added to a whitelist granting access
      * for 24 hours.
      *
-     * The corresponding frontend sender is the login function in auth.service.js.
+     * The corresponding frontend requester is the login function in auth.service.js.
      *
      * @param loginRequest the login details, which includes a username and password
      * @return the logged in user's temporary access token and profile details
@@ -82,7 +89,7 @@ public class AuthController {
      * Processes signout requests. The provided JWT token is removed from the
      * whitelist, rendering that token invalid.
      *
-     * The corresponding frontend sender is the logout function in auth.service.js.
+     * The corresponding frontend requester is the logout function in auth.service.js.
      *
      * @param logoutRequest the user details, in the same format was returned by
      *                      the authenticateUser() method.
@@ -103,7 +110,7 @@ public class AuthController {
      * Processes signup requests. The given user details are checked against
      * existing user data to ensure there are no duplicate usernames or emails.
      *
-     * The corresponding frontend sender is the register function in auth.service.js
+     * The corresponding frontend requester is the register function in auth.service.js
      *
      * @param signUpRequest the user details, which include a username, email, and password
      * @return a generic ResponseEntity with an "ok" (200) status and confirmation message.

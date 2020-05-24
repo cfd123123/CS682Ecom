@@ -1,5 +1,5 @@
 import React from "reactn";
-import UserService from "../services/user.service";
+import UserService from "../services/UserService";
 
 export default class Employee extends React.PureComponent {
   constructor(props) {

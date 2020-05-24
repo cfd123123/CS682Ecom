@@ -3,14 +3,14 @@ import axios from "axios";
 const API_URL = "http://localhost:8080/api/auth/";
 
 /**
- * AuthService manages all backend communication that has to do with
+ * AuthService manages all backend communication related to
  * authentication. For now, that means login, logout, and signup.
  */
 class AuthService {
   /**
-   * Calls axios.post() with the given username and password. The JwtResponse
-   * returned by the backend is stored in localStorage and returned back
-   * to the calling method.
+   * Sends a POST request to the backend with the given username and password.
+   * The JwtResponse returned by the backend is stored in localStorage and
+   * returned back to the calling method.
    *
    * @param username the username to log in with
    * @param password the password associated with username
@@ -54,8 +54,8 @@ class AuthService {
 
   /**
    * Sends a POST request to the backend requesting a user signup. Details are
-   * sent to the backend for validation. If successful, an OK message is
-   * returned to the calling method.
+   * sent to the backend for validation. If successful, an OK message from the
+   * backend is returned to the calling method.
    *
    * @param username the desired username
    * @param email the user's email
