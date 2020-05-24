@@ -1,6 +1,9 @@
 import React from "reactn";
 import UserService from "../services/user.service";
 
+/*
+employee information page.  Showing the employee information if logged in as an employee
+*/
 export default class Employee extends React.PureComponent {
   constructor(props) {
     super(props);
