@@ -1,5 +1,5 @@
 import React from "reactn";
-import UserService from "../services/user.service";
+import UserService from "../services/UserService";
 import LoginRedirect from "./Login/LoginRedirect";
 
 export default class MyStuff extends React.PureComponent {

@@ -4,7 +4,7 @@ import SearchFunctionality from './Search/SearchFunctionality';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'reactstrap';
-import ProductService from "../services/product.service";
+import ProductService from "../services/ProductService";
 
 // Result page after searching operation 
 export default class Result extends React.PureComponent {

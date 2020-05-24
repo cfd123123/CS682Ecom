@@ -1,5 +1,5 @@
 import React from "reactn";
-import UserService from "../services/user.service";
+import UserService from "../services/UserService";
 
 /*
 employee information page.  Showing the employee information if logged in as an employee

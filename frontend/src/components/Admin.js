@@ -1,5 +1,5 @@
 import React from "reactn";
-import UserService from "../services/user.service";
+import UserService from "../services/UserService";
 
 /*
 Admin information page.  Showing the admin information if logged in as an administrator

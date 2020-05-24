@@ -1,8 +1,8 @@
 import React from 'reactn';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
-import ProductService from "../services/product.service"
-import CategoryService from "../services/category.service"
+import ProductService from "../services/ProductService"
+import CategoryService from "../services/CategoryService"
 
 /*
 Creates product to be sent to backend.
@@ -67,6 +67,7 @@ export default class Create extends React.PureComponent {
           }
       );
     } else {
+      alert("Remove this alert if the product saves correctly (Create.js)");
       ProductService.addProduct(this.state).then(
           result => {
             this.props.history.push("Result?content=");

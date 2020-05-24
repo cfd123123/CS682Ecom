@@ -1,10 +1,10 @@
 import React from 'reactn';
 import "./Cart.css"
 import CartProductList from "./CartProductList";
-import ProductService from "../../services/product.service";
+import ProductService from "../../services/ProductService";
 import ProceedToCheckout from "./ProceedToCheckout";
-import UserService from "../../services/user.service";
-import AuthService from "../../services/auth.service";
+import UserService from "../../services/UserService";
+import AuthService from "../../services/AuthService";
 
 export default class Cart extends React.PureComponent {
 

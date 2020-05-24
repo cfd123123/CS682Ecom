@@ -34,6 +34,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * UserController manages requests from the frontend related to Users.
+ *
+ * The methods in this class directly correspond to the functions in the
+ * user.service.js frontend class.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/user")
@@ -50,11 +56,32 @@ public class UserController {
     @Autowired
     OrderRepository orderRepository;
 
-    @GetMapping("/all")
-    public String allAccess() {
-        return "Public Content.";
+    /**
+     * A private helper method that creates a ProfileResponse object that is
+     * to be returned to a frontend requester. For now, a ProfileResponse object
+     * contains only a User object. This can be expanded to include other data
+     * in future updates.
+     *
+     * @param username the username for which a profile is needed
+     * @return a ProfileResponse object corresponding to the given username
+     */
+    private ProfileResponse getProfileResponse(String username) {
+        User user = userRepository.findByUsername(username).orElseThrow();
+        return new ProfileResponse(user);
     }
 
+    /**
+     * Gets the profile associated with the current user.
+     *
+     * The current user information is extracted from the authentication token
+     * used to make this request. Only users with the role 'CUSTOMER' have access
+     * to this mapping.
+     *
+     * The corresponding frontend requester is the getMyStuff() function in the
+     * user.service.js class.
+     *
+     * @return the ProfileResponse object corresponding to the current user
+     */
     @GetMapping("/mystuff")
     @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and hasRole('CUSTOMER')")
     public ProfileResponse customerAccess() {
@@ -67,11 +94,6 @@ public class UserController {
     public ProfileResponse profileAccess() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return getProfileResponse(((UserDetailsImpl)auth.getPrincipal()).getUsername());
-    }
-
-    private ProfileResponse getProfileResponse(String username) {
-        User user = userRepository.findByUsername(username).orElseThrow();
-        return new ProfileResponse(user);
     }
 
     @PostMapping("/profile/cart")
