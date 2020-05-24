@@ -3,6 +3,10 @@ import {Link} from 'react-router-dom';
 import './CategoryHeader.css';
 import CategoryService from "../../services/category.service"
 
+/*
+Automatically lists all available product categories from the database. Individual categories can be clicked to trigger a categorical search.
+*/
+
 export default class CategoryHeader extends React.PureComponent {
   constructor(props) {
     super(props);

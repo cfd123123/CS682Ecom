@@ -5,6 +5,10 @@ import "normalize.css/normalize.css";
 import "./slider-animations.css";
 import "./styles.css";
 
+/*
+Slide widget for displaying products and their info. Optional autoplay timer can be set.
+*/
+
 export default class Recommended extends React.PureComponent {
   constructor(props){
     super(props);
