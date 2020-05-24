@@ -1,6 +1,10 @@
 import React from "reactn";
 import UserService from "../services/user.service";
 
+/*
+Admin information page.  Showing the admin information if logged in as an administrator
+*/ 
+
 export default class Admin extends React.PureComponent {
   constructor(props) {
     super(props);

@@ -5,6 +5,9 @@ import isEmail from 'validator/lib/isEmail';
 import Input from "react-validation/build/input";
 import Form from "react-validation/build/form";
 
+// register page 
+
+//Mandatory to fill out information
 const required = value => {
   if (!value) {
     return (
@@ -15,6 +18,7 @@ const required = value => {
   }
 };
 
+// offer an email . return 'This is not a valid email' if email format is not valid
 const email = value => {
   if (!isEmail(value)) {
     return (
@@ -25,6 +29,7 @@ const email = value => {
   }
 };
 
+// offer an username . return ' The username must be between 3 and 20 characters.' if username format is not valid
 const vusername = value => {
   if (value.length < 3 || value.length > 20) {
     return (
@@ -35,6 +40,7 @@ const vusername = value => {
   }
 };
 
+// offer a password . return 'The password must be between 6 and 40 characters.' if username format is not valid
 const vpassword = value => {
   if (value.length < 6 || value.length > 40) {
     return (
@@ -79,7 +85,7 @@ export default class Register extends React.PureComponent {
       password: e.target.value
     });
   }
-
+  // register handler
   handleRegister(e) {
     e.preventDefault();
 
@@ -129,6 +135,7 @@ export default class Register extends React.PureComponent {
                 className="profile-img-card"
             />
 
+          {/* visualization of register form  */}
             <Form
                 onSubmit={this.handleRegister}
                 ref={c => {

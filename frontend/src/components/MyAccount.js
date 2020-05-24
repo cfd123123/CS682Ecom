@@ -1,6 +1,7 @@
 import React from "reactn";
 import UserService from "../services/user.service";
 
+// user's profile page. appear after pressing 'my account' button.
 export default class Profile extends React.PureComponent {
   constructor(props) {
     super(props);

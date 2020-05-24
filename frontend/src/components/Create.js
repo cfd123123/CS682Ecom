@@ -4,6 +4,7 @@ import { Button } from 'reactstrap';
 import ProductService from "../services/product.service"
 import CategoryService from "../services/category.service"
 
+
 export default class Create extends React.PureComponent {
   constructor(props) {
     super(props);

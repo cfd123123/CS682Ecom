@@ -128,6 +128,7 @@ export default class App extends React.PureComponent {
             <CategoryHeader />
           </div>
 
+         {/* Route settings */}
           <div className="container__homepage">
             <div className="content">
               <Switch>
