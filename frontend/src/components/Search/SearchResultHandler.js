@@ -6,6 +6,11 @@ import HeaderButtons from './HeaderButtons';
 import ProductResult from './ProductResult';
 import './SearchResultHandler.css';
 
+/*
+Prepares product position and sorting mechanism for each product item.
+*/
+
+
 export default class SearchResultHandler extends React.PureComponent {
     constructor(props) {
       super(props);
