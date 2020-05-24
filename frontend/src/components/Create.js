@@ -4,6 +4,10 @@ import { Button } from 'reactstrap';
 import ProductService from "../services/product.service"
 import CategoryService from "../services/category.service"
 
+/*
+Creates product to be sent to backend.
+*/
+
 export default class Create extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -20,6 +24,7 @@ export default class Create extends React.PureComponent {
     };
   }
 
+//Triggers when input box is updated
   onChange = (event) => {
     let newState = {};
     newState[event.target.name] = event.target.value;
@@ -33,6 +38,7 @@ export default class Create extends React.PureComponent {
     this.setState({...newState});
   };
 
+//Displays category tags when adding in the Category input box
   addCategories = (event) => {
     let newState = {};
     if(event.target.value.substr(-1) === ",") {
@@ -50,6 +56,7 @@ export default class Create extends React.PureComponent {
     this.setState({...newState});
   };
 
+//Final trigger to send product info to database, reads all values in input boxes to construct a product.
   onSubmit = (event) => {
     event.preventDefault();
     const {edit} = this.state;
