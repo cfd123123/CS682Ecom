@@ -2,11 +2,20 @@ import React from 'reactn';
 import CartProductRow from "./CartProductRow";
 import "./Cart.css"
 
-export default class CartProductList extends React.PureComponent {
+/**
+ * Component used to display all products currently in the user's shopping cart
+ * in the form of a list of {@link CartProductRow} components.
+ */
+class CartProductList extends React.PureComponent {
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     const {currentUser} = this.global;
     const {products, total, count} = this.props;
 
+    // put all DOM nodes into a list of CartProductRow elements
     const cartList = products.map(product => {
           return <CartProductRow key={`${product.id}`} {...product} quantity={currentUser.cart[product.id]}/>
         }
@@ -47,3 +56,4 @@ export default class CartProductList extends React.PureComponent {
     );
   }
 }
+export default CartProductList;

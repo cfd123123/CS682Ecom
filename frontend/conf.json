@@ -1,0 +1,24 @@
+{
+  "plugins": [
+  ],
+  "recurseDepth": 10,
+  "source": {
+    "includePattern": ".+\\.js(doc|x)?$",
+    "excludePattern": "(^|\\/|\\\\)_"
+  },
+  "sourceType": "module",
+  "tags": {
+    "allowUnknownTags": true,
+    "dictionaries": ["jsdoc","closure"]
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "theme": "spacelab"
+  },
+  "opts": {
+    "template": "node_modules/ink-docstrap/template",
+    "destination": "../frontend_documentation/",
+    "recurse": true
+  }
+}
