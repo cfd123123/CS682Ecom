@@ -2,7 +2,9 @@ import React from 'reactn';
 import PropTypes from 'prop-types';
 import SortButton from './Buttons/SortButton.js';
 
-// import './HeaderButtons.css';
+/*
+Functionality for the buttons on the top of results page. For example the sort buttons.
+*/
 
 const propTypes = {
   view: PropTypes.string,

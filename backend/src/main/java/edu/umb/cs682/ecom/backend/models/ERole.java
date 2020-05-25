@@ -1,6 +1,8 @@
 package edu.umb.cs682.ecom.backend.models;
 
-// User roles
+/**
+ * ERole is an enum containing the available {@link User} roles.
+ */
 public enum ERole {
     ROLE_ADMIN,
     ROLE_EMPLOYEE,

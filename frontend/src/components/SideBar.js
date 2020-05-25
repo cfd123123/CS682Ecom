@@ -1,6 +1,7 @@
 import React, {useState} from 'reactn';
 import SidebarIcon from './img/side-bar-icon.png'
 
+// sideBar component
 const SideBar = () => {
     const [leftSideBar, setLeftSideBar] = useState(false);
 

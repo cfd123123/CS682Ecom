@@ -10,6 +10,15 @@ import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * A PreOrder provides a {@link User} with the details of their order before the
+ * order is confirmed and paid for.
+ * <p>
+ *     WARNING: This class is incomplete, as the MongoDB backing this software
+ *     product does not properly expire PreOrders after the specified time limit.
+ *     Future implementations will fix this bug.
+ * </p>
+ */
 @Document(collection = "preorders")
 public class PreOrder {
     @Id
@@ -17,22 +26,32 @@ public class PreOrder {
 
     @Field
     @Indexed(name="issuedDate", expireAfter="10m")
-    Date issued;
+    private Date issued;
 
     @Field
     @Indexed(name="expiresDate", expireAfterSeconds = 0)
-    Date expires;
+    private Date expires;
 
-    @NotBlank
     @DBRef
-    private User user;
-
+    @NotBlank private User user;
     @NotBlank private Map<String, Integer> products;
     @NotBlank private Map<String, Float> taxes;
     @NotBlank private Map<String, Float> shipping;
     @NotBlank private float subtotal;
     @NotBlank private float total;
 
+    /**
+     * Constructs a new PreOrder object with the given details.
+     *
+     * @param issued the {@link Date} that this PreOrder was issued
+     * @param expires the {@link Date} that this PreOrder expires
+     * @param user the {@link User} to which this PreOrder belongs
+     * @param products the map of product IDs and corresponding quantities in this PreOrder
+     * @param taxes the total taxes for this PreOrder
+     * @param shipping the total shipping cost for this PreOrder
+     * @param subtotal the product subtotal for this PreOrder, before taxes and shipping
+     * @param total the total price for this PreOrder, after shipping and taxes
+     */
     public PreOrder(Date issued, Date expires, @NotBlank User user,
                     @NotBlank Map<String, Integer> products, @NotBlank Map<String, Float> taxes,
                     @NotBlank Map<String, Float> shipping, @NotBlank float subtotal, @NotBlank float total) {

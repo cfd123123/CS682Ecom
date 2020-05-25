@@ -1,7 +1,8 @@
 import React from 'reactn';
 import { Link } from 'react-router-dom';
-import ProductService from "../services/product.service"
+import ProductService from "../services/ProductService"
 
+// show product information page 
 export default class Show extends React.PureComponent {
   constructor(props) {
     super(props);

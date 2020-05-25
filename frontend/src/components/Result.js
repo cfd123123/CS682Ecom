@@ -4,8 +4,9 @@ import SearchFunctionality from './Search/SearchFunctionality';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Button } from 'reactstrap';
-import ProductService from "../services/product.service";
+import ProductService from "../services/ProductService";
 
+// Result page after searching operation 
 export default class Result extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -19,7 +20,7 @@ export default class Result extends React.PureComponent {
       this.setState({ products: res.data });
     });
   }
-
+ // shows search statement. 
   setCase(searched) {
     return searched ? searched.toLowerCase() : "";
   }
@@ -27,10 +28,11 @@ export default class Result extends React.PureComponent {
   render() {
     const {products} = this.state;
     if (!products) {return null;}
+    // get user input from search box
     const searchParams = new URLSearchParams(this.props.location.search);
     const searched = searchParams.get('searched');
+    //Uniform text-transform
     const searched_insensitive_case = this.setCase(searched);
-    // console.log(searched);
     return (
         <div className="container">
           <div className="panel-panel-default">

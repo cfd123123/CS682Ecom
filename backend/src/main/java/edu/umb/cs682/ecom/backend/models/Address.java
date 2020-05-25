@@ -5,6 +5,11 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import javax.validation.constraints.NotBlank;
 
+/**
+ * The <code>Address</code> class is incomplete, as it is not currently being
+ * utilized by this software product. Future implementations will allow users
+ * to maintain an address book for shipping and billing.
+ */
 public class Address {
     @Id private String id;
 
@@ -19,10 +24,27 @@ public class Address {
     private String state;
     private String instructions;
 
+    /**
+     * Default constructor used by Spring for field injection
+     */
     public Address() {}
 
+    /**
+     * Constructs a new Address object using the given arguments.
+     *
+     * @param user the {@link User} to which this address will belong
+     * @param name the name associated with this address
+     * @param line1 address line 1
+     * @param line2 address line 2
+     * @param city address city
+     * @param postal address postal code
+     * @param phone address phone number
+     * @param state address state / province
+     * @param instructions special instructions for this address
+     */
     public Address(@NotBlank User user, @NotBlank String name, @NotBlank String line1,
-                   @NotBlank String line2, @NotBlank String city, @NotBlank String postal, @NotBlank String phone) {
+                   @NotBlank String line2, @NotBlank String city, @NotBlank String postal,
+                   @NotBlank String phone, String state, String instructions) {
         this.user = user;
         this.name = name;
         this.line1 = line1;
@@ -30,19 +52,12 @@ public class Address {
         this.city = city;
         this.postal = postal;
         this.phone = phone;
-    }
-
-    public Address(@NotBlank User user, @NotBlank String name, @NotBlank String line1, @NotBlank String line2,
-                   @NotBlank String city, @NotBlank String postal, @NotBlank String phone, String state) {
-        this(user, name, line1, line2, city, postal, phone);
         this.state = state;
-    }
-
-    public Address(@NotBlank User user, @NotBlank String name, @NotBlank String line1, @NotBlank String line2,
-                   @NotBlank String city, @NotBlank String postal, @NotBlank String phone, String state, String instructions) {
-        this(user, name, line1, line2, city, postal, phone, state);
         this.instructions = instructions;
     }
+
+
+
 
     public String getId()           { return id; }
     public User getUser()           { return user; }

@@ -1,6 +1,10 @@
 import React from "reactn";
-import UserService from "../services/user.service";
+import UserService from "../services/UserService";
+import {Link} from "react-router-dom";
 
+/*
+employee information page.  Showing the employee information if logged in as an employee
+*/
 export default class Employee extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -41,6 +45,7 @@ export default class Employee extends React.PureComponent {
           <header className="jumbotron">
             <h3>{content}</h3>
           </header>
+          <Link to="/create" style={{'float':'left'}}>Add Product</Link>
         </div>
     );
   }

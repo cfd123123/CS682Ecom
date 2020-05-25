@@ -1,7 +1,7 @@
 import React from 'reactn';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import ProductResult from './Search/ProductResult'
+import ProductResult from './Search/ProductResult';
+import CategoryService from '../services/CategoryService';
 
 export default class CategoryResult extends React.PureComponent {
   constructor(props) {
@@ -12,7 +12,7 @@ export default class CategoryResult extends React.PureComponent {
   }
 
   componentDidMount() {
-    axios.get('/category/all').then(
+    CategoryService.getAll().then(
         res => {
           this.setState({ categories: res.data });
         }

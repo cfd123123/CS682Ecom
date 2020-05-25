@@ -1,5 +1,10 @@
 import React from "reactn";
-import UserService from "../services/user.service";
+import UserService from "../services/UserService";
+import {Link} from "react-router-dom";
+
+/*
+Admin information page.  Showing the admin information if logged in as an administrator
+*/ 
 
 export default class Admin extends React.PureComponent {
   constructor(props) {
@@ -41,6 +46,7 @@ export default class Admin extends React.PureComponent {
           <header className="jumbotron">
             <h3>{content}</h3>
           </header>
+          <Link to="/create" style={{'float':'left'}}>Add Product</Link>
         </div>
     );
   }
