@@ -20,10 +20,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * CategoryController manages requests from the frontend related to categories.
+ * CategoryController manages requests from the frontend related to
+ * {@link Category} objects.
  *
  * The methods in this class directly correspond to the functions in the
- * category.service.js frontend class.
+ * CategoryService.js frontend class.
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -40,7 +41,7 @@ public class CategoryController {
      * Gets a list of all categories in the database.
      *
      * The corresponding frontend requester is the getAll()
-     * function in the category.service.js class.
+     * function in the CategoryService.js class.
      *
      * @return a list of all categories currently in the database.
      */
@@ -54,7 +55,7 @@ public class CategoryController {
      * access this mapping.
      *
      * The corresponding frontend requester is the saveCategory()
-     * function in the category.service.js class.
+     * function in the CategoryService.js class.
      *
      * @param category the new category to be saved
      * @return the saved category, including the unique identifier after saving
@@ -71,7 +72,7 @@ public class CategoryController {
      * Employees and Admins can access this mapping.
      *
      * The corresponding frontend requester is the deleteCategory()
-     * function in the category.service.js class.
+     * function in the CategoryService.js class.
      *
      * @param id the id of the category to be removed
      * @return a confirmation message that removal was successful
@@ -92,7 +93,7 @@ public class CategoryController {
      * Gets all products belonging to the given category.
      *
      * The corresponding frontend requester is the getCategoryProducts()
-     * function in the category.service.js class.
+     * function in the CategoryService.js class.
      *
      * @param name the name of the category to get products of
      * @return a list of the products belonging to the category
@@ -110,7 +111,7 @@ public class CategoryController {
      * Gets all categories contained in a list of category IDs.
      *
      * The corresponding frontend requester is the getListOfCategories() function
-     * in the category.service.js class.
+     * in the CategoryService.js class.
      *
      * @param categoryIDs the list of Category IDs for which details are required
      * @return the list of Category objects.

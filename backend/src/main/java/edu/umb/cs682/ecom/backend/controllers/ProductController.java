@@ -21,10 +21,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * ProductController manages requests from the frontend related to Products.
+ * ProductController manages requests from the frontend related to {@link Product}s.
  *
  * The methods in this class directly correspond to the functions in the
- * product.service.js frontend class.
+ * ProductService.js frontend class.
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -38,16 +38,16 @@ public class ProductController {
     CategoryRepository categoryRepository;
 
     /**
-     * Gets a list of all products currently on offer.
+     * Gets a list of all {@link Product}s currently on offer.
      *
      * WARNING: Responses to this mapping may be significantly delayed due to
      * the size of the response data, particularly for marketplaces with large
      * product offerings.
      *
      * The corresponding frontend requester is the getAllProducts()
-     * function in the product.service.js class.
+     * function in the ProductService.js class.
      *
-     * @return the list of all products currently in the database
+     * @return the list of all {@link Product}s currently in the database
      */
     @GetMapping("/all")
     public Iterable<Product> allProducts() {
@@ -55,17 +55,17 @@ public class ProductController {
     }
 
     /**
-     * Saves the given product to the database. Only Employees and Admins have
-     * access to this mapping.
+     * Saves the given {@link Product} to the database. Only Employees and Admins
+     * have access to this mapping.
      *
      * If the given product is associated with any categories, those categories
      * are updated to include the given product in their lists of products.
      *
      * The corresponding frontend requester is the addProduct() function in
-     * the product.service.js class.
+     * the ProductService.js class.
      *
-     * @param product the product to be saved
-     * @return the saved product including its product ID
+     * @param product the {@link Product} to be saved
+     * @return the saved {@link Product} including its product ID
      */
     @PostMapping("/all")
     @PreAuthorize("@tokenWhitelistService.containsToken(authentication) and (hasRole('EMPLOYEE') or hasRole('ADMIN'))")
@@ -102,11 +102,11 @@ public class ProductController {
      * As a result, effort is made to parse through the categories as needed.
      *
      * The corresponding frontend requester is the updateProduct() function in
-     * the product.service.js class.
+     * the ProductService.js class.
      *
      * @param id the product ID to be updated
      * @param product the product's new data
-     * @return the updated product
+     * @return the updated {@link Product} object
      */
     @PutMapping("/{id}")
     public Product updateProduct(@PathVariable String id, @RequestBody Product product) {
@@ -159,13 +159,13 @@ public class ProductController {
     }
 
     /**
-     * Gets a list of Product objects from the given list of Product IDs.
+     * Gets a list of {@link Product} objects from the given list of product IDs.
      *
      * The corresponding frontend requester is the getListOfProducts() function
-     * in the product.service.js class.
+     * in the ProductService.js class.
      *
      * @param products the list of Product IDs
-     * @return the list of Product objects
+     * @return the list of {@link Product} objects
      */
     @PostMapping("/list")
     public Iterable<Product> listOfProducts(@RequestBody ProductListRequest products) {
@@ -173,13 +173,13 @@ public class ProductController {
     }
 
     /**
-     * Gets a single product object by the given product ID.
+     * Gets a single {@link Product} object by the given product ID.
      *
      * The corresponding frontend requester is the getSingleProduct() function
-     * in the product.service.js class.
+     * in the ProductService.js class.
      *
-     * @param id the id of the Product object to be returned
-     * @return the Product object with the given ID
+     * @param id the id of the {@link Product} object to be returned
+     * @return the {@link Product} object with the given ID
      */
     @GetMapping("/{id}")
     public Product getProduct(@PathVariable String id) {
@@ -187,14 +187,14 @@ public class ProductController {
     }
 
     /**
-     * Deletes the Product in the database corresponding to the given Product ID.
+     * Deletes the {@link Product} in the database corresponding to the given Product ID.
      * Only Employees and Admins have access to this mapping.
      *
      * This method also removes the given product ID from any categories which
      * may contain it in its list of products.
      *
      * The corresponding frontend requester is the deleteProduct function in
-     * the product.service.js class.
+     * the ProductService.js class.
      *
      * @param id the ID of the product to be deleted
      * @return a confirmation message if the product was deleted successfully.

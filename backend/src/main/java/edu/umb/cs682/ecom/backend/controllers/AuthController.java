@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
  * to login, logout, and signup requests.
  *
  * The methods in this class directly correspond to the functions in the
- * auth.service.js frontend class.
+ * AuthService.js frontend class.
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -61,13 +61,14 @@ public class AuthController {
 
     /**
      * Processes signin requests. Username and password are authenticated and a
-     * JWT token is generated. JWT token is added to a whitelist granting access
-     * for 24 hours.
-     *
-     * The corresponding frontend requester is the login function in auth.service.js.
-     *
+     * JWT token is generated. The JWT token is added to a whitelist granting
+     * access for 24 hours.
+     * <p>
+     * The corresponding frontend requester is the login function in AuthService.js.
+     * </p>
      * @param loginRequest the login details, which includes a username and password
      * @return the logged in user's temporary access token and profile details
+     * inside a {@link JwtResponse}
      */
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -88,12 +89,12 @@ public class AuthController {
     /**
      * Processes signout requests. The provided JWT token is removed from the
      * whitelist, rendering that token invalid.
-     *
-     * The corresponding frontend requester is the logout function in auth.service.js.
-     *
-     * @param logoutRequest the user details, in the same format was returned by
-     *                      the authenticateUser() method.
-     * @return a generic ResponseEntity with an "ok" (200) status.
+     * <p>
+     * The corresponding frontend requester is the logout function in AuthService.js.
+     * </p>
+     * @param logoutRequest the user details, in the same format that was returned
+     *                     by the {@link AuthController#authenticateUser} method.
+     * @return a generic {@link ResponseEntity} with an "ok" (200) status.
      */
     @PostMapping("/signout")
     public ResponseEntity<?> deactivateToken(@Valid @RequestBody JwtResponse logoutRequest) {
@@ -109,11 +110,11 @@ public class AuthController {
     /**
      * Processes signup requests. The given user details are checked against
      * existing user data to ensure there are no duplicate usernames or emails.
-     *
-     * The corresponding frontend requester is the register function in auth.service.js
-     *
+     * <p>
+     * The corresponding frontend requester is the register function in AuthService.js
+     * </p>
      * @param signUpRequest the user details, which include a username, email, and password
-     * @return a generic ResponseEntity with an "ok" (200) status and confirmation message.
+     * @return a generic {@link ResponseEntity} with an "ok" (200) status and confirmation message.
      */
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
