@@ -35,7 +35,6 @@ export default class MyStuff extends React.PureComponent {
     const {currentUser, loggedIn} = this.global;
     const {content} = this.state;
     if (!(content && currentUser)) { return null; }
-    console.log(content);
 
     return (
         <div className="container">

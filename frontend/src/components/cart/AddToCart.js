@@ -1,7 +1,16 @@
 import React from 'reactn';
 import {Button} from 'reactstrap';
 
-export default class AddToCart extends React.PureComponent {
+/**
+ * Component used for adding Products to the shopping cart.
+ */
+class AddToCart extends React.PureComponent {
+  /**
+   * Constructs a new AddToCart component with a default quantity of 1.
+   *
+   * @param {function} props - A callable function that accepts an integer value
+   * argument and adds that many of a product to the shopping cart
+   */
   constructor(props) {
     super(props);
 
@@ -32,3 +41,4 @@ export default class AddToCart extends React.PureComponent {
     );
   }
 }
+export default AddToCart;

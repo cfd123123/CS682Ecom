@@ -35,7 +35,6 @@ export default class Profile extends React.PureComponent {
     const {currentUser} = this.global;
     const {content} = this.state;
     if (!(content && currentUser)) { return null; }
-    console.log(content);
 
     const { username, id, email, cart, roles, orders } = currentUser;
 
