@@ -60,7 +60,7 @@ class AuthService {
    * @param username the desired username
    * @param email the user's email
    * @param password the desired password
-   * @returns {Promise<AxiosResponse<T>>} success or failure from the backend
+   * @returns {Promise<T>} success or failure from the backend
    */
   register(username, email, password) {
     return axios.post(API_URL + "signup", {

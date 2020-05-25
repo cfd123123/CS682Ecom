@@ -1,6 +1,15 @@
 import React from 'reactn';
 
-export default class ProceedToCheckout extends React.PureComponent {
+/**
+ * Component used to display a user's cart total with a button to begin the
+ * checkout process. This component is rendered inside the {@link Cart}
+ * component.
+ */
+class ProceedToCheckout extends React.PureComponent {
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     const {loggedIn, total, count, proceedToCheckout} = this.props;
     if (!loggedIn) {
@@ -40,3 +49,4 @@ export default class ProceedToCheckout extends React.PureComponent {
     );
   }
 }
+export default ProceedToCheckout;

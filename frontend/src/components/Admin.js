@@ -39,7 +39,6 @@ export default class Admin extends React.PureComponent {
     const {currentUser} = this.global;
     const {content} = this.state;
     if (!(content && currentUser)) { return null; }
-    console.log(content);
 
     return (
         <div className="container">

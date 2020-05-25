@@ -1,6 +1,14 @@
 import React from 'reactn';
 
-export default class PlaceOrderColumn extends React.PureComponent {
+/**
+ * Component used to display a vertical checkout summary inside the
+ * {@link Checkout} component.
+ */
+class PlaceOrderColumn extends React.PureComponent {
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     const {total, placeOrder, shippingCost, taxCost, itemCount, subTotal} = this.props;
     return(
@@ -99,3 +107,4 @@ export default class PlaceOrderColumn extends React.PureComponent {
     );
   }
 }
+export default PlaceOrderColumn;

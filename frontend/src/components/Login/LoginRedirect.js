@@ -1,9 +1,19 @@
 import React from "reactn";
 import AuthService from "../../services/AuthService";
 
-export default function LoginRedirect(message) {
+/**
+ * A function that produces a login link if the user is not currently logged in.
+ * This function is currently only used by {@link MyStuff} to handle when a
+ * user manually enters the URL and is not logged in.
+ * @param message - received from the calling component
+ * @returns {ReactElement} a link that directs the user to log in
+ */
+function LoginRedirect(message) {
   const loggedIn = message !== "You are not logged in";
 
+  /**
+   * Calls the {@link AuthService#logout} function.
+   */
   function logOut() {
     AuthService.logout();
   }
@@ -25,3 +35,4 @@ export default function LoginRedirect(message) {
       </div>
   )
 }
+export default LoginRedirect;
