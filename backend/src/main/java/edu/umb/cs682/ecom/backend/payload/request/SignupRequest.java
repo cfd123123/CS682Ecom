@@ -1,11 +1,17 @@
 package edu.umb.cs682.ecom.backend.payload.request;
 
+import edu.umb.cs682.ecom.backend.models.Role;
+import edu.umb.cs682.ecom.backend.models.User;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
-
+/**
+ * <code>SignupRequest</code> represents a request from the frontend to sign up
+ * a new {@link User} with the given username, email, {@link Role Roles}, and password.
+ */
 public class SignupRequest {
     @NotBlank
     @Size(min = 3, max = 20)
@@ -21,6 +27,11 @@ public class SignupRequest {
     @NotBlank
     @Size(min = 6, max = 40)
     private String password;
+
+    /**
+     * Default constructor, only used by Spring for field injection
+     */
+    public SignupRequest() {}
 
     public String getUsername()   { return username; }
     public String getEmail()      { return email; }

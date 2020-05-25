@@ -1,7 +1,6 @@
 package edu.umb.cs682.ecom.backend;
 
 import edu.umb.cs682.ecom.backend.models.ERole;
-import edu.umb.cs682.ecom.backend.models.Product;
 import edu.umb.cs682.ecom.backend.models.Role;
 import edu.umb.cs682.ecom.backend.models.User;
 import edu.umb.cs682.ecom.backend.repositories.RoleRepository;
@@ -11,8 +10,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Set;
 
+/**
+ * <code>DataInitializer</code> provides basic roles and an admin user to newly
+ * created backend applications. This is only run the first time an instance
+ * of this application is spun up.
+ */
 @Component
 public class DataInitializer {
     @Autowired
@@ -24,6 +27,16 @@ public class DataInitializer {
     @Autowired
     PasswordEncoder encoder;
 
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private DataInitializer() {}
+
+    /**
+     * Initializes the {@link RoleRepository} with each of the available roles
+     * in {@link ERole} and creates an admin user with a default password of
+     * "admin."
+     */
     @PostConstruct
     public void init(){
         if (!userRepository.existsByUsername("admin")) {
@@ -33,7 +46,5 @@ public class DataInitializer {
             }
             userRepository.save(adminUser);
         }
-//        Set<String>
-//        Product apples = new Product();
     }
 }

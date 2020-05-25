@@ -1,6 +1,6 @@
 import React from "reactn";
 import CheckButton from "react-validation/build/button";
-import AuthService from "../services/auth.service";
+import AuthService from "../services/AuthService";
 import isEmail from 'validator/lib/isEmail';
 import Input from "react-validation/build/input";
 import Form from "react-validation/build/form";

@@ -1,3 +1,4 @@
 /.idea/
 /updateMirror/
 /node_modules/
+/frontend/package-lock.json

@@ -10,11 +10,28 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.umb.cs682.ecom.backend.models.User;
 import edu.umb.cs682.ecom.backend.repositories.UserRepository;
 
+/**
+ * <code>UserDetailsServiceImpl</code> is used to build {@link UserDetailsImpl}
+ * objects.
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     UserRepository userRepository;
 
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private UserDetailsServiceImpl() {}
+
+    /**
+     * Returns a {@link UserDetailsImpl} built using the given {@link User User's}
+     * username.
+     *
+     * @param username the username to build the <code>UserDetailsImpl</code> from
+     * @return the built <code>UserDetailsImpl</code> object
+     * @throws UsernameNotFoundException if the user does not exist
+     */
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -1,0 +1,9 @@
+edu.umb.cs682.ecom.backend
+edu.umb.cs682.ecom.backend.controllers
+edu.umb.cs682.ecom.backend.models
+edu.umb.cs682.ecom.backend.payload.request
+edu.umb.cs682.ecom.backend.payload.response
+edu.umb.cs682.ecom.backend.repositories
+edu.umb.cs682.ecom.backend.security
+edu.umb.cs682.ecom.backend.security.jwt
+edu.umb.cs682.ecom.backend.security.services

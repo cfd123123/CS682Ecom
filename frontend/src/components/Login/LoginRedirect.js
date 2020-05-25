@@ -1,5 +1,5 @@
 import React from "reactn";
-import AuthService from "../../services/auth.service";
+import AuthService from "../../services/AuthService";
 
 export default function LoginRedirect(message) {
   const loggedIn = message !== "You are not logged in";
