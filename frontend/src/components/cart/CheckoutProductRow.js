@@ -2,7 +2,15 @@ import React from 'reactn';
 import './../cart/Cart.css'
 import ProductImage from "../img/empty-product-icon.png";
 
-export default class CheckoutProductRow extends React.PureComponent {
+/**
+ * Component used to display a product inside the {@link Checkout}
+ * component.
+ */
+class CheckoutProductRow extends React.PureComponent {
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     const {id, name, price, cart, image} = this.props;
     let img = (image==='') ? ProductImage : image;
@@ -47,5 +55,5 @@ export default class CheckoutProductRow extends React.PureComponent {
         </div>
     )
   }
-
 }
+export default CheckoutProductRow;

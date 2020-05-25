@@ -2,9 +2,16 @@ import React from "reactn";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-
 import AuthService from "../../services/AuthService";
 
+/**
+ * Notifies the user if they try to log in without entering anything into
+ * a required textbox.
+ * @param {string} value the value that is required
+ * @returns {ReactElement|null} error message if value is empty and
+ * nothing otherwise
+ * @memberof Login
+ */
 const required = value => {
   if (!value) {
     return (
@@ -15,13 +22,28 @@ const required = value => {
   }
 };
 
-export default class Login extends React.PureComponent {
+/**
+ * Top level component that is the login page a user sees when they need to log
+ * in.
+ */
+class Login extends React.PureComponent {
+  /**
+   * Constructs this component with initially empty fields. Also binds the
+   * handleLogin, onChangeUsername, and onChangePassword functions to this
+   * component.
+   */
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
 
+    /**
+     * username - the username to log in as<br>
+     * password - the password associated with username<br>
+     * loading - used to lazy load parts of this component<br>
+     * message - used to display a message to the user
+     */
     this.state = {
       username: "",
       password: "",
@@ -30,20 +52,35 @@ export default class Login extends React.PureComponent {
     };
   }
 
-  onChangeUsername(e) {
+  /**
+   * Updates the value of username in this component's state
+   * @param event - the event that triggered this function call
+   */
+  onChangeUsername(event) {
     this.setState({
-      username: e.target.value
+      username: event.target.value
     });
   }
 
-  onChangePassword(e) {
+  /**
+   * Updates the value of password in this component's state
+   * @param event - the event that triggered this function call
+   */
+  onChangePassword(event) {
     this.setState({
-      password: e.target.value
+      password: event.target.value
     });
   }
 
-  handleLogin(e) {
-    e.preventDefault();
+  /**
+   * Initiates the login process after validating the user's input. If input is
+   * valid, this function calls the {@link AuthService#login} function, which
+   * saves the login token to localStorage, then routes the user to '/home'.<br>
+   *   If input is not value, an error message is displayed to the user.
+   * @param event - the event that triggered this function call
+   */
+  handleLogin(event) {
+    event.preventDefault();
 
     this.setState({
       message: "",
@@ -79,6 +116,10 @@ export default class Login extends React.PureComponent {
     }
   }
 
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     return (
         <div className="col-md-12">
@@ -150,3 +191,4 @@ export default class Login extends React.PureComponent {
     );
   }
 }
+export default Login;

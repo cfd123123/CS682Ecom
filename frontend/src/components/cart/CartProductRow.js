@@ -1,10 +1,17 @@
 import React from 'reactn';
 import {Link} from 'react-router-dom';
-
 import './../cart/Cart.css'
 import ProductImage from './../img/empty-product-icon.png';
 
-export default class CartProductRow extends React.PureComponent {
+/**
+ * Component used to display a product inside the {@link CartProductList}
+ * component.
+ */
+class CartProductRow extends React.PureComponent {
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     const {id, name, price, quantity, image} = this.props;
     let img = (image==='') ? ProductImage : image;
@@ -43,3 +50,4 @@ export default class CartProductRow extends React.PureComponent {
     );
   }
 }
+export default CartProductRow;
