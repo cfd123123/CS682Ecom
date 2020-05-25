@@ -30,12 +30,16 @@ import java.util.Set;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-
     @Autowired
     ProductRepository productRepository;
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    /**
+     * Default constructor used by Spring for field injection
+     */
+    public ProductController() {}
 
     /**
      * Gets a list of all {@link Product}s currently on offer.

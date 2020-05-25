@@ -14,8 +14,13 @@ import java.util.Map;
  */
 public class CheckoutRequest {
     @NotBlank private String username;
-    @NotBlank private Map<String, Integer> products;
-    @NotBlank private float subtotal;
+    private Map<String, Integer> products;
+    private float subtotal;
+
+    /**
+     * Default constructor, only used by Spring for field injection
+     */
+    public CheckoutRequest() {}
 
     public String getUsername()               { return username; }
     public Map<String, Integer> getProducts() { return products; }

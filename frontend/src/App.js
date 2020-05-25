@@ -50,7 +50,7 @@ export default class App extends React.PureComponent {
   render() {
     const { showEmployeeContent, showAdminContent, currentUser, loggedIn } = this.global;
     if (!currentUser) { return null; }
-    console.log(this.global.currentUser);
+    // console.log(this.global.currentUser);
     return (
         <Router>
           <div className='global'>

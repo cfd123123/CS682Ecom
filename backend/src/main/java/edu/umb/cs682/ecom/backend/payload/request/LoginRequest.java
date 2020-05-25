@@ -12,6 +12,11 @@ public class LoginRequest {
     @NotBlank private String username;
     @NotBlank private String password;
 
+    /**
+     * Default constructor, only used by Spring for field injection
+     */
+    public LoginRequest() {}
+
     public String getUsername() { return username; }
     public String getPassword() { return password; }
 

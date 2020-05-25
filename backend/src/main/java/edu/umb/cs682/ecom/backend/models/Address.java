@@ -25,7 +25,7 @@ public class Address {
     private String instructions;
 
     /**
-     * Default constructor for an Address object. Only used by Spring for field injection
+     * Default constructor used by Spring for field injection
      */
     public Address() {}
 

@@ -60,6 +60,11 @@ public class AuthController {
     JwtUtils jwtUtils;
 
     /**
+     * Default constructor used by Spring for field injection
+     */
+    public AuthController() {}
+
+    /**
      * Processes signin requests. Username and password are authenticated and a
      * JWT token is generated. The JWT token is added to a whitelist granting
      * access for 24 hours.

@@ -13,7 +13,12 @@ import javax.validation.constraints.NotBlank;
 public class AddToCartRequest {
     @NotBlank private String username;
     @NotBlank private String productID;
-    @NotBlank private int quantity;
+    private int quantity;
+
+    /**
+     * Default constructor, only used by Spring for field injection
+     */
+    public AddToCartRequest() {}
 
     public String getUsername()  { return username; }
     public String getProductID() { return productID; }
