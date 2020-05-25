@@ -6,9 +6,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Order contains details of an order places by a {@link User}.
+ */
 @Document(collection = "orders")
 public class Order {
     @Id
@@ -26,9 +28,21 @@ public class Order {
     @NotBlank private float subtotal;
     @NotBlank private float total;
 
-    // Default constructor required for Spring object instantiation
+    /**
+     * Default constructor for an Order object. Only used by Spring for field injection
+     */
     public Order() {}
 
+    /**
+     * Constructs a new Order object with the given values.
+     *
+     * @param user the {@link User} to which this Order belongs
+     * @param products the map of product IDs and corresponding quantities in this order
+     * @param taxes the total taxes for this order
+     * @param shipping the total shipping cost for this order
+     * @param subtotal the product subtotal for this order, before taxes and shipping
+     * @param total the total price for this order, after shipping and taxes
+     */
     public Order(@NotBlank User user, @NotBlank Map<String, Integer> products, @NotBlank Map<String, Float> taxes,
                  @NotBlank Map<String, Float> shipping, @NotBlank float subtotal, @NotBlank float total) {
         this.user = user;
@@ -40,6 +54,12 @@ public class Order {
         this.orderDate = new Date();
     }
 
+    /**
+     * Constructs an Order object using the details from an existing
+     * {@link PreOrder}.
+     *
+     * @param preOrder the PreOrder from which this Order will be constructed
+     */
     public Order(@NotBlank PreOrder preOrder) {
         this(preOrder.getUser(), preOrder.getProducts(), preOrder.getTaxes(),
                 preOrder.getShipping(), preOrder.getSubtotal(), preOrder.getTotal());

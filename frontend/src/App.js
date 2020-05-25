@@ -9,8 +9,7 @@ import ShowingItems from './components/ShowingItems'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faSignOutAlt, faShoppingCart, faUserCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
-// import axios from "axios";
-
+import OrderConfirmation from './components/cart/OrderConfirmation';
 import AuthService from "./services/AuthService";
 import UserService from "./services/UserService";
 import SearchBox   from "./components/Search/SearchBox";
@@ -25,12 +24,7 @@ import Admin       from "./components/Admin";
 import Login       from "./components/Login/Login";
 import Cart        from './components/cart/Cart';
 import Checkout    from './components/cart/Checkout';
-import OrderConfirmation from './components/cart/OrderConfirmation';
-import Home        from "./components/TempRoot";
 import Show        from './components/Show';
-
-// const CancelToken = axios.CancelToken;
-// const source = CancelToken.source();
 
 export default class App extends React.PureComponent {
   constructor(props) {
@@ -49,10 +43,6 @@ export default class App extends React.PureComponent {
     });
   }
 
-  // componentWillUnmount() {
-  //   source.cancel("App is unmounting");
-  // }
-
   logOut() {
     AuthService.logout();
   }
@@ -66,7 +56,7 @@ export default class App extends React.PureComponent {
           <div className='global'>
             <div className='global_header'>
               <nav className="navbar navbar-expand navbar-dark bg-dark">
-                <Link to={{ pathname: '/' }} className="navbar-brand">Business Name</Link>
+                <Link to={{ pathname: '/home' }} className="navbar-brand">Business Name</Link>
                 <div className="navbar-nav mr-auto">
                   <li className="nav-item">
                     <Link to={{ pathname: '/home' }} className="nav-link">Home</Link>
@@ -131,7 +121,7 @@ export default class App extends React.PureComponent {
           <div className="container__homepage">
             <div className="content">
               <Switch>
-                <Route exact path="/" component={Home}/>
+                <Route exact path="/" component={HomePage}/>
                 <Route exact path="/home" component={HomePage}/>
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/register" component={Register}/>
