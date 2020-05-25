@@ -60,7 +60,6 @@ export default class Create extends React.PureComponent {
           }
       );
     } else {
-      alert("Remove this alert if the product saves correctly (Create.js)");
       ProductService.addProduct(this.state).then(
           result => {
             this.props.history.push("Result?content=");

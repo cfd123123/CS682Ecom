@@ -12,6 +12,11 @@ import java.util.List;
 public class CategoryListRequest {
     @NotBlank private List<String> categoryIDs;
 
+    /**
+     * Default constructor, only used by Spring for field injection
+     */
+    public CategoryListRequest() {}
+
     public List<String> getCategoryIDs() { return categoryIDs; }
     public void setCategoryIDs(List<String> categoryIDs) { this.categoryIDs = categoryIDs; }
 }

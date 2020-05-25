@@ -12,4 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/user")
 public class OrderController {
+    /**
+     * Default constructor used by Spring for field injection
+     */
+    public OrderController() {}
 }

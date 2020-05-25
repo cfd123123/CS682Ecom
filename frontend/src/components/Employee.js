@@ -1,5 +1,6 @@
 import React from "reactn";
 import UserService from "../services/UserService";
+import {Link} from "react-router-dom";
 
 export default class Employee extends React.PureComponent {
   constructor(props) {
@@ -41,6 +42,7 @@ export default class Employee extends React.PureComponent {
           <header className="jumbotron">
             <h3>{content}</h3>
           </header>
+          <Link to="/create" style={{'float':'left'}}>Add Product</Link>
         </div>
     );
   }

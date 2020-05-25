@@ -22,11 +22,15 @@ export default class CategoryHeader extends React.PureComponent {
     const { categories } = this.state;
     if (!categories) { return null; }
 
-    const renderCategories = categories.map((category) =>
-        <Link key={category.name} to={`/categoryResult?results=${category.name}`}>
-          {category.name}
-        </Link>
-    );
+    const renderCategories =
+        (categories && categories.length > 0)
+            ?
+            categories.map((category) =>
+                <Link key={category.name} to={`/categoryResult?results=${category.name}`}>
+                  {category.name}
+                </Link>)
+            :
+            <Link key='allProducts' to='/Result?searched='>All Products</Link>;
 
     return (
       <div className="scrollmenu">

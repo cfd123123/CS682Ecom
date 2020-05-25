@@ -28,6 +28,11 @@ public class SignupRequest {
     @Size(min = 6, max = 40)
     private String password;
 
+    /**
+     * Default constructor, only used by Spring for field injection
+     */
+    public SignupRequest() {}
+
     public String getUsername()   { return username; }
     public String getEmail()      { return email; }
     public String getPassword()   { return password; }

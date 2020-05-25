@@ -9,6 +9,11 @@ import edu.umb.cs682.ecom.backend.models.User;
 public class AccountResponse {
     private User user;
 
+    /**
+     * Constructs a new <code>AccountResponse</code> object for the given
+     * {@link User}.
+     * @param user the user from which to create an AccountResponse
+     */
     public AccountResponse(User user) { this.user = user; }
 
     public User getUser() { return user; }

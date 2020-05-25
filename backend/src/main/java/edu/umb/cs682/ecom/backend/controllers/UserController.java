@@ -57,6 +57,11 @@ public class UserController {
     OrderRepository orderRepository;
 
     /**
+     * Default constructor used by Spring for field injection
+     */
+    public UserController() {}
+
+    /**
      * A private helper method that extracts the current user's information from
      * the authentication token used to access the calling method's mapping.
      *

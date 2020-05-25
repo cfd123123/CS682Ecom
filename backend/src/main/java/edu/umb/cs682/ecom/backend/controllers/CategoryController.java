@@ -38,6 +38,11 @@ public class CategoryController {
     ProductRepository productRepository;
 
     /**
+     * Default constructor used by Spring for field injection
+     */
+    public CategoryController() {}
+
+    /**
      * Gets a list of all categories in the database.
      *
      * The corresponding frontend requester is the getAll()
