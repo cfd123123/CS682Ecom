@@ -5,12 +5,28 @@ import ProductService from "../services/ProductService"
 import CategoryService from "../services/CategoryService"
 
 /**
-Creates product to be sent to backend.
-*/
-
-export default class CreateOrEdit extends React.PureComponent {
+ * This component is used to create or edit products. After the user is done
+ * entering product information, the details are sent to the backend for
+ * processing.<br>
+ *   This component should only be accessible by employees and admins.
+ */
+class CreateOrEdit extends React.PureComponent {
+  /**
+   * Constructs this component with initial state values.
+   */
   constructor(props) {
     super(props);
+    /**
+     * name - the name of the product<br>
+     * shortDescription - a short description of the product<br>
+     * longDescription - a longer description of the product<br>
+     * price - the price of the product<br>
+     * quantity - how many of this product are available for purchase?<br>
+     * category - temporary variable to store a category name as it's entered by the user<br>
+     * categories - an array to store all categories to which this product belongs<br>
+     * categoryList - a temporary array to store user input of categories<br>
+     * image - a URL string pointing to an image of this product
+     */
     this.state = {
       name: '',
       shortDescription: '',
@@ -24,13 +40,21 @@ export default class CreateOrEdit extends React.PureComponent {
     };
   }
 
-//Triggers when input box is updated
+  /**
+   * Processes when the user edits product information, updating this component's state.
+   * @param event that triggered this function
+   */
   onChange = (event) => {
     let newState = {};
     newState[event.target.name] = event.target.value;
     this.setState({...newState});
   };
 
+  /**
+   * If the user removes a category by clicking the X next to its name, this
+   * function removes that category from the array of categories.
+   * @param event that triggered this function
+   */
   onClose = (event) => {
     let newState = {};
     newState['categoryList'] = this.state['categoryList'].filter( c => c !== event.target.name);
@@ -38,7 +62,12 @@ export default class CreateOrEdit extends React.PureComponent {
     this.setState({...newState});
   };
 
-//Displays category tags when adding in the Category input box
+  /**
+   * This function will trigger as the user types in the category field. If
+   * a comma is typed it will add the typed category to the array of
+   * categories
+   * @param event that triggered this function
+   */
   addCategories = (event) => {
     let newState = {};
     if(event.target.value.substr(-1) === ",") {
@@ -56,7 +85,13 @@ export default class CreateOrEdit extends React.PureComponent {
     this.setState({...newState});
   };
 
-//Final trigger to send product info to database, reads all values in input boxes to construct a product.
+  /**
+   * Submits the entered information to the backed. If a new product is being
+   * created, the {@link ProductService#addProduct} function is called. If
+   * a product is being edited, the {@link ProductService#updateProduct}
+   * function is called instead.
+   * @param event that triggered this function
+   */
   onSubmit = (event) => {
     event.preventDefault();
     const {edit} = this.state;
@@ -75,6 +110,11 @@ export default class CreateOrEdit extends React.PureComponent {
     }
   };
 
+  /**
+   * If a product is to be edited instead of created, this function calls the
+   * {@link ProductService#getSingleProduct} function to get the
+   * details of an existing product.
+   */
   getExistingProduct = () => {
     ProductService.getSingleProduct(this.props.match.params.id).then(
         response => {
@@ -85,6 +125,10 @@ export default class CreateOrEdit extends React.PureComponent {
     );
   };
 
+  /**
+   * Calls the {@link CategoryService#getListOfCategories} function to get the
+   * category names associated with the category ids stored in a product object.
+   */
   parseCategories = () => {
     const {categories} = this.state;
     if (categories) {
@@ -99,6 +143,10 @@ export default class CreateOrEdit extends React.PureComponent {
     }
   };
 
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     if (!this.state.id && this.props.match.path.substr(1,4) === "edit") {
       this.getExistingProduct();
@@ -157,3 +205,4 @@ export default class CreateOrEdit extends React.PureComponent {
     );
   }
 }
+export default CreateOrEdit;

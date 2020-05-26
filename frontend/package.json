@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "umbcs682ecom_frontend",
+  "version": "0.1.9",
   "private": true,
   "proxy": "http://backserver:8080",
   "dependencies": {
