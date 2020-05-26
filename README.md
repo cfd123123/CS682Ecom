@@ -6,29 +6,22 @@ Zhen Rong 'Dennis' Liew
 James Michaud
 
 ---
-Boilerplate app based on [this tutorial](https://www.djamware.com/post/5ab6397c80aca714d19d5b9c/building-spring-boot-mongodb-and-reactjs-crud-web-application).  
+Please visit the [wiki](https://github.com/JamesEdMichaud/UMBCS682Ecom/wiki) for detailed information.
   
 ---
+### Quickstart info
 
-To start, run the following script:  
+Requires docker and docker-compose.  
 
-`bash start_docker_compose`  
+To start, run `bash start_docker_compose` from a command line at the project folder.  
 
-This will build the three containers, then start them all using docker daemons (in the background).  If you'd like to watch any of the container output (I do, and recommend you do too), create 3 new terminal tabs, then find the container IDs using  
+This will build three containers (frontend, backend, and database), then start them all using docker daemons.  
 
-`docker ps`  
-
-You should see some containers listed. You're interested in the ones with `frontserver`, `backserver`, and `mongo` or `database` in their names. To view the realtime output of a container, type:  
-
-`docker logs -f 5ea1be7f9bf9`, where `5ea1be7f9bf9` is replaced by whatever your containers ID is.
-
-To stop ALL containers in one line:
-
-`docker stop $(docker ps -a -q)`
+Press `ctrl+c` to stop the running containers
 
 ---
 
-### Old instructions:
+### Alternate instructions (not recommended, and instructions may not work on all machines):
 
 ---
 
@@ -38,7 +31,7 @@ To start the back end:
 ---
 
 You may need to install npm in the frontend directory  
-`npm install`  
+`frontend$ npm install`  
 
 Build the front end:  
 `frontend$ npm run build`  
@@ -48,4 +41,3 @@ This will cause the front end code to be built and moved into the `backend/src/m
 ---
 
 You will also need to start MongoDB. On my mac I installed it using a package manager (homebrew) and started it with the command `mongod`.  
-I'm not yet sure where the data lives on my computer, but  I'm sure I'll figure it out soon.
