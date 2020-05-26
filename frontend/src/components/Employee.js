@@ -2,7 +2,7 @@ import React from "reactn";
 import UserService from "../services/UserService";
 import {Link} from "react-router-dom";
 
-/*
+/**
 employee information page.  Showing the employee information if logged in as an employee
 */
 export default class Employee extends React.PureComponent {

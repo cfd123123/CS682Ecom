@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import queryString from "query-string";
 import SearchIcon from "../img/search-icon.png";
 
-/*
+/**
 Functionality of the searchbox found in homepage.
 */
 
