@@ -9,8 +9,8 @@ import "./styles.css";
  * Slide widget for displaying products and their info.
  * Optional autoplay timer can be set.
  * Calls the {@link Slider} package, while passing
- * @param {List<Product>} list_of_products
- * @param {int} autoplay to next item in millisecond
+ * @param {?object?<Product>} list_of_products
+ * @param {number} autoplay to next item in millisecond
  */
 
 export default class Recommended extends React.PureComponent {
