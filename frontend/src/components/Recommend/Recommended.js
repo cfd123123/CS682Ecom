@@ -5,15 +5,23 @@ import "normalize.css/normalize.css";
 import "./slider-animations.css";
 import "./styles.css";
 
-/*
-Slide widget for displaying products and their info. Optional autoplay timer can be set.
-*/
+/**
+ * Slide widget for displaying products and their info.
+ * Optional autoplay timer can be set.
+ * Calls the {@link Slider} package, while passing
+ * @param {List<Product>} list_of_products
+ * @param {int} autoplay to next item in millisecond
+ */
 
 export default class Recommended extends React.PureComponent {
   constructor(props){
     super(props);
     this.createRecommended = this.createRecommended.bind(this);
   }
+
+/**
+ * Checks for values in autoplay, assigns default values if undefined.
+ */
 
   get autoplay() {
     return (

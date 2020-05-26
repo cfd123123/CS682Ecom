@@ -4,7 +4,7 @@ import { Button } from 'reactstrap';
 import ProductService from "../services/ProductService"
 import CategoryService from "../services/CategoryService"
 
-/*
+/**
 Creates product to be sent to backend.
 */
 

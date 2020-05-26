@@ -6,8 +6,8 @@ import HeaderButtons from './HeaderButtons';
 import ProductResult from './ProductResult';
 import './SearchResultHandler.css';
 
-/*
-Prepares product position and sorting mechanism for each product item.
+/**
+ * Prepares product position and sorting mechanism for each product item.
 */
 
 
