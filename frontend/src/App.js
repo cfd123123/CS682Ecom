@@ -2,36 +2,54 @@ import React from "reactn";
 import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-
-import CategoryHeader from "./components/CategoryHeader/CategoryHeader";
-import CategoryResult from './components/CategoryResult'
-import ShowingItems from './components/ShowingItems'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSignInAlt, faSignOutAlt, faShoppingCart, faUserCircle, faUserPlus } from '@fortawesome/free-solid-svg-icons';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import OrderConfirmation from './components/cart/OrderConfirmation';
-import AuthService from "./services/AuthService";
-import UserService from "./services/UserService";
-import SearchBox   from "./components/Search/SearchBox";
-import Employee    from "./components/Employee";
-import HomePage    from './components/HomePage';
-import Register    from "./components/Register";
-import MyStuff     from "./components/MyStuff";
-import Profile     from "./components/MyAccount";
-import Create      from './components/Create';
-import Result      from './components/Result';
-import Admin       from "./components/Admin";
-import Login       from "./components/Login/Login";
-import Cart        from './components/cart/Cart';
-import Checkout    from './components/cart/Checkout';
-import Show        from './components/Show';
+import CategoryHeader    from "./components/CategoryHeader/CategoryHeader";
+import CategoryResult    from './components/CategoryResult'
+import CreateOrEdit      from './components/CreateOrEdit';
+import AuthService       from "./services/AuthService";
+import UserService       from "./services/UserService";
+import SearchBox         from "./components/Search/SearchBox";
+import Checkout          from './components/cart/Checkout';
+import Employee          from "./components/Employee";
+import HomePage          from './components/HomePage';
+import Register          from "./components/Register";
+import MyStuff           from "./components/MyStuff";
+import Profile           from "./components/MyAccount";
+import Result            from './components/Result';
+import Admin             from "./components/Admin";
+import Login             from "./components/Login/Login";
+import Cart              from './components/cart/Cart';
+import Show              from './components/Show';
 
-export default class App extends React.PureComponent {
+/**
+ * The main app component. Everything else is attached to this. This component
+ * consists of the top navbar and {@link CategoryHeader}.
+ * <p>
+ *   This component assigns the following variables to the reactn global state:<br>
+ *     currentUser - the currently logged in user's information, including access token<br>
+ *     showEmployeeContent - does the current user have employee access?<br>
+ *     showAdminContent - does the current user have admin access?<br>
+ *     loggedIn - is the current user logged in?
+ * </p>
+ */
+
+class App extends React.PureComponent {
+  /**
+   * Constructs the App component and binds the {@link App#logOut} function to
+   * this component.
+   */
   constructor(props) {
     super(props);
     this.logOut = this.logOut.bind(this);
   }
 
+  /**
+   * After this component mounts, this function calls the reactn's setGlobal
+   * function, assigning the currentUser, showEmployeeContent, showAdminContent,
+   * and loggedIn variables.
+   */
   componentDidMount() {
     const currentUser = UserService.getCurrentUser();
 
@@ -43,14 +61,20 @@ export default class App extends React.PureComponent {
     });
   }
 
+  /**
+   * Calls the {@link AuthService#logout} function, logging the user out.
+   */
   logOut() {
     AuthService.logout();
   }
 
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     const { showEmployeeContent, showAdminContent, currentUser, loggedIn } = this.global;
     if (!currentUser) { return null; }
-    // console.log(this.global.currentUser);
     return (
         <Router>
           <div className='global'>
@@ -134,10 +158,9 @@ export default class App extends React.PureComponent {
                 <Route exact path='/checkout' component={Checkout}/>
                 <Route exact path='/confirm' component={OrderConfirmation}/>
                 <Route path='/show/:id' component={Show}/>
-                <Route path='/edit/:id' component={Create}/>
-                <Route path='/create' component={Create}/>
+                <Route path='/edit/:id' component={CreateOrEdit}/>
+                <Route path='/create' component={CreateOrEdit}/>
                 <Route path='/Result' component={Result}/>
-                <Route path='/showingItems' component={ShowingItems} />
                 <Route path='/categoryResult' component={CategoryResult} />
               </Switch>
             </div>
@@ -156,3 +179,4 @@ export default class App extends React.PureComponent {
     );
   }
 }
+export default App;
