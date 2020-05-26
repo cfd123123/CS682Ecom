@@ -16,7 +16,7 @@ import Employee          from "./components/Employee";
 import HomePage          from './components/HomePage';
 import Register          from "./components/Register";
 import MyStuff           from "./components/MyStuff";
-import Profile           from "./components/MyAccount";
+import MyAccount           from "./components/MyAccount";
 import Result            from './components/Result';
 import Admin             from "./components/Admin";
 import Login             from "./components/Login/Login";
@@ -150,7 +150,7 @@ class App extends React.PureComponent {
                 <Route exact path="/home" component={HomePage}/>
                 <Route exact path="/login" component={Login}/>
                 <Route exact path="/register" component={Register}/>
-                <Route exact path="/profile" component={Profile}/>
+                <Route exact path="/profile" component={MyAccount}/>
                 <Route exact path="/mystuff" component={MyStuff}/>
                 <Route exact path="/employee" component={Employee}/>
                 <Route exact path="/admin" component={Admin}/>

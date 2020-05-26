@@ -3,7 +3,14 @@ import classNames from 'classnames';
 import { Button } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default class Toggle extends React.PureComponent {
+/**
+ * Component used to toggle between sorting methods in search results.
+ */
+class Toggle extends React.PureComponent {
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     const { clickHandler, text, icon, active, large } = this.props;
     const buttonClass = classNames({
@@ -20,3 +27,4 @@ export default class Toggle extends React.PureComponent {
     );
   }
 }
+export default Toggle;

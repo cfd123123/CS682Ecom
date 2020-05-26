@@ -5,9 +5,14 @@ import isEmail from 'validator/lib/isEmail';
 import Input from "react-validation/build/input";
 import Form from "react-validation/build/form";
 
-// register page 
-
-//Mandatory to fill out information
+/**
+ * Notifies the user if they try to register without entering anything into
+ * a required text box.
+ * @param {string} value the value that is required
+ * @returns {ReactElement|null} error message if value is empty and
+ * nothing otherwise
+ * @memberOf Register
+ */
 const required = value => {
   if (!value) {
     return (
@@ -18,7 +23,13 @@ const required = value => {
   }
 };
 
-// offer an email . return 'This is not a valid email' if email format is not valid
+/**
+ * Notifies the user if they try to use an invalid email address.
+ * @param {string} value the value to be validated
+ * @returns {ReactElement|null} error message if value is invalid and
+ * nothing otherwise
+ * @memberOf Register
+ */
 const email = value => {
   if (!isEmail(value)) {
     return (
@@ -29,7 +40,13 @@ const email = value => {
   }
 };
 
-// offer an username . return ' The username must be between 3 and 20 characters.' if username format is not valid
+/**
+ * Notifies the user if they try to use a username of improper length.
+ * @param {string} value the value to be validated
+ * @returns {ReactElement|null} error message if value is invalid and
+ * nothing otherwise
+ * @memberOf Register
+ */
 const vusername = value => {
   if (value.length < 3 || value.length > 20) {
     return (
@@ -40,7 +57,13 @@ const vusername = value => {
   }
 };
 
-// offer a password . return 'The password must be between 6 and 40 characters.' if username format is not valid
+/**
+ * Notifies the user if they try to use a password of improper length.
+ * @param {string} value the value to be validated
+ * @returns {ReactElement|null} error message if value is invalid and
+ * nothing otherwise
+ * @memberOf Register
+ */
 const vpassword = value => {
   if (value.length < 6 || value.length > 40) {
     return (
@@ -51,7 +74,16 @@ const vpassword = value => {
   }
 };
 
-export default class Register extends React.PureComponent {
+/**
+ * Top level component that is register page a user sees when they want to
+ * register for an account.
+ */
+class Register extends React.PureComponent {
+  /**
+   * Constructs this component with initially empty fields. Also binds the
+   * handleRegister, onChangeUsername, onChangeEmail, and onChangePassword
+   * functions to this component.
+   */
   constructor(props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
@@ -59,6 +91,13 @@ export default class Register extends React.PureComponent {
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
 
+    /**
+     * username - the desired username of the user<br>
+     * email - the email address to associate with username<br>
+     * password - the password to associate with username<br>
+     * successful - was registering successful?<br>
+     * message - used to display a message to the user
+     */
     this.state = {
       username: "",
       email: "",
@@ -68,26 +107,47 @@ export default class Register extends React.PureComponent {
     };
   }
 
-  onChangeUsername(e) {
+  /**
+   * Updates the value of username in this component's state
+   * @param event - the event that triggered this function call
+   */
+  onChangeUsername(event) {
     this.setState({
-      username: e.target.value
+      username: event.target.value
     });
   }
 
-  onChangeEmail(e) {
+  /**
+   * Updates the value of email in this component's state
+   * @param event - the event that triggered this function call
+   */
+  onChangeEmail(event) {
     this.setState({
-      email: e.target.value
+      email: event.target.value
     });
   }
 
-  onChangePassword(e) {
+  /**
+   * Updates the value of password in this component's state
+   * @param event - the event that triggered this function call
+   */
+  onChangePassword(event) {
     this.setState({
-      password: e.target.value
+      password: event.target.value
     });
   }
-  // register handler
-  handleRegister(e) {
-    e.preventDefault();
+
+  /**
+   * Initiates the register process after validating the user's input. If input
+   * is valid, this function calls the {@link AuthService#register} function,
+   * which sends the input to the backend for further processing. If
+   * registration with the backend is successful, the user is routed to the
+   * login page.<br>
+   *   If input is not valid, an error message is displayed to the user.
+   * @param event - the event that triggered this function call
+   */
+  handleRegister(event) {
+    event.preventDefault();
 
     this.setState({
       message: "",
@@ -125,6 +185,10 @@ export default class Register extends React.PureComponent {
     }
   }
 
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     return (
         <div className="col-md-12">
@@ -212,3 +276,4 @@ export default class Register extends React.PureComponent {
     );
   }
 }
+export default Register;

@@ -1,16 +1,30 @@
 import React from "reactn";
 import UserService from "../services/UserService";
 
-// user's profile page. appear after pressing 'my account' button.
-export default class Profile extends React.PureComponent {
+/**
+ * Top level component used to display a user's account information.<br>
+ *   WARNING: This component is incomplete. Future implementations will complete
+ *   the functionality expected from this component.
+ */
+class MyAccount extends React.PureComponent {
+  /**
+   * Contructs this component with the given props and initial state values.
+   */
   constructor(props) {
     super(props);
 
+    /**
+     * content - used to store a backend server response.
+     */
     this.state = {
       content: ""
     };
   }
 
+  /**
+   * After mounting, this function calls the {@link UserService#getMyAccount}
+   * function, then updates this component's state with the returned data.
+   */
   componentDidMount() {
     UserService.getMyAccount().then(
         response => {
@@ -31,6 +45,10 @@ export default class Profile extends React.PureComponent {
     );
   }
 
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     const {currentUser} = this.global;
     const {content} = this.state;
@@ -53,3 +71,4 @@ export default class Profile extends React.PureComponent {
     );
   }
 }
+export default MyAccount;

@@ -3,17 +3,30 @@ import UserService from "../services/UserService";
 import {Link} from "react-router-dom";
 
 /**
-employee information page.  Showing the employee information if logged in as an employee
-*/
-export default class Employee extends React.PureComponent {
+ * Top level component used to display employee content.<br>
+ *   WARNING: This component is incomplete. Future implementations will complete
+ *   the functionality expected from this component.
+ */
+class Employee extends React.PureComponent {
+  /**
+   * Contructs this component with the given props and initial state values.
+   */
   constructor(props) {
     super(props);
 
+    /**
+     * content - used to store a backend server response.
+     */
     this.state = {
       content: ""
     };
   }
 
+  /**
+   * After mounting, this function calls the
+   * {@link UserService#getEmployeeContent} function, then updates this
+   * component's state with the returned data.
+   */
   componentDidMount() {
     UserService.getEmployeeContent().then(
         response => {
@@ -34,6 +47,10 @@ export default class Employee extends React.PureComponent {
     );
   }
 
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     const {currentUser} = this.global;
     const {content} = this.state;
@@ -49,3 +66,4 @@ export default class Employee extends React.PureComponent {
     );
   }
 }
+export default Employee;

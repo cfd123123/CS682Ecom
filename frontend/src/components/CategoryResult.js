@@ -3,14 +3,29 @@ import { Link } from 'react-router-dom';
 import ProductResult from './Search/ProductResult';
 import CategoryService from '../services/CategoryService';
 
-export default class CategoryResult extends React.PureComponent {
+/**
+ * This component is used to display a list of products that belong to a chosen
+ * category.
+ */
+class CategoryResult extends React.PureComponent {
+  /**
+   * Constructs this component with initial state values.
+   */
   constructor(props) {
     super(props);
+    /**
+     * categories - the list of all available categories
+     */
     this.state = {
       categories: null
     };
   }
 
+  /**
+   * After mounting, this function calls the {@link CategoryService#getAll}
+   * function, then updates this component's state with the backend server
+   * response.
+   */
   componentDidMount() {
     CategoryService.getAll().then(
         res => {
@@ -19,6 +34,10 @@ export default class CategoryResult extends React.PureComponent {
     );
   }
 
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     const { categories } = this.state;
     if(!categories) { return null; }
@@ -51,3 +70,4 @@ export default class CategoryResult extends React.PureComponent {
     );
   }
 }
+export default CategoryResult;

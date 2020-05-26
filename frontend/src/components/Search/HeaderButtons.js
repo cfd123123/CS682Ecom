@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import SortButton from './Buttons/SortButton.js';
 
 /**
- * Functionality for the buttons on the top of results page. 
- * For example the sort buttons.
-*/
-
+ * Props include:<br>
+ * >  view - arrange results as a list or a grid?<br>
+ * >  order - order by price or by name?<br>
+ * >  sortingMethod - sort in ascending or descending order?<br>
+ * >  sortClickHandler - handles clicks on the sort button
+ * @memberOf HeaderButtons
+ */
 const propTypes = {
   view: PropTypes.string,
   order: PropTypes.string,
@@ -14,7 +17,15 @@ const propTypes = {
   sortClickHandler: PropTypes.func,
 };
 
-export default class HeaderButtons extends React.PureComponent {
+/**
+ * This component renders the {@link SortButton} and is itself rendered by
+ * the {@link SearchRsultHandler} component.
+ */
+class HeaderButtons extends React.PureComponent {
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     const { nameOrder, priceOrder, sortingMethod, nameSortClickHandler, priceSortClickHandler } = this.props;
 
@@ -38,3 +49,4 @@ export default class HeaderButtons extends React.PureComponent {
   }
 }
 HeaderButtons.propTypes = propTypes;
+export default HeaderButtons;

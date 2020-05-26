@@ -2,6 +2,10 @@ import React from 'reactn';
 import Recommended from './Recommend/Recommended.js';
 import './HomePage.css';
 
+/**
+ * Top level functional component used as the main marketplace homepage.
+ * @returns {ReactElement} the homepage component
+ */
 const HomePage = () => {
   return (
       <div className =''>

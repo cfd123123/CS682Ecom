@@ -2,15 +2,29 @@ import React from 'reactn';
 import { Link } from 'react-router-dom';
 import ProductService from "../services/ProductService"
 
-// show product information page 
-export default class Show extends React.PureComponent {
+/**
+ * Component used to display a single product's detailed information
+ */
+class Show extends React.PureComponent {
+  /**
+   * Cosntructs this component with initial state values.
+   * @param props
+   */
   constructor(props) {
     super(props);
+    /**
+     * product - the product to be displayed by this component.
+     */
     this.state = {
       product: undefined
     };
   }
 
+  /**
+   * After mounting, this function calls the
+   * {@link ProductService#getSingleProduct} function, updating this component's
+   * state with the backend server response.
+   */
   componentDidMount() {
     const {id} = this.props.match.params;
     ProductService.getSingleProduct(id).then(response => {
@@ -18,12 +32,22 @@ export default class Show extends React.PureComponent {
     });
   }
 
+  /**
+   * Calls the {@link ProductService#deleteProduct} function to instruct the
+   * backend to delete the product by the given ID from the database, then
+   * routes the user to the homepage.
+   * @param id of the product to be deleted
+   */
   delete(id){
     ProductService.deleteProduct(id).then(result => {
-      this.props.history.push("/")
+      this.props.history.push("/home")
     });
   }
 
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render() {
     const {product} = this.state;
     return (
@@ -69,3 +93,4 @@ export default class Show extends React.PureComponent {
     );
   }
 }
+export default Show;

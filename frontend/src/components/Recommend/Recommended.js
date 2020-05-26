@@ -7,36 +7,44 @@ import "./styles.css";
 
 /**
  * Slide widget for displaying products and their info.
- * Optional autoplay timer can be set.
- * Calls the {@link Slider} package, while passing
- * @param {object} list_of_products
- * @param {number} autoplay to next item in millisecond
+ * An optional autoplay timer can be set, which cycle through different products.
  */
 
 class Recommended extends React.PureComponent {
+  /**
+   * Constructs the component using the following props
+   * @param props {object} contents:<br>
+   * >  autoplay - autoplay interval in milliseconds<br>
+   * >  duration - aniimation duration in milliseconds<br>
+   * >  recommendedProducts - an array of products to showcase in the Slider animation
+   */
   constructor(props){
     super(props);
     this.createRecommended = this.createRecommended.bind(this);
   }
 
-/**
- * Checks for values in autoplay, assigns default values if undefined.
- */
-
+  /**
+   * Returns the value of the autoplay prop.
+   */
   get autoplay() {
-    return (
-      this.props.autoplay !== undefined
-        ?  this.props.autoplay : undefined
-    )
+    const {autoplay} = this.props;
+    return autoplay;
   }
 
+  /**
+   * Returns the value of the duration prop, or 2000 if not present.
+   * @returns {*}
+   */
   get duration() {
-    return (
-      this.props.duration !== undefined
-        ?  this.props.duration : 2000
-    )
+    const {duration} = this.props;
+    return duration ? duration : 2000;
   }
 
+  /**
+   * Constructs the Slider animation ReactElement from the given content.
+   * @param content - a list of recommended products
+   * @returns {*} a Slider animation ReactElement
+   */
   createRecommended(content) {
     let autoplay = this.autoplay;
     let duration = this.duration;
@@ -66,7 +74,10 @@ class Recommended extends React.PureComponent {
     );
   }
 
-
+  /**
+   * Renders this component
+   * @returns {ReactElement} The React element used to render a DOM node
+   */
   render () {
     const userPics = [
       "https://i.imgur.com/JSW6mEk.png",
@@ -90,9 +101,9 @@ class Recommended extends React.PureComponent {
       "View Offers"
     ];
 
-    const rcProd = this.props.recommendedProducts;
+    const {recommendedProducts} = this.props;
 
-    let content = rcProd.map((x) => {
+    let content = recommendedProducts.map((x) => {
         const container = {};
         container.name = x.name;
         container.shortDescription = x.shortDescription;
@@ -101,9 +112,8 @@ class Recommended extends React.PureComponent {
         container.image = productPics[Math.floor(Math.random()*productPics.length)];
         return container;
     });
-    return (
-      this.createRecommended(content)
-    );
+
+    return (this.createRecommended(content));
   }
 }
 export default Recommended;

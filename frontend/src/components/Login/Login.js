@@ -6,11 +6,11 @@ import AuthService from "../../services/AuthService";
 
 /**
  * Notifies the user if they try to log in without entering anything into
- * a required textbox.
+ * a required text box.
  * @param {string} value the value that is required
  * @returns {ReactElement|null} error message if value is empty and
  * nothing otherwise
- * @memberof Login
+ * @memberOf Login
  */
 const required = value => {
   if (!value) {
@@ -76,7 +76,7 @@ class Login extends React.PureComponent {
    * Initiates the login process after validating the user's input. If input is
    * valid, this function calls the {@link AuthService#login} function, which
    * saves the login token to localStorage, then routes the user to '/home'.<br>
-   *   If input is not value, an error message is displayed to the user.
+   *   If input is not valid, an error message is displayed to the user.
    * @param event - the event that triggered this function call
    */
   handleLogin(event) {
