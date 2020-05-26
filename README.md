@@ -6,7 +6,7 @@ Zhen Rong 'Dennis' Liew
 James Michaud
 
 ---
-Please visit the [wiki](https://github.com/JamesEdMichaud/UMBCS682Ecom/wiki) for detailed information.
+## Please visit the [wiki](https://github.com/JamesEdMichaud/UMBCS682Ecom/wiki) for detailed information.
   
 ---
 ### Quickstart info
